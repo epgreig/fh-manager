@@ -1,7 +1,8 @@
 function onOpen() {
   SpreadsheetApp.getUi().createMenu('Draft').addItem('Set up sheet','setupDraftSheet')
     .addItem('Refresh board','refreshBoard').addItem('Draft selected player','draftSelectedPlayer')
-    .addItem('Undo last pick','undoLastPick').addToUi();
+    .addItem('Undo last pick','undoLastPick').addSeparator()
+    .addItem('Import latest code updates','importLatestUpdates').addToUi();
 }
 function table_(name, headers, rows) {
   const ss=SpreadsheetApp.getActive();
@@ -16,7 +17,8 @@ function setupDraftSheet() {
   table_('Players',['ID','Player','Team','Group','Source POS','ESPN POS','ESPN ADP','ESPN source / date'],PROJECTION_DATA.map(p=>[p.id,p.name,p.team,p.group,p.sourcePos,'','','']));
   const stats=['GP','G','A','BLK','PIM','SHP','W','SO','GA','SV'];
   table_('Projections',['ID','Source','Weight',...stats],PROJECTION_DATA.map(p=>[p.id,p.source,p.weight,...stats.map(k=>p.stats[k]===undefined?'':p.stats[k])]));
-  table_('Keepers',['Player ID','Team draft slot','Cost round'],[]);
+  table_('Keepers',['Player','Team draft slot','Cost round','Name check'],[]);
+  ensureNameSheets_();
   table_('Draft Log',['Pick','Team draft slot','Player ID','Player','Time'],[]);
   table_('Board',['Fantasy hockey draft'],[]);
   table_('Guide',['Topic','Details'],[
@@ -60,37 +62,49 @@ function inputs_() {
     return {id:r[0],name:r[1],team:r[2],group:r[3],pos:r[5]||'—',adp:r[6]===''?null:r[6],stats:blended};
   });
   const ids=new Set(players.map(p=>p.id)); if(ids.size!==players.length) throw Error('Duplicate player ID');
-  const keepers=rows_('Keepers').map(r=>({id:r[0],team:r[1],round:r[2]}));
+  const keepers=rows_('Keepers').map(r=>{
+    const match=resolvePlayerName_(r[0],players);
+    if(!match.player) throw Error('Keeper '+r[0]+': '+match.message);
+    return {id:match.player.id,team:r[1],round:r[2]};
+  });
   const log=rows_('Draft Log').map(r=>({pick:r[0],id:r[2]}));
   return {c,players,state:draftState(c,keepers,log,ids)};
 }
 function withLock_(fn) {const lock=LockService.getDocumentLock();lock.waitLock(10000);try{return fn();}finally{lock.releaseLock();}}
-function refreshBoard() {withLock_(()=>renderBoard_(inputs_()));}
+function refreshBoard() {withLock_(()=>{ensureNameSheets_();checkNames_();renderBoard_(inputs_());});}
 function renderBoard_({c,players,state}) {
   const result=evaluate(players,c,state), s=SpreadsheetApp.getActive().getSheetByName('Board');
-  s.clear(); s.setConditionalFormatRules([]);
+  s.getRange(1,1,s.getMaxRows(),s.getMaxColumns()).breakApart();
+  s.clear(); s.showColumns(1,s.getMaxColumns()); s.setConditionalFormatRules([]);
   const size=Math.max(10,...['F','D','G'].map(g=>result.available.filter(p=>p.group===g).length))+4;
   if(s.getMaxRows()<size) s.insertRowsAfter(s.getMaxRows(),size-s.getMaxRows());
   if(s.getMaxColumns()<26) s.insertColumnsAfter(s.getMaxColumns(),26-s.getMaxColumns());
+  s.getRange('A1:Z1').merge(); s.getRange('A2:Z2').merge();
   s.getRange('A1').setValue(state.current>c.teams*c.rounds?'Draft complete':'Pick '+state.current+' · Team '+ownerAt(state.current,c.teams)+' · Next own pick '+(state.next||'none'));
-  s.getRange('A2').setValue('Green: top '+c.parTop*100+'% PAR · Gold: lowest '+c.adpBottom*100+'% ESPN ADP · '+(result.panReady?'PAN active':'PAN unavailable: missing ESPN ADP or no next pick'));
+  s.getRange('A2').setValue('Purple: top '+c.parTop*100+'% PAR · Blue: lowest '+c.adpBottom*100+'% ESPN ADP · '+(result.panReady?'PAN active':'PAN unavailable: missing ESPN ADP or no next pick'));
   const rules=[], pars=result.available.map(p=>p.par).sort((a,b)=>b-a), adps=result.available.map(p=>p.adp).filter(v=>v!==null).sort((a,b)=>a-b);
   const parCut=pars[Math.max(0,Math.ceil(pars.length*c.parTop)-1)], adpCut=adps[Math.max(0,Math.ceil(adps.length*c.adpBottom)-1)];
   ['F','D','G'].forEach((g,i)=>{
     const col=1+i*9, group=result.available.filter(p=>p.group===g).sort((a,b)=>b.par-a.par||a.name.localeCompare(b.name));
     s.getRange(3,col).setValue(['Forwards','Defensemen','Goalies'][i]);
-    s.getRange(4,col,1,8).setValues([['Player','POS','Team','Points','PAR','ESPN ADP','PAN','ID']]);
+    s.getRange(4,col,1,8).setValues([['Player','POS','Tm','Points','PAR','ADP','PAN','ID']]);
     if(group.length) {
       s.getRange(5,col,group.length,8).setValues(group.map(p=>[p.name,p.pos,p.team,p.points,p.par,p.adp===null?'':p.adp,p.pan===null?'':p.pan,p.id]));
-      s.getRange(5,col+3,group.length,4).setNumberFormat('0.0');
-      if(parCut!==undefined) rules.push(SpreadsheetApp.newConditionalFormatRule().whenNumberGreaterThanOrEqualTo(parCut).setBackground('#bfe8cf').setRanges([s.getRange(5,col+4,group.length,1)]).build());
-      if(adpCut!==undefined) rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied('=AND(ISNUMBER('+['F','O','X'][i]+'5),'+['F','O','X'][i]+'5<='+adpCut+')').setBackground('#ffe0a3').setRanges([s.getRange(5,col+5,group.length,1)]).build());
+      s.getRange(5,col+3,group.length,4).setNumberFormat('0');
+      if(parCut!==undefined) rules.push(SpreadsheetApp.newConditionalFormatRule().whenNumberGreaterThanOrEqualTo(parCut).setBackground('#b4a7d6').setRanges([s.getRange(5,col+4,group.length,1)]).build());
+      if(adpCut!==undefined) rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied('=AND(ISNUMBER('+['F','O','X'][i]+'5),'+['F','O','X'][i]+'5<='+adpCut+')').setBackground('#9fc5e8').setRanges([s.getRange(5,col+5,group.length,1)]).build());
     }
-    s.setColumnWidth(col,185);s.setColumnWidths(col+1,6,78);s.hideColumns(col+7);if(i<2)s.setColumnWidth(col+8,18);
-    s.getRange(3,col,2,7).setBackground('#17364d').setFontColor('#ffffff').setFontWeight('bold');
+    s.setColumnWidth(col,154);s.setColumnWidth(col+1,54);s.setColumnWidth(col+2,34);
+    s.setColumnWidths(col+3,4,43);s.hideColumns(col+3);s.hideColumns(col+7);
+    if(g!=='F') s.hideColumns(col+1);
+    if(i<2)s.setColumnWidth(col+8,12);
+    s.getRange(3,col,2,7).setBackground('#ffffff').setFontColor('#111111').setFontWeight('bold');
+    s.getRange(4,col,Math.max(1,group.length+1),7).setBorder(true,true,true,true,true,false,'#cccccc',SpreadsheetApp.BorderStyle.SOLID);
   });
-  s.setConditionalFormatRules(rules);s.setFrozenRows(4);s.setHiddenGridlines(true);
-  s.getRange(1,1,size,26).setFontFamily('Arial');
+  s.setConditionalFormatRules(rules);highlightNames_();s.setFrozenRows(4);s.setHiddenGridlines(true);
+  s.getRange(1,1,size,26).setFontFamily('Arial').setFontSize(10);
+  s.getRange(1,1,size,26).setWrapStrategy(SpreadsheetApp.WrapStrategy.CLIP);
+  s.setRowHeights(5,size-4,21);
 }
 function draftSelectedPlayer() {
   // Capture identity before locking/repainting so a moved row cannot select a different player.
