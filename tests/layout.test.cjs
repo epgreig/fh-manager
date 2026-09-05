@@ -10,12 +10,12 @@ test('compact rendering resets old visibility and keeps each player ID in its ma
    if(name==='getRange')return (...args)=>new Proxy({}, {get:(_,method)=>(...values)=>{if(method==='setValues')writes.push({args,values:values[0]});return range;}});
    if(name==='showColumns')return ()=>hidden.clear();
    if(name==='hideColumns')return col=>hidden.add(col);
-   if(name==='setColumnWidth')return (col,w)=>widths[col]=w;
+   if(name==='setColumnWidth')return (col,w)=>{calls.push('setColumnWidth');widths[col]=w;};
    if(name==='setColumnWidths')return (col,n,w)=>{for(let i=0;i<n;i++)widths[col+i]=w;};
    return ()=>sheet;
  }});
  const rule=new Proxy({}, {get:(_,name)=>()=>name==='build'?{}:rule});
- const ctx={SpreadsheetApp:{getActive:()=>({getSheetByName:()=>sheet}),newConditionalFormatRule:()=>rule,BorderStyle:{SOLID:'solid'},WrapStrategy:{CLIP:'clip'}}};
+ const ctx={SpreadsheetApp:{getActive:()=>({getSheetByName:()=>sheet}),newConditionalFormatRule:()=>rule,InterpolationType:{NUMBER:'number'},BorderStyle:{SOLID:'solid'},WrapStrategy:{CLIP:'clip'}}};
  vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Engine.gs','utf8')+'\n'+fs.readFileSync('apps-script/Code.gs','utf8'),ctx);
  ctx.highlightNames_=()=>{};
  ctx.evaluate=()=>({available:['F','D','G'].map(g=>({group:g,id:g,name:g,points:100,par:20,adp:5,pan:null,pos:g,team:'TOR'})),panReady:false});
@@ -23,4 +23,9 @@ test('compact rendering resets old visibility and keeps each player ID in its ma
  assert.deepEqual([...hidden].sort((a,b)=>a-b),[4,8,11,13,17,20,22,26]);
  assert.equal(Object.entries(widths).reduce((sum,[col,w])=>sum+(hidden.has(Number(col))?0:w),0),1029);
  for(const col of [1,10,19])assert.equal(writes.find(x=>x.args[0]===5&&x.args[1]===col).values[0].length,8);
+ calls.length=0;
+ ctx.renderBoard_({c:{teams:12,rounds:16,parTop:.15,adpBottom:.1},players:[],state:{current:2,next:24}},true);
+ assert.equal(calls.includes('setColumnWidth'),false);
+ assert.equal(calls.includes('setFontFamily'),false);
+ assert.equal(calls.includes('setBorder'),false);
 });

@@ -82,39 +82,48 @@ function inputs_() {
 }
 function withLock_(fn) {const lock=LockService.getDocumentLock();lock.waitLock(10000);try{return fn();}finally{lock.releaseLock();}}
 function refreshBoard() {withLock_(()=>{migrateReplacementSettings_();ensureNameSheets_();checkNames_();renderBoard_(inputs_());});}
-function renderBoard_({c,players,state}) {
+function renderBoard_({c,players,state}, fast=false) {
   const result=evaluate(players,c,state), s=SpreadsheetApp.getActive().getSheetByName('Board');
+  if(!fast) {
   s.getRange(1,1,s.getMaxRows(),s.getMaxColumns()).breakApart();
   s.clear(); s.showColumns(1,s.getMaxColumns()); s.setConditionalFormatRules([]);
+  }
   const size=Math.max(10,...['F','D','G'].map(g=>result.available.filter(p=>p.group===g).length))+4;
   if(s.getMaxRows()<size) s.insertRowsAfter(s.getMaxRows(),size-s.getMaxRows());
   if(s.getMaxColumns()<26) s.insertColumnsAfter(s.getMaxColumns(),26-s.getMaxColumns());
-  s.getRange('A1:Z1').merge(); s.getRange('A2:Z2').merge();
-  s.getRange('A1').setValue(state.current>c.teams*c.rounds?'Draft complete':'Pick '+state.current+' · Team '+ownerAt(state.current,c.teams)+' · Next own pick '+(state.next||'none'));
-  s.getRange('A2').setValue((result.available.some(p=>p.par===null)?'PAR blank: insufficient ESPN positions · ':'')+'Purple: top '+c.parTop*100+'% PAR · Blue: lowest '+c.adpBottom*100+'% ESPN ADP · '+(result.panReady?'PAN active':'PAN unavailable: missing ESPN ADP or no next pick'));
+  if(!fast) {s.getRange('A1:Z1').merge();s.getRange('A2').clearContent();s.hideRows(2);}
+  s.getRange('A1').setValue(state.current>c.teams*c.rounds?'Draft complete':'Pick '+state.current+' · Next own pick '+(state.next||'none'));
+
   const rules=[], pars=result.available.map(p=>p.par).filter(v=>v!==null).sort((a,b)=>b-a), adps=result.available.map(p=>p.adp).filter(v=>v!==null).sort((a,b)=>a-b);
   const parCut=pars[Math.max(0,Math.ceil(pars.length*c.parTop)-1)], adpCut=adps[Math.max(0,Math.ceil(adps.length*c.adpBottom)-1)];
   ['F','D','G'].forEach((g,i)=>{
     const col=1+i*9, group=result.available.filter(p=>p.group===g).sort((a,b)=>(b.par===null?-Infinity:b.par)-(a.par===null?-Infinity:a.par)||b.points-a.points||a.name.localeCompare(b.name));
+    if(!fast) {
     s.getRange(3,col).setValue(['Forwards','Defensemen','Goalies'][i]);
     s.getRange(4,col,1,8).setValues([['Player','POS','Tm','Points','PAR','ADP','PAN','ID']]);
+    }
+    if(fast) s.getRange(5,col,s.getMaxRows()-4,8).clearContent();
     if(group.length) {
       s.getRange(5,col,group.length,8).setValues(group.map(p=>[p.name,p.pos,p.team,p.points,p.par===null?'':p.par,p.adp===null?'':p.adp,p.pan===null?'':p.pan,p.id]));
-      s.getRange(5,col+3,group.length,4).setNumberFormat('0');
-      if(parCut!==undefined) rules.push(SpreadsheetApp.newConditionalFormatRule().whenNumberGreaterThanOrEqualTo(parCut).setBackground('#b4a7d6').setRanges([s.getRange(5,col+4,group.length,1)]).build());
+      if(!fast) s.getRange(5,col+3,group.length,4).setNumberFormat('0');
+      if(parCut!==undefined) rules.push(SpreadsheetApp.newConditionalFormatRule().setGradientMinpointWithValue('#ffffff',SpreadsheetApp.InterpolationType.NUMBER,String(parCut)).setGradientMaxpointWithValue('#8e7cc3',SpreadsheetApp.InterpolationType.NUMBER,String(Math.max(pars[0],parCut+0.000001))).setRanges([s.getRange(5,col+4,group.length,1)]).build());
       if(adpCut!==undefined) rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied('=AND(ISNUMBER('+['F','O','X'][i]+'5),'+['F','O','X'][i]+'5<='+adpCut+')').setBackground('#9fc5e8').setRanges([s.getRange(5,col+5,group.length,1)]).build());
     }
+    if(!fast) {
     s.setColumnWidth(col,154);s.setColumnWidth(col+1,54);s.setColumnWidth(col+2,34);
     s.setColumnWidths(col+3,4,43);s.hideColumns(col+3);s.hideColumns(col+7);
     if(g!=='F') s.hideColumns(col+1);
     if(i<2)s.setColumnWidth(col+8,12);
     s.getRange(3,col,2,7).setBackground('#ffffff').setFontColor('#111111').setFontWeight('bold');
     s.getRange(4,col,Math.max(1,group.length+1),7).setBorder(true,true,true,true,true,false,'#cccccc',SpreadsheetApp.BorderStyle.SOLID);
+    }
   });
-  s.setConditionalFormatRules(rules);highlightNames_();s.setFrozenRows(4);s.setHiddenGridlines(true);
+  s.setConditionalFormatRules(rules);highlightNames_();
+  if(!fast) {s.setFrozenRows(4);s.setHiddenGridlines(true);
   s.getRange(1,1,size,26).setFontFamily('Arial').setFontSize(10);
   s.getRange(1,1,size,26).setWrapStrategy(SpreadsheetApp.WrapStrategy.CLIP);
   s.setRowHeights(5,size-4,21);
+  }
 }
 function draftSelectedPlayer() {
   // Capture identity before locking/repainting so a moved row cannot select a different player.
@@ -128,13 +137,21 @@ function draftSelectedPlayer() {
     if(!p||input.state.removed.has(id)) throw Error('Player is unavailable; refresh the board');
     if(input.state.current>input.c.teams*input.c.rounds) throw Error('Draft is complete');
     SpreadsheetApp.getActive().getSheetByName('Draft Log').appendRow([input.state.current,ownerAt(input.state.current,input.c.teams),id,p.name,new Date()]);
-    renderBoard_(inputs_());
+    input.state.removed.add(id);
+    let current=input.state.current+1;
+    const occupied=new Set(rows_('Keepers').map(r=>keeperPick(r[2],r[1],input.c.teams)));
+    while(occupied.has(current)) current++;
+    let next=current+1;
+    while(next<=input.c.teams*input.c.rounds&&(occupied.has(next)||ownerAt(next,input.c.teams)!==input.c.draftSlot)) next++;
+    let opponents=0;for(let k=current+1;k<next;k++)if(!occupied.has(k))opponents++;
+    input.state={...input.state,current,next:next<=input.c.teams*input.c.rounds?next:null,opponents};
+    renderBoard_(input,true);
   });
 }
 function undoLastPick() {
   withLock_(()=>{
     const s=SpreadsheetApp.getActive().getSheetByName('Draft Log');
     if(s.getLastRow()>1) s.deleteRow(s.getLastRow());
-    renderBoard_(inputs_());
+    renderBoard_(inputs_(),true);
   });
 }

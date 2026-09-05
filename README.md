@@ -79,3 +79,5 @@ PAR does not depend on pick spacing. PAN recalculates after each pick using the 
 
 API setup: https://developers.google.com/apps-script/api/how-tos/enable
 Project content updates: https://developers.google.com/apps-script/api/reference/rest/v1/projects/updateContent
+
+Draft and undo now update board values and conditional formatting without rebuilding widths, borders, fonts, or row heights. Full layout work runs only on Refresh board. The header shows current and next own pick; the legend is removed. PAR uses a shared white-to-purple scale from the top-fraction cutoff to the highest available PAR across all groups. PAN simulations still run when ADP is complete, and Google service latency remains.
