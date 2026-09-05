@@ -1,0 +1,10 @@
+{
+  "timeZone": "America/Toronto",
+  "runtimeVersion": "V8",
+  "exceptionLogging": "STACKDRIVER",
+  "oauthScopes": ["https://www.googleapis.com/auth/spreadsheets.currentonly"],
+  "sheets": {"macros": [
+    {"menuName": "Draft selected player", "functionName": "draftSelectedPlayer", "defaultShortcut": "Ctrl+Alt+Shift+1"},
+    {"menuName": "Undo last pick", "functionName": "undoLastPick", "defaultShortcut": "Ctrl+Alt+Shift+2"}
+  ]}
+}
