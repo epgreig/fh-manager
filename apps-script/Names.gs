@@ -49,5 +49,5 @@ function onEdit(e) {
   if(!e||!e.range) return;
   const name=e.range.getSheet().getName();
   if(!['Targets','Keepers'].includes(name)) return;
-  withLock_(()=>{checkNames_();highlightNames_();});
+  withLock_(()=>{checkNames_();});
 }

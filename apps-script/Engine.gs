@@ -56,6 +56,9 @@ function evaluate(players,c,state) {
     const baseline=eligible.length&&values.every(v=>v!==null)?Math.min(...values):null;
     return {...p,par:baseline===null?null:p.points-baseline,pan:null};
   });
+  return calculatePan_(available,c,state,baselines);
+}
+function calculatePan_(available,c,state,baselines={}) {
   // Missing ESPN ADP disables PAN instead of silently inserting another site's ADP.
   if(!state.next || available.some(p=>!Number.isFinite(p.adp)||p.adp<=0)) return {available,baselines,panReady:false};
   const random=seededRandom(2027+state.current), sums=new Map(available.map(p=>[p.id,0])), counts=new Map();
