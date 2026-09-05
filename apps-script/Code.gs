@@ -1,8 +1,7 @@
 function onOpen() {
   SpreadsheetApp.getUi().createMenu('Draft').addItem('Set up sheet','setupDraftSheet')
     .addItem('Refresh board','refreshBoard').addItem('Draft selected player','draftSelectedPlayer')
-    .addItem('Undo last pick','undoLastPick').addSeparator()
-    .addItem('Import latest code updates','importLatestUpdates').addToUi();
+    .addItem('Undo last pick','undoLastPick').addToUi();
 }
 function table_(name, headers, rows) {
   const ss=SpreadsheetApp.getActive();
