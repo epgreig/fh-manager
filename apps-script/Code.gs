@@ -3,6 +3,17 @@ function onOpen() {
     .addItem('Refresh board','refreshBoard').addItem('Draft selected player','draftSelectedPlayer')
     .addItem('Undo last pick','undoLastPick').addToUi();
 }
+function migrateReplacementSettings_() {
+  const s=SpreadsheetApp.getActive().getSheetByName('Settings');
+  const existing=rows_('Settings');
+  for(let i=existing.length-1;i>=0;i--) if(existing[i][0]==='replacementF') {
+    // Locate actual sheet row, including any blank rows in the input table.
+    const values=s.getDataRange().getValues();
+    for(let r=values.length-1;r>=1;r--) if(values[r][0]==='replacementF') s.deleteRow(r+1);
+  }
+  const keys=new Set(rows_('Settings').map(r=>r[0]));
+  ['C','LW','RW'].forEach(pos=>{const key='replacement'+pos;if(!keys.has(key)) s.appendRow([key,DEFAULTS[key]]);});
+}
 function table_(name, headers, rows) {
   const ss=SpreadsheetApp.getActive();
   if(ss.getSheetByName(name)) return ss.getSheetByName(name);
@@ -24,7 +35,7 @@ function setupDraftSheet() {
     ['Scoring','D bonus applies per G+A; SHP bonus is additional to regular G/A points.'],
     ['Use','Edit inputs, then Draft > Refresh board. Select one board player cell and run draft macro.'],
     ['ESPN','Paste ESPN eligibility and ADP in Players, with source/date. Yahoo POS stays separate.'],
-    ['PAR','Season points minus fixed group replacement baseline. Default ranks: F121 D49 G25.'],
+    ['PAR','Season points minus positional replacement points derived from ranks in Settings: C49 LW37 RW37 D49 G25. Multi-position forwards use their highest PAR.'],
     ['Replacement assumptions','12 teams: 7 F, 3 D, 1 G starters; bench 3 F / 1 D / 1 G. IR excluded. Adjust ranks in Settings.'],
     ['PAN','Hypothetical take-now points minus simulated mean of top 3 same-group options at next own non-keeper pick. Not a positional roster optimizer.'],
     ['Uncertainty','ADP plus normal noise in pick units; sigma 12 is a tunable assumption, not fitted data. All available players need ESPN ADP for PAN.'],
@@ -70,7 +81,7 @@ function inputs_() {
   return {c,players,state:draftState(c,keepers,log,ids)};
 }
 function withLock_(fn) {const lock=LockService.getDocumentLock();lock.waitLock(10000);try{return fn();}finally{lock.releaseLock();}}
-function refreshBoard() {withLock_(()=>{ensureNameSheets_();checkNames_();renderBoard_(inputs_());});}
+function refreshBoard() {withLock_(()=>{migrateReplacementSettings_();ensureNameSheets_();checkNames_();renderBoard_(inputs_());});}
 function renderBoard_({c,players,state}) {
   const result=evaluate(players,c,state), s=SpreadsheetApp.getActive().getSheetByName('Board');
   s.getRange(1,1,s.getMaxRows(),s.getMaxColumns()).breakApart();
@@ -80,15 +91,15 @@ function renderBoard_({c,players,state}) {
   if(s.getMaxColumns()<26) s.insertColumnsAfter(s.getMaxColumns(),26-s.getMaxColumns());
   s.getRange('A1:Z1').merge(); s.getRange('A2:Z2').merge();
   s.getRange('A1').setValue(state.current>c.teams*c.rounds?'Draft complete':'Pick '+state.current+' · Team '+ownerAt(state.current,c.teams)+' · Next own pick '+(state.next||'none'));
-  s.getRange('A2').setValue('Purple: top '+c.parTop*100+'% PAR · Blue: lowest '+c.adpBottom*100+'% ESPN ADP · '+(result.panReady?'PAN active':'PAN unavailable: missing ESPN ADP or no next pick'));
-  const rules=[], pars=result.available.map(p=>p.par).sort((a,b)=>b-a), adps=result.available.map(p=>p.adp).filter(v=>v!==null).sort((a,b)=>a-b);
+  s.getRange('A2').setValue((result.available.some(p=>p.par===null)?'PAR blank: insufficient ESPN positions · ':'')+'Purple: top '+c.parTop*100+'% PAR · Blue: lowest '+c.adpBottom*100+'% ESPN ADP · '+(result.panReady?'PAN active':'PAN unavailable: missing ESPN ADP or no next pick'));
+  const rules=[], pars=result.available.map(p=>p.par).filter(v=>v!==null).sort((a,b)=>b-a), adps=result.available.map(p=>p.adp).filter(v=>v!==null).sort((a,b)=>a-b);
   const parCut=pars[Math.max(0,Math.ceil(pars.length*c.parTop)-1)], adpCut=adps[Math.max(0,Math.ceil(adps.length*c.adpBottom)-1)];
   ['F','D','G'].forEach((g,i)=>{
-    const col=1+i*9, group=result.available.filter(p=>p.group===g).sort((a,b)=>b.par-a.par||a.name.localeCompare(b.name));
+    const col=1+i*9, group=result.available.filter(p=>p.group===g).sort((a,b)=>(b.par===null?-Infinity:b.par)-(a.par===null?-Infinity:a.par)||b.points-a.points||a.name.localeCompare(b.name));
     s.getRange(3,col).setValue(['Forwards','Defensemen','Goalies'][i]);
     s.getRange(4,col,1,8).setValues([['Player','POS','Tm','Points','PAR','ADP','PAN','ID']]);
     if(group.length) {
-      s.getRange(5,col,group.length,8).setValues(group.map(p=>[p.name,p.pos,p.team,p.points,p.par,p.adp===null?'':p.adp,p.pan===null?'':p.pan,p.id]));
+      s.getRange(5,col,group.length,8).setValues(group.map(p=>[p.name,p.pos,p.team,p.points,p.par===null?'':p.par,p.adp===null?'':p.adp,p.pan===null?'':p.pan,p.id]));
       s.getRange(5,col+3,group.length,4).setNumberFormat('0');
       if(parCut!==undefined) rules.push(SpreadsheetApp.newConditionalFormatRule().whenNumberGreaterThanOrEqualTo(parCut).setBackground('#b4a7d6').setRanges([s.getRange(5,col+4,group.length,1)]).build());
       if(adpCut!==undefined) rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied('=AND(ISNUMBER('+['F','O','X'][i]+'5),'+['F','O','X'][i]+'5<='+adpCut+')').setBackground('#9fc5e8').setRanges([s.getRange(5,col+5,group.length,1)]).build());

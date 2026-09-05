@@ -1,7 +1,7 @@
 const DEFAULTS = {
   teams:12, draftSlot:1, rounds:16, G:3, A:1.5, BLK:0.3, PIM:0.5, SHP:1.5,
   defenseBonus:0.3, W:1.5, SO:2, GA:-1, SV:0.2,
-  replacementF:121, replacementD:49, replacementG:25,
+  replacementC:49, replacementLW:37, replacementRW:37, replacementD:49, replacementG:25,
   parTop:0.15, adpBottom:0.10, adpSigma:12, simulations:150, nextAlternatives:3
 };
 function scorePlayer(p, c) {
@@ -43,13 +43,19 @@ function seededRandom(seed) {return ()=>{seed=(Math.imul(1664525,seed)+101390422
 function evaluate(players,c,state) {
   const all=players.map(p=>({...p,points:scorePlayer(p,c)}));
   const baselines={};
-  ['F','D','G'].forEach(g=>{
-    const ranked=all.filter(p=>p.group===g).sort((a,b)=>b.points-a.points);
+  const positions=p=>p.group==='F'?String(p.pos||'').toUpperCase().split(/[,/\s]+/).filter(x=>['C','LW','RW'].includes(x)):[p.group];
+  ['C','LW','RW','D','G'].forEach(g=>{
+    const ranked=all.filter(p=>positions(p).includes(g)).sort((a,b)=>b.points-a.points);
     const rank=c['replacement'+g];
-    if(!Number.isInteger(rank)||rank<1||rank>ranked.length) throw Error('Replacement rank outside player pool: '+g);
-    baselines[g]=ranked[rank-1].points;
+    if(!Number.isInteger(rank)||rank<1) throw Error('Replacement rank must be a positive integer: '+g);
+    // Insufficient verified eligibility leaves a baseline unknown, never substitutes Yahoo positions.
+    baselines[g]=ranked.length>=rank?ranked[rank-1].points:null;
   });
-  const available=all.filter(p=>!state.removed.has(p.id)).map(p=>({...p,par:p.points-baselines[p.group],pan:null}));
+  const available=all.filter(p=>!state.removed.has(p.id)).map(p=>{
+    const eligible=positions(p), values=eligible.map(g=>baselines[g]);
+    const baseline=eligible.length&&values.every(v=>v!==null)?Math.min(...values):null;
+    return {...p,par:baseline===null?null:p.points-baseline,pan:null};
+  });
   // Missing ESPN ADP disables PAN instead of silently inserting another site's ADP.
   if(!state.next || available.some(p=>!Number.isFinite(p.adp)||p.adp<=0)) return {available,baselines,panReady:false};
   const random=seededRandom(2027+state.current), sums=new Map(available.map(p=>[p.id,0])), counts=new Map();
