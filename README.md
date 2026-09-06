@@ -87,3 +87,15 @@ Draft and undo now update board values and conditional formatting without rebuil
 Board panels now use FILTER/SORT formulas, following ff-manager. Draft and undo only modify Draft Log. Clearing log entries immediately restores non-keeper players through spreadsheet recalculation, without a script refresh. Keep the header row; clear the data rows. The hidden Board Data tab holds calculated projections and live availability formulas. PAN runs separately as a custom function and may finish later than the player list.
 
 Row 2 contains group titles, row 3 headers, and players begin on row 4. There is no hidden spacer row. Name highlighting uses conditional formatting so it follows moving players. Refresh board after changing scoring, projection inputs, replacement ranks, or eligibility to rebuild calculated values. Draft Log, keeper exclusions, and Targets/Fades are live. PAN custom functions are subject to Google's 30-second runtime limit; missing ADP leaves PAN blank.
+
+## ESPN ADP and eligibility
+
+Use **Draft > Import ESPN snapshot** to fill ESPN POS and ADP in Players from the versioned public ESPN snapshot, then refresh the board automatically. This replaces matched ESPN fields, including manual edits, and records the source URL and retrieval time. ESPN Import reports each player's result. It imports a bundled dated snapshot, not a live request from Google Sheets, so no extra Google authorization is required.
+
+The September 6, 2026 snapshot contains 1,686 ESPN players and matches all 670 Athletic players, including 19 reviewed spelling aliases resolved to ESPN IDs. Positional eligibility uses eligibleSlots (C=0, LW=1, RW=2, D=4, G=5); generic forward, utility, bench and IR slots are excluded. ADP is ownership.averageDraftPosition from ESPN drafts; it is not customized to this league's scoring or keepers. This public, undocumented ESPN endpoint may change.
+
+To refresh the snapshot from ESPN, run `python3 scripts/fetch_espn.py --season 2027`, run tests, and push the scripts with clasp. Then use the sheet's Import ESPN snapshot menu. The importer fails if ADP is absent or the 2,000-player cap is reached; it does not silently publish partial pagination.
+
+The Projections tab includes a Player name column at the right, looked up from its stable ID. Board panels display ADP to the left of PAR; sorting remains descending PAR.
+
+ESPN source: https://lm-api-reads.fantasy.espn.com/apis/v3/games/fhl/seasons/2027/segments/0/leaguedefaults/1?view=kona_player_info

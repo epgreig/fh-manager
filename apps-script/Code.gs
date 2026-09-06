@@ -1,7 +1,7 @@
 function onOpen() {
   SpreadsheetApp.getUi().createMenu('Draft').addItem('Set up sheet','setupDraftSheet')
     .addItem('Refresh board','refreshBoard').addItem('Draft selected player','draftSelectedPlayer')
-    .addItem('Undo last pick','undoLastPick').addToUi();
+    .addItem('Undo last pick','undoLastPick').addItem('Import ESPN snapshot','importEspnSnapshot').addToUi();
 }
 function migrateReplacementSettings_() {
   const s=SpreadsheetApp.getActive().getSheetByName('Settings');
@@ -81,7 +81,7 @@ function inputs_() {
   return {c,players,state:draftState(c,keepers,log,ids)};
 }
 function withLock_(fn) {const lock=LockService.getDocumentLock();lock.waitLock(10000);try{return fn();}finally{lock.releaseLock();}}
-function refreshBoard() {withLock_(()=>{migrateReplacementSettings_();ensureNameSheets_();checkNames_();renderBoard_(inputs_());});}
+function refreshBoard() {withLock_(()=>{migrateReplacementSettings_();addProjectionNames_();ensureNameSheets_();checkNames_();renderBoard_(inputs_());});}
 function draftSelectedPlayer() {
   const range=SpreadsheetApp.getActiveRange();
   if(!range||range.getSheet().getName()!=='Board'||range.getRow()<4||range.getNumRows()!==1||range.getNumColumns()!==1) throw Error('Select one player cell on Board');
@@ -103,4 +103,14 @@ function draftSelectedPlayer() {
 }
 function undoLastPick() {
   withLock_(()=>{const s=SpreadsheetApp.getActive().getSheetByName('Draft Log');if(s.getLastRow()>1)s.deleteRow(s.getLastRow());});
+}
+
+function addProjectionNames_() {
+  const s=SpreadsheetApp.getActive().getSheetByName('Projections');
+  const headers=s.getRange(1,1,1,s.getLastColumn()).getValues()[0];
+  let col=headers.indexOf('Player')+1;
+  if(!col) col=headers.length+1;
+  s.getRange(1,col).setValue('Player').setFontWeight('bold');
+  if(s.getLastRow()>1) s.getRange(2,col,s.getLastRow()-1,1).setFormulas(Array.from({length:s.getLastRow()-1},(_,i)=>['=IFNA(XLOOKUP(A'+(i+2)+',Players!A$2:A,Players!B$2:B),"Unknown player ID")']));
+  s.setColumnWidth(col,185);
 }
