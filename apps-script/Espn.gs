@@ -26,6 +26,10 @@ function importEspnSnapshot() {
       return [p.pos,p.adp===null?'':p.adp,'ESPN '+ESPN_DATA.season+' · '+ESPN_DATA.retrievedAt+' · '+ESPN_DATA.url];
     });
     s.getRange(2,6,values.length,3).setValues(values);
+    s.getRange(1,9).setValue('ESPN default rank');
+    s.getRange(2,9,rows.length,1).setValues(rows.map(r=>{
+      const p=matchEspn_(r[1],ESPN_DATA.players);return [p&&p.rank?p.rank:''];
+    }));
     const audit=table_('ESPN Import',['Player','Result'],[]);
     audit.clearContents();audit.getRange(1,1,1,2).setValues([['Player','Result']]);
     audit.getRange(2,1,report.length,2).setValues(report);audit.autoResizeColumns(1,2);

@@ -103,3 +103,5 @@ The Projections tab includes a Player name column at the right, looked up from i
 ESPN source: https://lm-api-reads.fantasy.espn.com/apis/v3/games/fhl/seasons/2027/segments/0/leaguedefaults/1?view=kona_player_info
 
 ADP uses a shared blue-to-white gradient across all three panels, from the lowest available ADP to the configured bottom percentile (default 10%); later ADPs stay white. PAR retains its top-15% white-to-purple gradient. PAN uses a white-to-orange gradient with a fixed minimum of zero; zero and negative PAN stay white.
+
+The ESPN import also fills **ESPN default rank** in Players column I from `draftRanksByRankType.STANDARD.rank`. The current snapshot has 377 rank entries; missing ranks remain blank. This is the STANDARD list, not ratings.totalRanking or a manager-customized pre-ranking. Rank has been collected as an input; PAN still uses ADP until the proposed draft-order model is agreed.

@@ -6,4 +6,6 @@ test('snapshot matches every projection player uniquely with compatible eligibil
  const ids=new Set();
  for(const p of projections){const e=ctx.matchEspn_(p.name,espn);assert.ok(e,p.name);assert.ok(!ids.has(e.id),p.name);ids.add(e.id);assert.ok(e.adp>0);assert.ok(p.group==='F'?/C|LW|RW/.test(e.pos):e.pos===p.group,p.name);}
  assert.equal(ctx.matchEspn_('Unknown Person',espn),null);
+ assert.equal(ctx.matchEspn_('Nathan MacKinnon',espn).rank,1);
+ assert.ok(espn.some(p=>p.rank===null));
 });

@@ -13,9 +13,11 @@ def normalize(payload):
     for entry in payload['players']:
         p = entry.get('player', entry)
         adp = p.get('ownership', {}).get('averageDraftPosition')
+        rank = p.get('draftRanksByRankType', {}).get('STANDARD', {}).get('rank')
         players.append({'id':str(p['id']), 'name':p['fullName'],
                         'pos':','.join(SLOTS[s] for s in sorted(set(p['eligibleSlots'])) if s in SLOTS),
-                        'adp':adp if isinstance(adp,(int,float)) and adp>0 else None})
+                        'adp':adp if isinstance(adp,(int,float)) and adp>0 else None,
+                        'rank':rank if isinstance(rank,(int,float)) and rank>0 else None})
     if not players or not any(p['adp'] for p in players):
         raise ValueError('No ESPN ADP returned; existing snapshot preserved')
     return players

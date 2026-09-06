@@ -2,3 +2,6 @@
 __pycache__/
 node_modules/
 .clasp.json
+
+# Private league history stays local unless explicitly approved for publication.
+data/history/
