@@ -99,3 +99,5 @@ To refresh the snapshot from ESPN, run `python3 scripts/fetch_espn.py --season 2
 The Projections tab includes a Player name column at the right, looked up from its stable ID. Board panels display ADP to the left of PAR; sorting remains descending PAR.
 
 ESPN source: https://lm-api-reads.fantasy.espn.com/apis/v3/games/fhl/seasons/2027/segments/0/leaguedefaults/1?view=kona_player_info
+
+ADP uses a shared blue-to-white gradient across all three panels, from the lowest available ADP to the configured bottom percentile (default 10%); later ADPs stay white. PAR retains its top-15% white-to-purple gradient. PAN uses a white-to-orange gradient with a fixed minimum of zero; zero and negative PAN stay white.

@@ -2,7 +2,7 @@ const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs'),vm=require('node:vm');
 test('live board filters log availability and separates PAN from player lists',()=>{
- const hidden=new Set([8,17,26]), widths={},writes=[],calls=[],formulas=[];
+ const hidden=new Set([8,17,26]), widths={},writes=[],calls=[],formulas=[],ruleCalls=[];
  const range=new Proxy({}, {get:(_,name)=>(...args)=>{calls.push(name);return range;}});
  const sheet=new Proxy({}, {get:(_,name)=>{
    if(name==='getMaxRows')return ()=>1000;
@@ -14,12 +14,15 @@ test('live board filters log availability and separates PAN from player lists',(
    if(name==='setColumnWidths')return (col,n,w)=>{for(let i=0;i<n;i++)widths[col+i]=w;};
    return ()=>sheet;
  }});
- const rule=new Proxy({}, {get:(_,name)=>()=>name==='build'?{}:rule});
+ const rule=new Proxy({}, {get:(_,name)=>(...args)=>{ruleCalls.push([name,...args]);return name==='build'?{}:rule;}});
  const ctx={SpreadsheetApp:{getActive:()=>({getSheetByName:()=>sheet}),newConditionalFormatRule:()=>rule,InterpolationType:{NUMBER:'number',PERCENTILE:'percentile'},BorderStyle:{SOLID:'solid'},WrapStrategy:{CLIP:'clip'}}};
  vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Engine.gs','utf8')+'\n'+fs.readFileSync('apps-script/Code.gs','utf8')+'\n'+fs.readFileSync('apps-script/Live.gs','utf8'),ctx);
  ctx.table_=()=>sheet;
  ctx.evaluate=()=>({available:['F','D','G'].map(g=>({group:g,id:g,name:g,points:100,par:20,adp:5,pan:null,pos:g,team:'TOR'})),panReady:false});
  ctx.renderBoard_({c:{teams:12,rounds:16,parTop:.15,adpBottom:.1},players:[{},{},{}],state:{current:1,next:24}});
+ assert.ok(ruleCalls.some(r=>r[0]==='setGradientMaxpointWithValue'&&r[1]==='#ffffff'&&r[2]==='percentile'&&r[3]==='10'));
+ assert.ok(ruleCalls.some(r=>r[0]==='setGradientMinpointWithValue'&&r[1]==='#ffffff'&&r[2]==='number'&&r[3]==='0'));
+ assert.ok(ruleCalls.some(r=>r[0]==='whenNumberLessThanOrEqualTo'&&r[1]===0));
  assert.deepEqual([...hidden].sort((a,b)=>a-b),[4,8,11,13,17,20,22,26]);
  assert.equal(Object.entries(widths).reduce((sum,[col,w])=>sum+(hidden.has(Number(col))?0:w),0),1029);
  assert.equal(formulas.filter(f=>f.startsWith('=IFNA(SORT(FILTER')).length,3);

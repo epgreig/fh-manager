@@ -35,7 +35,7 @@ function renderBoard_({c,players,state}) {
   s.getRange(1,1,s.getMaxRows(),s.getMaxColumns()).breakApart();s.clear();s.showRows(1,s.getMaxRows());s.showColumns(1,s.getMaxColumns());
   if(s.getMaxRows()<n+3)s.insertRowsAfter(s.getMaxRows(),n+3-s.getMaxRows());
   s.getRange('A1:Z1').merge().setFormula('="Pick "&\'Board Data\'!L2&" · Next own pick "&IF(\'Board Data\'!M2="","none",\'Board Data\'!M2)');
-  const rules=[],parRanges=[];
+  const rules=[],parRanges=[],adpRanges=[],panRanges=[];
   ['F','D','G'].forEach((g,i)=>{
     const col=1+i*9,nameCol=['A','J','S'][i],adpCol=['E','N','W'][i];
     s.getRange(2,col).setValue(['Forwards','Defensemen','Goalies'][i]);
@@ -47,11 +47,15 @@ function renderBoard_({c,players,state}) {
     s.hideColumns(col+3);s.hideColumns(col+7);if(g!=='F')s.hideColumns(col+1);if(i<2)s.setColumnWidth(col+8,12);
     s.getRange(2,col,2,7).setFontWeight('bold');s.getRange(4,col+3,n,4).setNumberFormat('0');
     parRanges.push(s.getRange(4,col+5,n,1));
-    rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied('=AND(ISNUMBER('+adpCol+'4),'+adpCol+'4<=IFERROR(PERCENTILE(FILTER(INDIRECT("\'Board Data\'!F2:F'+last+'"),INDIRECT("\'Board Data\'!J2:J'+last+'")=TRUE,ISNUMBER(INDIRECT("\'Board Data\'!F2:F'+last+'"))),'+c.adpBottom+'),0))').setBackground('#9fc5e8').setRanges([s.getRange(4,col+4,n,1)]).build());
+    adpRanges.push(s.getRange(4,col+4,n,1));
+    panRanges.push(s.getRange(4,col+6,n,1));
     // Rules follow formula-spilled names, including after log deletion and undo.
     [['B','#eeeeee'],['A','#fce5cd']].forEach(([letter,color])=>rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied('=AND('+nameCol+'4<>"",COUNTIF(INDIRECT("Targets!'+letter+'2:'+letter+'"),'+nameCol+'4)>0)').setBackground(color).setRanges([s.getRange(4,col,n,1)]).build()));
   });
   rules.unshift(SpreadsheetApp.newConditionalFormatRule().setGradientMinpointWithValue('#ffffff',SpreadsheetApp.InterpolationType.PERCENTILE,String(100*(1-c.parTop))).setGradientMaxpoint('#8e7cc3').setRanges(parRanges).build());
+  rules.unshift(SpreadsheetApp.newConditionalFormatRule().setGradientMinpoint('#6fa8dc').setGradientMaxpointWithValue('#ffffff',SpreadsheetApp.InterpolationType.PERCENTILE,String(100*c.adpBottom)).setRanges(adpRanges).build());
+  rules.unshift(SpreadsheetApp.newConditionalFormatRule().setGradientMinpointWithValue('#ffffff',SpreadsheetApp.InterpolationType.NUMBER,'0').setGradientMaxpoint('#f6b26b').setRanges(panRanges).build());
+  rules.unshift(SpreadsheetApp.newConditionalFormatRule().whenNumberLessThanOrEqualTo(0).setBackground('#ffffff').setRanges(panRanges).build());
   s.setConditionalFormatRules(rules);s.setFrozenRows(3);s.setHiddenGridlines(true);
   s.getRange(1,1,n+3,26).setFontFamily('Arial').setFontSize(10).setWrapStrategy(SpreadsheetApp.WrapStrategy.CLIP);s.setRowHeights(4,n,21);
   model.hideSheet();
