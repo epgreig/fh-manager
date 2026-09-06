@@ -2,7 +2,7 @@ const DEFAULTS = {
   teams:12, draftSlot:1, rounds:16, G:3, A:1.5, BLK:0.3, PIM:0.5, SHP:1.5,
   defenseBonus:0.3, W:1.5, SO:2, GA:-1, SV:0.2,
   replacementC:49, replacementLW:37, replacementRW:37, replacementD:49, replacementG:25,
-  parTop:0.15, adpBottom:0.10, adpSigma:12, simulations:150, nextAlternatives:3
+  parTop:0.15, adpBottom:0.10, adpSigma:12
 };
 function scorePlayer(p, c) {
   const keys = p.group === 'G' ? ['W','SO','GA','SV'] : ['G','A','BLK','PIM','SHP'];
@@ -39,7 +39,6 @@ function draftState(c, keepers, log, ids) {
   for(let p=current+1;p<next;p++) if(!occupied.has(p)) opponents++;
   return {current,next:next<=c.teams*c.rounds?next:null,opponents,removed};
 }
-function seededRandom(seed) {return ()=>{seed=(Math.imul(1664525,seed)+1013904223)>>>0;return (seed+0.5)/4294967296;};}
 function evaluate(players,c,state) {
   const all=players.map(p=>({...p,points:scorePlayer(p,c)}));
   const baselines={};
@@ -56,31 +55,6 @@ function evaluate(players,c,state) {
     const baseline=eligible.length&&values.every(v=>v!==null)?Math.min(...values):null;
     return {...p,par:baseline===null?null:p.points-baseline,pan:null};
   });
-  return calculatePan_(available,c,state,baselines);
-}
-function calculatePan_(available,c,state,baselines={}) {
-  // Missing ESPN ADP disables PAN instead of silently inserting another site's ADP.
-  if(!state.next || available.some(p=>!Number.isFinite(p.adp)||p.adp<=0)) return {available,baselines,panReady:false};
-  const random=seededRandom(2027+state.current), sums=new Map(available.map(p=>[p.id,0])), counts=new Map();
-  for(let sim=0;sim<c.simulations;sim++) {
-    const order=available.map(p=>({p,key:p.adp+c.adpSigma*Math.sqrt(-2*Math.log(random()))*Math.cos(2*Math.PI*random())})).sort((a,b)=>a.key-b.key);
-    const indices=new Map(order.map((v,i)=>[v.p.id,i]));
-    const byPoints=[...available].sort((a,b)=>b.points-a.points);
-    for(const candidate of available) {
-      // Taking a player now removes them before intervening selections.
-      const cut=state.opponents+(indices.get(candidate.id)<state.opponents?1:0);
-      const alternatives=[];
-      for(const p of byPoints) {
-        if(p.group===candidate.group && p.id!==candidate.id && indices.get(p.id)>=cut) alternatives.push(p.points);
-        if(alternatives.length===c.nextAlternatives) break;
-      }
-      if(alternatives.length) {
-        sums.set(candidate.id,sums.get(candidate.id)+alternatives.reduce((a,b)=>a+b,0)/alternatives.length);
-        counts.set(candidate.id,(counts.get(candidate.id)||0)+1);
-      }
-    }
-  }
-  available.forEach(p=>{if(counts.get(p.id)===c.simulations) p.pan=p.points-sums.get(p.id)/c.simulations;});
-  return {available,baselines,panReady:true};
+  return {available,baselines};
 }
 if(typeof module!=='undefined') module.exports={DEFAULTS,scorePlayer,ownerAt,keeperPick,draftState,evaluate};

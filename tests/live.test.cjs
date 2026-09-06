@@ -6,6 +6,3 @@ test('clearing log resets draft state while keeper picks stay occupied',()=>{
  assert.equal(ctx.FH_STATE(settings,[],[],ids)[0][0],1);
  assert.equal(ctx.FH_STATE(settings,[['A',1,1]],[],ids)[0][0],2);
 });
-test('missing ADP yields blank PAN without blocking board data',()=>{
- assert.equal(ctx.FH_PAN([['A',100,'','a','F',true]],[['simulations',2]],[[1,24,22]])[0][0],'');
-});

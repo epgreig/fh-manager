@@ -17,7 +17,7 @@ test('live board filters log availability and separates PAN from player lists',(
  const rule=new Proxy({}, {get:(_,name)=>(...args)=>{ruleCalls.push([name,...args]);return name==='build'?{}:rule;}});
  const ctx={SpreadsheetApp:{getActive:()=>({getSheetByName:()=>sheet}),newConditionalFormatRule:()=>rule,InterpolationType:{NUMBER:'number',PERCENTILE:'percentile'},BorderStyle:{SOLID:'solid'},WrapStrategy:{CLIP:'clip'}}};
  vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Engine.gs','utf8')+'\n'+fs.readFileSync('apps-script/Code.gs','utf8')+'\n'+fs.readFileSync('apps-script/Live.gs','utf8'),ctx);
- ctx.table_=()=>sheet;
+ ctx.table_=()=>sheet;ctx.buildPanFormulas_=()=>calls.push("buildPanFormulas");
  ctx.evaluate=()=>({available:['F','D','G'].map(g=>({group:g,id:g,name:g,points:100,par:20,adp:5,pan:null,pos:g,team:'TOR'})),panReady:false});
  ctx.renderBoard_({c:{teams:12,rounds:16,parTop:.15,adpBottom:.1},players:[{},{},{}],state:{current:1,next:24}});
  assert.ok(ruleCalls.some(r=>r[0]==='setGradientMaxpointWithValue'&&r[1]==='#ffffff'&&r[2]==='percentile'&&r[3]==='10'));
@@ -27,7 +27,8 @@ test('live board filters log availability and separates PAN from player lists',(
  assert.equal(Object.entries(widths).reduce((sum,[col,w])=>sum+(hidden.has(Number(col))?0:w),0),1029);
  assert.equal(formulas.filter(f=>f.startsWith('=IFNA(SORT(FILTER')).length,3);
  assert.ok(formulas.some(f=>f.startsWith('=FH_STATE(')));
- assert.ok(formulas.some(f=>f.startsWith('=FH_PAN(HSTACK(')));
+ assert.ok(calls.includes('buildPanFormulas'));
+ assert.ok(!formulas.some(f=>f.includes('FH_PAN')));
  assert.ok(formulas.filter(f=>f.startsWith('=IFNA(SORT(FILTER')).every(f=>f.includes('!A2:F')&&f.includes(',1,2,3,4,6,5)')&&f.includes('),6,FALSE,4,FALSE')));
  assert.ok(writes.filter(w=>w.args[0]===3).every(w=>w.values[0][4]==='ADP'&&w.values[0][5]==='PAR'));
 });

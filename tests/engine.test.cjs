@@ -23,19 +23,12 @@ test('keepers skipped automatically and duplicate costs rejected',()=>{
 });
 const skater={G:10,A:0,BLK:0,PIM:0,SHP:0};
 function pool(){return ['F','D','G'].flatMap(group=>[1,2,3,4].map(i=>({id:group+i,name:group+i,group,pos:group==='F'?'C,LW,RW':group,adp:i*3,stats:group==='G'?{W:10-i,SO:0,GA:0,SV:0}:{...skater,G:10-i}})));}
-test('replacement remains fixed after draft; missing ADP gates PAN',()=>{
+test('replacement remains fixed after draft',()=>{
  const cfg={...c,replacementC:3,replacementLW:3,replacementRW:3,replacementD:3,replacementG:3,simulations:2};
  const p=pool();p[0].adp=null;
  const x=evaluate(p,cfg,{removed:new Set(['F2']),current:1,next:24,opponents:2});
- assert.equal(x.baselines.C,21);assert.equal(x.panReady,false);assert.equal(x.available.length,11);
+ assert.equal(x.baselines.C,21);assert.equal(x.available.length,11);
 });
-test('PAN zero-noise case removes candidate before opponent picks',()=>{
- const cfg={...c,replacementC:3,replacementLW:3,replacementRW:3,replacementD:3,replacementG:3,simulations:2,adpSigma:0,nextAlternatives:1};
- const x=evaluate(pool(),cfg,{removed:new Set(),current:1,next:3,opponents:1});
- assert.equal(x.available.find(p=>p.id==='F1').pan,3);
- assert.equal(x.panReady,true);
-});
-
 test('forward ranks are separate and multi-position PAR uses best eligible value',()=>{
  const p=pool();p.find(x=>x.id==='F1').pos='C,LW';p.find(x=>x.id==='F2').pos='C';p.find(x=>x.id==='F3').pos='LW';p.find(x=>x.id==='F4').pos='RW';
  const cfg={...c,replacementC:2,replacementLW:2,replacementRW:1,replacementD:3,replacementG:3};
