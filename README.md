@@ -104,4 +104,10 @@ ESPN source: https://lm-api-reads.fantasy.espn.com/apis/v3/games/fhl/seasons/202
 
 ADP uses a shared blue-to-white gradient across all three panels, from the lowest available ADP to the configured bottom percentile (default 10%); later ADPs stay white. PAR retains its top-15% white-to-purple gradient. PAN uses a white-to-orange gradient with a fixed minimum of zero; zero and negative PAN stay white.
 
-The ESPN import also fills **ESPN default rank** in Players column I from `draftRanksByRankType.STANDARD.rank`. The current snapshot has 377 rank entries; missing ranks remain blank. This is the STANDARD list, not ratings.totalRanking or a manager-customized pre-ranking. Rank has been collected as an input; PAN still uses ADP until the proposed draft-order model is agreed.
+The ESPN import also fills **ESPN default rank** in Players column I from `draftRanksByRankType.STANDARD.rank`. The current snapshot has 377 rank entries; missing ranks remain blank. This is the STANDARD list, not ratings.totalRanking or a manager-customized pre-ranking. Rank has been collected as an input; PAN now uses a configurable blend of ADP and default rank, described below.
+
+## Draft-order estimate for PAN
+
+`espnRankWeight` defaults to **0.5**, giving 50% ESPN ADP and 50% ESPN STANDARD draft rank. Set it to 0 for pure ADP or 1 for pure rank. If only one input exists, use that available input; if both are absent, leave the estimate blank. The raw ADP shown on Board remains unchanged. Board Data contains the default rank and predicted draft pick in columns Q/R; PAN's normal survival calculation uses the predicted pick. Import the ESPN snapshot, then refresh to populate ranks. Changing the weight itself recalculates live.
+
+This is a user-selected blend, not a fitted predictor or an explicit auto-drafter simulation. No defense or goalie shift has been applied. A defense-specific draft curve can be calibrated separately once keeper picks are identified; it should not treat keeper costs as voluntary selection prices.

@@ -1,4 +1,17 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+test('draft estimate blends rank and ADP equally and handles missing inputs',()=>{
+ const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Pan.gs','utf8'),ctx);
+ const formula=ctx.draftOrderFormula_(2).slice(1);
+ const evaluate=(adp,rank,weight)=>vm.runInNewContext(formula.replaceAll('$S$2','weight'),{
+   F2:adp,Q2:rank,weight,IF:(condition,a,b)=>condition?a:b,AND:(...args)=>args.every(Boolean),ISNUMBER:x=>typeof x==='number'
+ });
+ assert.equal(evaluate(80,40,.5),60);
+ assert.equal(evaluate(80,40,0),80);
+ assert.equal(evaluate(80,40,1),40);
+ assert.equal(evaluate(80,'',.5),80);
+ assert.equal(evaluate('',40,.5),40);
+ assert.equal(evaluate('','',.5),'');
+});
 test('generated fallback formulas equal exhaustive independent availability outcomes',()=>{
  const cells={},modelFormulas=[];
  const sheet={getMaxColumns:()=>40,getMaxRows:()=>100,clearContents(){},hideSheet(){},getRange(row,col,n=1,m=1){

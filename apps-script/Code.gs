@@ -17,10 +17,11 @@ function migrateReplacementSettings_() {
   if(guide) {
     const rows=guide.getDataRange().getValues();
     rows.forEach(r=>{if(r[0]==='PAN')r[1]='P(gone) × (positional PAR − expected best alternative PAR). Actual intervening non-keeper picks; candidate excluded; highest eligible PAN for multi-position players.';
-      if(r[0]==='Uncertainty')r[1]='Conditional normal survival from ESPN ADP, with adpSigma in picks. No simulations. Zero intervening picks gives zero PAN. Missing ADP in a relevant pool leaves PAN blank.';});
+      if(r[0]==='Uncertainty')r[1]='Conditional normal survival from blended ESPN ADP/default rank; espnRankWeight defaults to 0.5 and adpSigma is in picks. No simulations. Zero intervening picks gives zero PAN. Missing ADP in a relevant pool leaves PAN blank.';});
     guide.getRange(1,1,rows.length,rows[0].length).setValues(rows);
   }
   const keys=new Set(rows_('Settings').map(r=>r[0]));
+  if(!keys.has('espnRankWeight'))s.appendRow(['espnRankWeight',DEFAULTS.espnRankWeight]);
   ['C','LW','RW'].forEach(pos=>{const key='replacement'+pos;if(!keys.has(key)) s.appendRow([key,DEFAULTS[key]]);});
 }
 function table_(name, headers, rows) {
@@ -47,7 +48,7 @@ function setupDraftSheet() {
     ['PAR','Season points minus positional replacement points derived from ranks in Settings: C49 LW37 RW37 D49 G25. Multi-position forwards use their highest PAR.'],
     ['Replacement assumptions','12 teams: 7 F, 3 D, 1 G starters; bench 3 F / 1 D / 1 G. IR excluded. Adjust ranks in Settings.'],
     ['PAN','P(gone) × (positional PAR − expected best alternative PAR). Uses actual intervening non-keeper picks; excludes the candidate; best eligible PAN for multi-position players.'],
-    ['Uncertainty','Conditional normal survival around ESPN ADP; adpSigma is a positive standard deviation in picks. Zero intervening picks means zero PAN. Missing ADP in an eligible pool leaves PAN blank.'],
+    ['Uncertainty','Conditional normal survival around blended ESPN ADP/default rank (espnRankWeight 0.5); adpSigma is a positive standard deviation in picks. Zero intervening picks means zero PAN. Missing ADP in an eligible pool leaves PAN blank.'],
     ['Keepers','Up to 2 per team; use draft slot 1–12 and cost round 1–16. Add all keepers before drafting.'],
     ['Shortcuts','Extensions > Macros > Manage macros. Draft = 1; Undo = 2. Check the shortcut displayed on your Mac.'],
     ['Provenance','The Athletic workbook: The List cached season totals. Source KEEP? flags and fantasy scores are not imported.'],
@@ -61,7 +62,7 @@ function inputs_() {
   const c=Object.fromEntries(rows_('Settings').map(r=>[r[0],Number(r[1])]));
   for(const k of Object.keys(DEFAULTS)) if(!Number.isFinite(c[k])) throw Error('Invalid setting '+k);
   for(const k of ['teams','draftSlot','rounds']) if(!Number.isInteger(c[k])||c[k]<1) throw Error('Invalid setting '+k);
-  if(c.draftSlot>c.teams||c.adpSigma<=0||c.parTop<=0||c.parTop>1||c.adpBottom<=0||c.adpBottom>1) throw Error('Settings out of range');
+  if(c.espnRankWeight<0||c.espnRankWeight>1||c.draftSlot>c.teams||c.adpSigma<=0||c.parTop<=0||c.parTop>1||c.adpBottom<=0||c.adpBottom>1) throw Error('Settings out of range');
   const stats=['GP','G','A','BLK','PIM','SHP','W','SO','GA','SV'], grouped=new Map();
   rows_('Projections').forEach(r=>{
     if(typeof r[2]!=='number'||r[2]<0) throw Error('Invalid projection weight');
@@ -78,7 +79,7 @@ function inputs_() {
       if(valid.length) blended[k]=valid.reduce((a,s)=>a+s[i+3]*s[2],0)/valid.reduce((a,s)=>a+s[2],0);
     });
     if(r[6]!==''&&(typeof r[6]!=='number'||r[6]<=0)) throw Error('Invalid ESPN ADP for '+r[1]);
-    return {id:r[0],name:r[1],team:r[2],group:r[3],pos:r[5]||r[4]||'—',provisional:!r[5],adp:r[6]===''?null:r[6],stats:blended};
+    return {id:r[0],name:r[1],team:r[2],group:r[3],pos:r[5]||r[4]||'—',provisional:!r[5],adp:r[6]===''?null:r[6],espnRank:typeof r[8]==='number'&&r[8]>0?r[8]:null,stats:blended};
   });
   const ids=new Set(players.map(p=>p.id)); if(ids.size!==players.length) throw Error('Duplicate player ID');
   const keepers=rows_('Keepers').map(r=>{
