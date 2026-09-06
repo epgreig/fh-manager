@@ -25,5 +25,6 @@ test('live board filters log availability and separates PAN from player lists',(
  assert.equal(formulas.filter(f=>f.startsWith('=IFNA(SORT(FILTER')).length,3);
  assert.ok(formulas.some(f=>f.startsWith('=FH_STATE(')));
  assert.ok(formulas.some(f=>f.startsWith('=FH_PAN(HSTACK(')));
- assert.ok(formulas.filter(f=>f.startsWith('=IFNA(SORT(FILTER')).every(f=>f.includes('!A2:F')));
+ assert.ok(formulas.filter(f=>f.startsWith('=IFNA(SORT(FILTER')).every(f=>f.includes('!A2:F')&&f.includes(',1,2,3,4,6,5)')&&f.includes('),6,FALSE,4,FALSE')));
+ assert.ok(writes.filter(w=>w.args[0]===3).every(w=>w.values[0][4]==='ADP'&&w.values[0][5]==='PAR'));
 });

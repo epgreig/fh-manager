@@ -37,17 +37,17 @@ function renderBoard_({c,players,state}) {
   s.getRange('A1:Z1').merge().setFormula('="Pick "&\'Board Data\'!L2&" · Next own pick "&IF(\'Board Data\'!M2="","none",\'Board Data\'!M2)');
   const rules=[],parRanges=[];
   ['F','D','G'].forEach((g,i)=>{
-    const col=1+i*9,nameCol=['A','J','S'][i],adpCol=['F','O','X'][i];
+    const col=1+i*9,nameCol=['A','J','S'][i],adpCol=['E','N','W'][i];
     s.getRange(2,col).setValue(['Forwards','Defensemen','Goalies'][i]);
-    s.getRange(3,col,1,8).setValues([['Player','POS','Tm','Points','PAR','ADP','PAN','ID']]);
-    s.getRange(4,col).setFormula('=IFNA(SORT(FILTER(\'Board Data\'!A2:F'+last+',\'Board Data\'!I2:I'+last+'="'+g+'",\'Board Data\'!J2:J'+last+'=TRUE),5,FALSE,4,FALSE),"")');
+    s.getRange(3,col,1,8).setValues([['Player','POS','Tm','Points','ADP','PAR','PAN','ID']]);
+    s.getRange(4,col).setFormula('=IFNA(SORT(FILTER(CHOOSECOLS(\'Board Data\'!A2:F'+last+',1,2,3,4,6,5),\'Board Data\'!I2:I'+last+'="'+g+'",\'Board Data\'!J2:J'+last+'=TRUE),6,FALSE,4,FALSE),"")');
     s.getRange(4,col+7).setFormula('=ARRAYFORMULA(IF('+nameCol+'4:'+nameCol+(n+3)+'="","",XLOOKUP('+nameCol+'4:'+nameCol+(n+3)+',\'Board Data\'!A2:A'+last+',\'Board Data\'!H2:H'+last+',"")))');
     s.getRange(4,col+6).setFormula('=ARRAYFORMULA(IF('+nameCol+'4:'+nameCol+(n+3)+'="","",XLOOKUP('+nameCol+'4:'+nameCol+(n+3)+',\'Board Data\'!A2:A'+last+',\'Board Data\'!G2:G'+last+',"")))');
     s.setColumnWidth(col,154);s.setColumnWidth(col+1,54);s.setColumnWidth(col+2,34);s.setColumnWidths(col+3,4,43);
     s.hideColumns(col+3);s.hideColumns(col+7);if(g!=='F')s.hideColumns(col+1);if(i<2)s.setColumnWidth(col+8,12);
     s.getRange(2,col,2,7).setFontWeight('bold');s.getRange(4,col+3,n,4).setNumberFormat('0');
-    parRanges.push(s.getRange(4,col+4,n,1));
-    rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied('=AND(ISNUMBER('+adpCol+'4),'+adpCol+'4<=IFERROR(PERCENTILE(FILTER(INDIRECT("\'Board Data\'!F2:F'+last+'"),INDIRECT("\'Board Data\'!J2:J'+last+'")=TRUE,ISNUMBER(INDIRECT("\'Board Data\'!F2:F'+last+'"))),'+c.adpBottom+'),0))').setBackground('#9fc5e8').setRanges([s.getRange(4,col+5,n,1)]).build());
+    parRanges.push(s.getRange(4,col+5,n,1));
+    rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied('=AND(ISNUMBER('+adpCol+'4),'+adpCol+'4<=IFERROR(PERCENTILE(FILTER(INDIRECT("\'Board Data\'!F2:F'+last+'"),INDIRECT("\'Board Data\'!J2:J'+last+'")=TRUE,ISNUMBER(INDIRECT("\'Board Data\'!F2:F'+last+'"))),'+c.adpBottom+'),0))').setBackground('#9fc5e8').setRanges([s.getRange(4,col+4,n,1)]).build());
     // Rules follow formula-spilled names, including after log deletion and undo.
     [['B','#eeeeee'],['A','#fce5cd']].forEach(([letter,color])=>rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied('=AND('+nameCol+'4<>"",COUNTIF(INDIRECT("Targets!'+letter+'2:'+letter+'"),'+nameCol+'4)>0)').setBackground(color).setRanges([s.getRange(4,col,n,1)]).build()));
   });
