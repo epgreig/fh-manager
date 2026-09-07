@@ -28,7 +28,7 @@ def extract(path):
                 raise ValueError(f'{name}: missing cached season total {stat}')
             stats[stat] = value
         result.append({'id':hashlib.sha256(name.encode()).hexdigest()[:16], 'name':name,
-                       'team':row[5], 'group':group, 'sourcePos':pos, 'stats':stats,
+                       'team':row[5], 'age':row[6], 'group':group, 'sourcePos':pos, 'stats':stats,
                        'source':'The Athletic', 'weight':1})
     if len({p['id'] for p in result}) != len(result):
         raise ValueError('Duplicate player names; supply an explicit identity mapping')

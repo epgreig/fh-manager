@@ -11,6 +11,7 @@
       "id": "a3b76f839b0a24e4",
       "name": "Nathan MacKinnon",
       "team": "COL",
+      "age": 30,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -28,6 +29,7 @@
       "id": "8ce28c4824631f84",
       "name": "Connor McDavid",
       "team": "EDM",
+      "age": 29,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -45,6 +47,7 @@
       "id": "51c115a0d2edf8b2",
       "name": "Nikita Kucherov",
       "team": "T.B",
+      "age": 33,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -62,6 +65,7 @@
       "id": "b5bbc0c965a9b026",
       "name": "Zach Werenski",
       "team": "CBJ",
+      "age": 29,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -79,6 +83,7 @@
       "id": "05f8f65c25bf2520",
       "name": "Cale Makar",
       "team": "COL",
+      "age": 27,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -96,6 +101,7 @@
       "id": "d1a24cfab6b68846",
       "name": "Quinn Hughes",
       "team": "MIN",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -113,6 +119,7 @@
       "id": "89312324eb19ab84",
       "name": "Macklin Celebrini",
       "team": "S.J",
+      "age": 20,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -130,6 +137,7 @@
       "id": "529f3ad72fe9b849",
       "name": "Evan Bouchard",
       "team": "EDM",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -147,6 +155,7 @@
       "id": "9ebf452f725f9956",
       "name": "David Pastrnak",
       "team": "BOS",
+      "age": 30,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -164,6 +173,7 @@
       "id": "2ece966df42ef206",
       "name": "Rasmus Dahlin",
       "team": "BUF",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -181,6 +191,7 @@
       "id": "086a729adc504919",
       "name": "Leon Draisaitl",
       "team": "EDM",
+      "age": 30,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -198,6 +209,7 @@
       "id": "cf9a5f1cd5dcd9f7",
       "name": "Jack Eichel",
       "team": "VGK",
+      "age": 29,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -215,6 +227,7 @@
       "id": "cd40749d85443ccf",
       "name": "Auston Matthews",
       "team": "TOR",
+      "age": 28,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -232,6 +245,7 @@
       "id": "5127a9e86845d30b",
       "name": "Matthew Schaefer",
       "team": "NYI",
+      "age": 18,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -249,6 +263,7 @@
       "id": "e263b7ec06da213c",
       "name": "Jack Hughes",
       "team": "N.J",
+      "age": 25,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -266,6 +281,7 @@
       "id": "579e564b5faaf33b",
       "name": "Matt Boldy",
       "team": "MIN",
+      "age": 25,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -283,6 +299,7 @@
       "id": "756fa807ace3395c",
       "name": "Jason Robertson",
       "team": "DAL",
+      "age": 27,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -300,6 +317,7 @@
       "id": "6574cdb0268ac628",
       "name": "Lane Hutson",
       "team": "MTL",
+      "age": 22,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -317,6 +335,7 @@
       "id": "0784f7348eea083d",
       "name": "Moritz Seider",
       "team": "DET",
+      "age": 25,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -334,6 +353,7 @@
       "id": "b92afd2b28ed911c",
       "name": "Kirill Kaprizov",
       "team": "MIN",
+      "age": 29,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -351,6 +371,7 @@
       "id": "82529a0fc6274e55",
       "name": "Nick Suzuki",
       "team": "MTL",
+      "age": 27,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -368,6 +389,7 @@
       "id": "0a3cafc5abd174d5",
       "name": "Adam Fox",
       "team": "NYR",
+      "age": 28,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -385,6 +407,7 @@
       "id": "20486a15974e2bf5",
       "name": "Connor Hellebuyck",
       "team": "WPG",
+      "age": 33,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -401,6 +424,7 @@
       "id": "e9059c3eddecbfac",
       "name": "Jake Sanderson",
       "team": "OTT",
+      "age": 24,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -418,6 +442,7 @@
       "id": "57c515b20d5704df",
       "name": "Andrei Vasilevskiy",
       "team": "T.B",
+      "age": 32,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -434,6 +459,7 @@
       "id": "95c4f096881d4779",
       "name": "Martin Necas",
       "team": "COL",
+      "age": 27,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -451,6 +477,7 @@
       "id": "5e29a88eae3d2611",
       "name": "Kyle Connor",
       "team": "WPG",
+      "age": 29,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -468,6 +495,7 @@
       "id": "fbeac5a5747ce0b2",
       "name": "Wyatt Johnston",
       "team": "DAL",
+      "age": 23,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -485,6 +513,7 @@
       "id": "6c1620f86e1f94e9",
       "name": "Roman Josi",
       "team": "NSH",
+      "age": 36,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -502,6 +531,7 @@
       "id": "c8335cca512f4872",
       "name": "Darren Raddysh",
       "team": "TOR",
+      "age": 30,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -519,6 +549,7 @@
       "id": "634543094627cacf",
       "name": "William Nylander",
       "team": "TOR",
+      "age": 30,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -536,6 +567,7 @@
       "id": "bbe3ef1a275c12d9",
       "name": "Jakob Chychrun",
       "team": "WSH",
+      "age": 28,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -553,6 +585,7 @@
       "id": "efffeaa0e7562d94",
       "name": "Jackson LaCombe",
       "team": "ANA",
+      "age": 25,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -570,6 +603,7 @@
       "id": "4970787290bddebc",
       "name": "Cutter Gauthier",
       "team": "ANA",
+      "age": 22,
       "group": "F",
       "sourcePos": "C,LW,RW",
       "stats": {
@@ -587,6 +621,7 @@
       "id": "92a3470fac984096",
       "name": "Josh Morrissey",
       "team": "WPG",
+      "age": 31,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -604,6 +639,7 @@
       "id": "4da117a84606d186",
       "name": "Mikko Rantanen",
       "team": "DAL",
+      "age": 29,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -621,6 +657,7 @@
       "id": "ed4865a9ffd73f35",
       "name": "Leo Carlsson",
       "team": "ANA",
+      "age": 21,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -638,6 +675,7 @@
       "id": "fcaa7c7c05f57746",
       "name": "Logan Thompson",
       "team": "WSH",
+      "age": 29,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -654,6 +692,7 @@
       "id": "b6c616c19f48cc35",
       "name": "Brandt Clarke",
       "team": "L.A",
+      "age": 23,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -671,6 +710,7 @@
       "id": "d8c1da37e5de49ea",
       "name": "Dylan Guenther",
       "team": "UTA",
+      "age": 23,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -688,6 +728,7 @@
       "id": "0c19bbfc70909a04",
       "name": "Clayton Keller",
       "team": "UTA",
+      "age": 28,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -705,6 +746,7 @@
       "id": "aa3725b85def2621",
       "name": "Shea Theodore",
       "team": "VGK",
+      "age": 31,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -722,6 +764,7 @@
       "id": "34a5260fbadc2506",
       "name": "Tage Thompson",
       "team": "BUF",
+      "age": 28,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -739,6 +782,7 @@
       "id": "54baa575352a0f8a",
       "name": "Jet Greaves",
       "team": "CBJ",
+      "age": 25,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -755,6 +799,7 @@
       "id": "9709cba8895b6c22",
       "name": "Aleksander Barkov",
       "team": "FLA",
+      "age": 30,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -772,6 +817,7 @@
       "id": "5f8990d6b53b8031",
       "name": "Ilya Sorokin",
       "team": "NYI",
+      "age": 31,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -788,6 +834,7 @@
       "id": "806e7cbb8f8f8937",
       "name": "Sidney Crosby",
       "team": "PIT",
+      "age": 39,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -805,6 +852,7 @@
       "id": "6af182608c9aade8",
       "name": "Alex DeBrincat",
       "team": "DET",
+      "age": 28,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -822,6 +870,7 @@
       "id": "3f1c791be7801422",
       "name": "Igor Shesterkin",
       "team": "NYR",
+      "age": 30,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -838,6 +887,7 @@
       "id": "43465605d7e110e0",
       "name": "Miro Heiskanen",
       "team": "DAL",
+      "age": 27,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -855,6 +905,7 @@
       "id": "d4a3f1ce78cde418",
       "name": "Cole Caufield",
       "team": "MTL",
+      "age": 25,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -872,6 +923,7 @@
       "id": "49ff16c80b93f47d",
       "name": "Noah Dobson",
       "team": "MTL",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -889,6 +941,7 @@
       "id": "d3935d21351f6f3e",
       "name": "Mark Scheifele",
       "team": "WPG",
+      "age": 33,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -906,6 +959,7 @@
       "id": "50d0593cf2f0135e",
       "name": "Artemi Panarin",
       "team": "L.A",
+      "age": 34,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -923,6 +977,7 @@
       "id": "b254cf60603ebb62",
       "name": "John Carlson",
       "team": "T.B",
+      "age": 36,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -940,6 +995,7 @@
       "id": "34f4ff50c7425c11",
       "name": "Matthew Tkachuk",
       "team": "FLA",
+      "age": 28,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -957,6 +1013,7 @@
       "id": "2a197a88f8b51fb6",
       "name": "Charlie McAvoy",
       "team": "BOS",
+      "age": 28,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -974,6 +1031,7 @@
       "id": "29bf83fae121a01d",
       "name": "Mikhail Sergachev",
       "team": "UTA",
+      "age": 28,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -991,6 +1049,7 @@
       "id": "3a78ad455f6452b5",
       "name": "Mitch Marner",
       "team": "VGK",
+      "age": 29,
       "group": "F",
       "sourcePos": "C,LW,RW",
       "stats": {
@@ -1008,6 +1067,7 @@
       "id": "4474eeeae0eed190",
       "name": "Erik Karlsson",
       "team": "PIT",
+      "age": 36,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -1025,6 +1085,7 @@
       "id": "985cdcb9eba9599c",
       "name": "Filip Forsberg",
       "team": "NSH",
+      "age": 32,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -1042,6 +1103,7 @@
       "id": "a013a9795eee4df7",
       "name": "Juuse Saros",
       "team": "NSH",
+      "age": 31,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -1058,6 +1120,7 @@
       "id": "3d50ea2fb3fd664e",
       "name": "Jake Guentzel",
       "team": "T.B",
+      "age": 31,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -1075,6 +1138,7 @@
       "id": "be7b6572ee4f1c72",
       "name": "Lucas Raymond",
       "team": "DET",
+      "age": 24,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -1092,6 +1156,7 @@
       "id": "fa0390d216813b7a",
       "name": "Jake Oettinger",
       "team": "DAL",
+      "age": 27,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -1108,6 +1173,7 @@
       "id": "6ebff144d4c1aed3",
       "name": "Brandon Hagel",
       "team": "T.B",
+      "age": 28,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -1125,6 +1191,7 @@
       "id": "3628b2535b06ab1a",
       "name": "Nico Hischier",
       "team": "N.J",
+      "age": 27,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -1142,6 +1209,7 @@
       "id": "e3a35cdb4c6d93ce",
       "name": "Sebastian Aho",
       "team": "CAR",
+      "age": 29,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -1159,6 +1227,7 @@
       "id": "d05bc276a1c8096b",
       "name": "Thomas Harley",
       "team": "DAL",
+      "age": 25,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -1176,6 +1245,7 @@
       "id": "e7b4c6af48268150",
       "name": "Mika Zibanejad",
       "team": "NYR",
+      "age": 33,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -1193,6 +1263,7 @@
       "id": "235b8d8ec329f1aa",
       "name": "Spencer Knight",
       "team": "CHI",
+      "age": 25,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -1209,6 +1280,7 @@
       "id": "0e21ef3daf91eebd",
       "name": "Sam Reinhart",
       "team": "FLA",
+      "age": 30,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -1226,6 +1298,7 @@
       "id": "f2593e314f7c97d0",
       "name": "Bowen Byram",
       "team": "CHI",
+      "age": 25,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -1243,6 +1316,7 @@
       "id": "777fb17c335bb34c",
       "name": "Dylan Larkin",
       "team": "DET",
+      "age": 30,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -1260,6 +1334,7 @@
       "id": "76b2e54ded6f74de",
       "name": "Bo Horvat",
       "team": "NYI",
+      "age": 31,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -1277,6 +1352,7 @@
       "id": "662c42e9896975c9",
       "name": "Dustin Wolf",
       "team": "CGY",
+      "age": 25,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -1293,6 +1369,7 @@
       "id": "27f2024ab1b5443d",
       "name": "Brock Faber",
       "team": "MIN",
+      "age": 24,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -1310,6 +1387,7 @@
       "id": "6d87630bb7066e98",
       "name": "Kirill Marchenko",
       "team": "CBJ",
+      "age": 26,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -1327,6 +1405,7 @@
       "id": "e3a0238abe68ca59",
       "name": "Jeremy Swayman",
       "team": "BOS",
+      "age": 27,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -1343,6 +1422,7 @@
       "id": "81232de25edf26e4",
       "name": "John Gibson",
       "team": "DET",
+      "age": 33,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -1359,6 +1439,7 @@
       "id": "8a32753002a5934c",
       "name": "Jesper Bratt",
       "team": "N.J",
+      "age": 28,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -1376,6 +1457,7 @@
       "id": "f3e125153adc3a04",
       "name": "Tim St\u00fctzle",
       "team": "OTT",
+      "age": 24,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -1393,6 +1475,7 @@
       "id": "a1d8dd2597b6225e",
       "name": "Logan Cooley",
       "team": "UTA",
+      "age": 22,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -1410,6 +1493,7 @@
       "id": "d1449125956b2a00",
       "name": "Adrian Kempe",
       "team": "L.A",
+      "age": 29,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -1427,6 +1511,7 @@
       "id": "ff3811e17373229f",
       "name": "Luke Hughes",
       "team": "N.J",
+      "age": 22,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -1444,6 +1529,7 @@
       "id": "dd4b7d5e0a05419f",
       "name": "Connor Bedard",
       "team": "CHI",
+      "age": 21,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -1461,6 +1547,7 @@
       "id": "19d57daa892369fc",
       "name": "Adam Fantilli",
       "team": "CBJ",
+      "age": 21,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -1478,6 +1565,7 @@
       "id": "cd8ba1af9aa35a46",
       "name": "Shayne Gostisbehere",
       "team": "CAR",
+      "age": 33,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -1495,6 +1583,7 @@
       "id": "54ba0e0dd0367116",
       "name": "Vince Dunn",
       "team": "SEA",
+      "age": 29,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -1512,6 +1601,7 @@
       "id": "84af944d37ebb7bf",
       "name": "Karel Vejmelka",
       "team": "UTA",
+      "age": 30,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -1528,6 +1618,7 @@
       "id": "1c586ff7ebf6a777",
       "name": "Filip Hronek",
       "team": "VAN",
+      "age": 28,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -1545,6 +1636,7 @@
       "id": "5635bbe39f02b2bf",
       "name": "Dougie Hamilton",
       "team": "N.J",
+      "age": 33,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -1562,6 +1654,7 @@
       "id": "2bfd0a391a163e00",
       "name": "Robert Thomas",
       "team": "STL",
+      "age": 27,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -1579,6 +1672,7 @@
       "id": "80dbf7e98c37d1a9",
       "name": "Nikolaj Ehlers",
       "team": "CAR",
+      "age": 30,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -1596,6 +1690,7 @@
       "id": "fe60892bb756d9a5",
       "name": "Will Smith",
       "team": "S.J",
+      "age": 21,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -1613,6 +1708,7 @@
       "id": "5aedb5995b704a53",
       "name": "Lukas Dostal",
       "team": "ANA",
+      "age": 26,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -1629,6 +1725,7 @@
       "id": "4b26f56127137ee5",
       "name": "Bryan Rust",
       "team": "PIT",
+      "age": 34,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -1646,6 +1743,7 @@
       "id": "d63bdb3c6b79b34c",
       "name": "MacKenzie Weegar",
       "team": "UTA",
+      "age": 32,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -1663,6 +1761,7 @@
       "id": "748132c608a793c3",
       "name": "Brayden Point",
       "team": "T.B",
+      "age": 30,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -1680,6 +1779,7 @@
       "id": "64b4d7d9f7f7270a",
       "name": "Brady Tkachuk",
       "team": "FLA",
+      "age": 26,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -1697,6 +1797,7 @@
       "id": "0d760f84d2b6c672",
       "name": "Roope Hintz",
       "team": "DAL",
+      "age": 29,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -1714,6 +1815,7 @@
       "id": "07ef7e211507e04a",
       "name": "Juraj Slafkovsky",
       "team": "MTL",
+      "age": 22,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -1731,6 +1833,7 @@
       "id": "6b369a687c57c151",
       "name": "Owen Power",
       "team": "BUF",
+      "age": 23,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -1748,6 +1851,7 @@
       "id": "cd34f1dcbbe94557",
       "name": "Seth Jones",
       "team": "FLA",
+      "age": 31,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -1765,6 +1869,7 @@
       "id": "094d10db49d03935",
       "name": "Thomas Chabot",
       "team": "OTT",
+      "age": 29,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -1782,6 +1887,7 @@
       "id": "57da9b7d26e8a2b7",
       "name": "Elias Pettersson",
       "team": "VAN",
+      "age": 27,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -1799,6 +1905,7 @@
       "id": "f809f3bfef0fc317",
       "name": "Jakub Dobes",
       "team": "MTL",
+      "age": 25,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -1815,6 +1922,7 @@
       "id": "6aeab37130c8d3b4",
       "name": "Scott Wedgewood",
       "team": "COL",
+      "age": 34,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -1831,6 +1939,7 @@
       "id": "0bd9a725abc9bb79",
       "name": "Anton Frondell",
       "team": "CHI",
+      "age": 19,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -1848,6 +1957,7 @@
       "id": "a52173d97908aadf",
       "name": "Beckett Sennecke",
       "team": "ANA",
+      "age": 20,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -1865,6 +1975,7 @@
       "id": "abe586b0de12a99f",
       "name": "Pavel Dorofeyev",
       "team": "NYR",
+      "age": 25,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -1882,6 +1993,7 @@
       "id": "e83fca5772e55d5e",
       "name": "Philip Broberg",
       "team": "STL",
+      "age": 25,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -1899,6 +2011,7 @@
       "id": "91228dff3c2654e3",
       "name": "Cole Hutson",
       "team": "WSH",
+      "age": 20,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -1916,6 +2029,7 @@
       "id": "35bfab2d0d925ba0",
       "name": "Dylan Holloway",
       "team": "STL",
+      "age": 24,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -1933,6 +2047,7 @@
       "id": "2ae79632d1e672b5",
       "name": "Brandon Montour",
       "team": "SEA",
+      "age": 32,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -1950,6 +2065,7 @@
       "id": "23abbfa436e4eb81",
       "name": "Sergei Bobrovsky",
       "team": "TOR",
+      "age": 37,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -1966,6 +2082,7 @@
       "id": "f9ffcd09520dd3c8",
       "name": "Nick Schmaltz",
       "team": "UTA",
+      "age": 30,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -1983,6 +2100,7 @@
       "id": "ce43450f05a627d1",
       "name": "Rasmus Andersson",
       "team": "VGK",
+      "age": 29,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -2000,6 +2118,7 @@
       "id": "ccebc051bf21e3b6",
       "name": "Joel Eriksson Ek",
       "team": "MIN",
+      "age": 29,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -2017,6 +2136,7 @@
       "id": "9d33e51637d0ca7f",
       "name": "Alexis Lafreni\u00e8re",
       "team": "NYR",
+      "age": 24,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -2034,6 +2154,7 @@
       "id": "cda71bbcdabbb744",
       "name": "Dmitry Orlov",
       "team": "S.J",
+      "age": 35,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -2051,6 +2172,7 @@
       "id": "8ab550b17ccc4980",
       "name": "Dylan Strome",
       "team": "WSH",
+      "age": 29,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -2068,6 +2190,7 @@
       "id": "efc230ac9ecd87c8",
       "name": "Alex Tuch",
       "team": "WSH",
+      "age": 30,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -2085,6 +2208,7 @@
       "id": "1569fb54a00a191f",
       "name": "Mathew Barzal",
       "team": "NYI",
+      "age": 29,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -2102,6 +2226,7 @@
       "id": "edec00a9772caab1",
       "name": "Ryan O'Reilly",
       "team": "NSH",
+      "age": 35,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -2119,6 +2244,7 @@
       "id": "859f6e4da190b5e8",
       "name": "Noah Hanifin",
       "team": "VGK",
+      "age": 29,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -2136,6 +2262,7 @@
       "id": "163f5bd519d62285",
       "name": "Simon Nemec",
       "team": "CGY",
+      "age": 22,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -2153,6 +2280,7 @@
       "id": "7cbff0f1ee4f37ec",
       "name": "Ivan Demidov",
       "team": "MTL",
+      "age": 20,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -2170,6 +2298,7 @@
       "id": "b3150a4e680fb961",
       "name": "J.T. Miller",
       "team": "NYR",
+      "age": 33,
       "group": "F",
       "sourcePos": "C,LW,RW",
       "stats": {
@@ -2187,6 +2316,7 @@
       "id": "3ab3df778abf7961",
       "name": "Darnell Nurse",
       "team": "S.J",
+      "age": 31,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -2204,6 +2334,7 @@
       "id": "200c840947ae1d3d",
       "name": "Mark Stone",
       "team": "VGK",
+      "age": 34,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -2221,6 +2352,7 @@
       "id": "5801d1e06fd4338d",
       "name": "Andrei Svechnikov",
       "team": "CAR",
+      "age": 26,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -2238,6 +2370,7 @@
       "id": "57e8a748bbefd4ef",
       "name": "Quinton Byfield",
       "team": "L.A",
+      "age": 24,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -2255,6 +2388,7 @@
       "id": "8aa73d1c5bc02f90",
       "name": "Jesper Wallstedt",
       "team": "MIN",
+      "age": 23,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -2271,6 +2405,7 @@
       "id": "d54693c38eb08f79",
       "name": "Linus Ullmark",
       "team": "OTT",
+      "age": 33,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -2287,6 +2422,7 @@
       "id": "0d4ea82327512dcb",
       "name": "Travis Konecny",
       "team": "PHI",
+      "age": 29,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -2304,6 +2440,7 @@
       "id": "d0d05f243af5d585",
       "name": "Steven Stamkos",
       "team": "NSH",
+      "age": 36,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -2321,6 +2458,7 @@
       "id": "7c7888a090f6b13b",
       "name": "Rickard Rakell",
       "team": "PIT",
+      "age": 33,
       "group": "F",
       "sourcePos": "C,LW,RW",
       "stats": {
@@ -2338,6 +2476,7 @@
       "id": "ee6ae6d8d99243c7",
       "name": "Zeev Buium",
       "team": "VAN",
+      "age": 20,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -2355,6 +2494,7 @@
       "id": "cac60685b1808329",
       "name": "John Tavares",
       "team": "TOR",
+      "age": 35,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -2372,6 +2512,7 @@
       "id": "5ede581afc47b205",
       "name": "Justin Faulk",
       "team": "DET",
+      "age": 34,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -2389,6 +2530,7 @@
       "id": "1ca1520c40f5e569",
       "name": "Zach Hyman",
       "team": "EDM",
+      "age": 34,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -2406,6 +2548,7 @@
       "id": "cc2c605f985273a3",
       "name": "Victor Hedman",
       "team": "T.B",
+      "age": 35,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -2423,6 +2566,7 @@
       "id": "3a133daf84e003cb",
       "name": "Pavel Mintyukov",
       "team": "ANA",
+      "age": 22,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -2440,6 +2584,7 @@
       "id": "051fe835d3a26924",
       "name": "Jacob Markstrom",
       "team": "FLA",
+      "age": 36,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -2456,6 +2601,7 @@
       "id": "dfa560de2b2b9798",
       "name": "Jimmy Snuggerud",
       "team": "STL",
+      "age": 22,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -2473,6 +2619,7 @@
       "id": "1619fa443a66816e",
       "name": "Jordan Kyrou",
       "team": "WSH",
+      "age": 28,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -2490,6 +2637,7 @@
       "id": "7a8290cd8d4ab2b9",
       "name": "Timo Meier",
       "team": "N.J",
+      "age": 29,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -2507,6 +2655,7 @@
       "id": "4ff7425c60485fe7",
       "name": "Morgan Geekie",
       "team": "BOS",
+      "age": 28,
       "group": "F",
       "sourcePos": "C,LW,RW",
       "stats": {
@@ -2524,6 +2673,7 @@
       "id": "7186f0aee3c64e73",
       "name": "Evgeni Malkin",
       "team": "PIT",
+      "age": 40,
       "group": "F",
       "sourcePos": "C,LW,RW",
       "stats": {
@@ -2541,6 +2691,7 @@
       "id": "2c8ea7a1d8610c75",
       "name": "Matthew Knies",
       "team": "TOR",
+      "age": 23,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -2558,6 +2709,7 @@
       "id": "49655a738035659b",
       "name": "Joel Hofer",
       "team": "STL",
+      "age": 26,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -2574,6 +2726,7 @@
       "id": "e55f790bc0b5a701",
       "name": "Drake Batherson",
       "team": "OTT",
+      "age": 28,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -2591,6 +2744,7 @@
       "id": "a231db0ef43605b4",
       "name": "Tomas Hertl",
       "team": "VGK",
+      "age": 32,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -2608,6 +2762,7 @@
       "id": "c469bffac016ac65",
       "name": "Zach Benson",
       "team": "BUF",
+      "age": 21,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -2625,6 +2780,7 @@
       "id": "13b4d24f1fe9d6fc",
       "name": "Mattias Ekholm",
       "team": "EDM",
+      "age": 36,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -2642,6 +2798,7 @@
       "id": "5db524ddd1fb2e01",
       "name": "Brock Nelson",
       "team": "COL",
+      "age": 34,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -2659,6 +2816,7 @@
       "id": "0890c3024891efe2",
       "name": "Jamie Drysdale",
       "team": "PHI",
+      "age": 24,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -2676,6 +2834,7 @@
       "id": "86d4635098fa6e48",
       "name": "Michael Misa",
       "team": "S.J",
+      "age": 19,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -2693,6 +2852,7 @@
       "id": "b40a4b24dd60a294",
       "name": "Travis Sanheim",
       "team": "PHI",
+      "age": 30,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -2710,6 +2870,7 @@
       "id": "216c7fcb40cc5ba2",
       "name": "Simon Edvinsson",
       "team": "DET",
+      "age": 23,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -2727,6 +2888,7 @@
       "id": "1e0ea8afe19f475b",
       "name": "Alex Nikishin",
       "team": "CAR",
+      "age": 24,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -2744,6 +2906,7 @@
       "id": "96bfe59eb09d427c",
       "name": "Ivan Provorov",
       "team": "CBJ",
+      "age": 29,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -2761,6 +2924,7 @@
       "id": "727acfb15a4615ca",
       "name": "Dylan Cozens",
       "team": "OTT",
+      "age": 25,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -2778,6 +2942,7 @@
       "id": "b61ee0106162ef0f",
       "name": "Tom Wilson",
       "team": "WSH",
+      "age": 32,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -2795,6 +2960,7 @@
       "id": "96a7c69cf717b537",
       "name": "Porter Martone",
       "team": "PHI",
+      "age": 19,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -2812,6 +2978,7 @@
       "id": "75894d4500ec49b4",
       "name": "William Eklund",
       "team": "OTT",
+      "age": 23,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -2829,6 +2996,7 @@
       "id": "4fdfb85b5d356522",
       "name": "K'Andre Miller",
       "team": "CAR",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -2846,6 +3014,7 @@
       "id": "2422c66a2f34a880",
       "name": "Anton Forsberg",
       "team": "L.A",
+      "age": 33,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -2862,6 +3031,7 @@
       "id": "859221147e6eaec4",
       "name": "JJ Peterka",
       "team": "BOS",
+      "age": 24,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -2879,6 +3049,7 @@
       "id": "491ed20cf78afb00",
       "name": "Gavin McKenna",
       "team": "TOR",
+      "age": 18,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -2896,6 +3067,7 @@
       "id": "25c8835c9bd1a473",
       "name": "Nazem Kadri",
       "team": "COL",
+      "age": 35,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -2913,6 +3085,7 @@
       "id": "cad77cc022527b69",
       "name": "Jacob Trouba",
       "team": "S.J",
+      "age": 32,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -2930,6 +3103,7 @@
       "id": "d7bc1af911a2d21b",
       "name": "Gustav Forsling",
       "team": "FLA",
+      "age": 30,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -2947,6 +3121,7 @@
       "id": "fb8b6cfc9ebcea9b",
       "name": "Gabriel Vilardi",
       "team": "WPG",
+      "age": 27,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -2964,6 +3139,7 @@
       "id": "f4de94d842fb76f9",
       "name": "Morgan Rielly",
       "team": "TOR",
+      "age": 32,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -2981,6 +3157,7 @@
       "id": "46ace44a16a4022c",
       "name": "Cam York",
       "team": "PHI",
+      "age": 25,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -2998,6 +3175,7 @@
       "id": "58396e4f684f20f8",
       "name": "Brady Skjei",
       "team": "NSH",
+      "age": 32,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3015,6 +3193,7 @@
       "id": "ce0eb8d1aa13af9f",
       "name": "Jake Allen",
       "team": "N.J",
+      "age": 36,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -3031,6 +3210,7 @@
       "id": "751987eba65fc1e1",
       "name": "Ryan Hartman",
       "team": "MIN",
+      "age": 31,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -3048,6 +3228,7 @@
       "id": "90b359d5132803cf",
       "name": "Devon Toews",
       "team": "COL",
+      "age": 32,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3065,6 +3246,7 @@
       "id": "fe5a3ebe6d62a8a7",
       "name": "Joey Daccord",
       "team": "SEA",
+      "age": 30,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -3081,6 +3263,7 @@
       "id": "63ade0e65453e37c",
       "name": "Mattias Samuelsson",
       "team": "BUF",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3098,6 +3281,7 @@
       "id": "80434e874c281428",
       "name": "Marco Rossi",
       "team": "VAN",
+      "age": 24,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -3115,6 +3299,7 @@
       "id": "01f2792de09660ed",
       "name": "Kris Letang",
       "team": "PIT",
+      "age": 39,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3132,6 +3317,7 @@
       "id": "1376f8fe4ec82956",
       "name": "Kevin Fiala",
       "team": "L.A",
+      "age": 30,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -3149,6 +3335,7 @@
       "id": "3aed7715d2c87c6f",
       "name": "Brock Boeser",
       "team": "VAN",
+      "age": 29,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -3166,6 +3353,7 @@
       "id": "727e6ee594945ff7",
       "name": "Mike Matheson",
       "team": "MTL",
+      "age": 32,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3183,6 +3371,7 @@
       "id": "f97f97310caaf2c8",
       "name": "Dan Vladar",
       "team": "PHI",
+      "age": 29,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -3199,6 +3388,7 @@
       "id": "3577bbd123125d16",
       "name": "Seth Jarvis",
       "team": "CAR",
+      "age": 24,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -3216,6 +3406,7 @@
       "id": "99da7ee1c9d79c10",
       "name": "Matty Beniers",
       "team": "SEA",
+      "age": 23,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -3233,6 +3424,7 @@
       "id": "9f7cf1d70deb7f11",
       "name": "Jared McCann",
       "team": "SEA",
+      "age": 30,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -3250,6 +3442,7 @@
       "id": "022cc3bb9c7af283",
       "name": "Jake DeBrusk",
       "team": "VAN",
+      "age": 29,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -3267,6 +3460,7 @@
       "id": "c69992a9b2fd78f7",
       "name": "Colton Parayko",
       "team": "STL",
+      "age": 33,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3284,6 +3478,7 @@
       "id": "1c8f06513333c74b",
       "name": "Jake Walman",
       "team": "EDM",
+      "age": 30,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3301,6 +3496,7 @@
       "id": "5cba287fc7c031f6",
       "name": "Denton Mateychuk",
       "team": "CBJ",
+      "age": 22,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3318,6 +3514,7 @@
       "id": "70c71d0a76f25dd1",
       "name": "Artyom Levshunov",
       "team": "CHI",
+      "age": 20,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3335,6 +3532,7 @@
       "id": "ffd6dac2eef595d8",
       "name": "Thatcher Demko",
       "team": "VAN",
+      "age": 30,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -3351,6 +3549,7 @@
       "id": "4a85d19a03fd8737",
       "name": "Luke Evangelista",
       "team": "NSH",
+      "age": 24,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -3368,6 +3567,7 @@
       "id": "c2fc762c66a54df9",
       "name": "Sean Walker",
       "team": "CAR",
+      "age": 31,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3385,6 +3585,7 @@
       "id": "48a7d2a71e6db5b2",
       "name": "Trevor Zegras",
       "team": "PHI",
+      "age": 25,
       "group": "F",
       "sourcePos": "C,LW,RW",
       "stats": {
@@ -3402,6 +3603,7 @@
       "id": "6a51b9ee251ffd27",
       "name": "Esa Lindell",
       "team": "DAL",
+      "age": 32,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3419,6 +3621,7 @@
       "id": "bdbe337a756cc352",
       "name": "Jackson Blake",
       "team": "CAR",
+      "age": 23,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -3436,6 +3639,7 @@
       "id": "5384ae3ade7b196f",
       "name": "Patrick Kane",
       "team": "CHI",
+      "age": 26,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -3453,6 +3657,7 @@
       "id": "de7b4429ddbf2042",
       "name": "Mason McTavish",
       "team": "STL",
+      "age": 23,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -3470,6 +3675,7 @@
       "id": "f7dfe57260c4366d",
       "name": "Brad Marchand",
       "team": "FLA",
+      "age": 38,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -3487,6 +3693,7 @@
       "id": "84a752ea1c5dc79f",
       "name": "Matvei Michkov",
       "team": "PHI",
+      "age": 21,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -3504,6 +3711,7 @@
       "id": "df02552ff0c2bce5",
       "name": "Luca Cagnoni",
       "team": "S.J",
+      "age": 21,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3521,6 +3729,7 @@
       "id": "65d80a02fa69c06b",
       "name": "Matt Coronato",
       "team": "CGY",
+      "age": 23,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -3538,6 +3747,7 @@
       "id": "ef9308636a737d45",
       "name": "Jaccob Slavin",
       "team": "CAR",
+      "age": 32,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3555,6 +3765,7 @@
       "id": "515f8222faedebec",
       "name": "Ukko-Pekka Luukkonen",
       "team": "BUF",
+      "age": 27,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -3571,6 +3782,7 @@
       "id": "25d5242d17308e70",
       "name": "Ryan Nugent-Hopkins",
       "team": "EDM",
+      "age": 33,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -3588,6 +3800,7 @@
       "id": "f1bef538fefa2f24",
       "name": "Carter Hart",
       "team": "VGK",
+      "age": 28,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -3604,6 +3817,7 @@
       "id": "3d0ac4c687496135",
       "name": "Sam Dickinson",
       "team": "S.J",
+      "age": 20,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3621,6 +3835,7 @@
       "id": "033463c1f709ff3e",
       "name": "Vladislav Gavrikov",
       "team": "NYR",
+      "age": 30,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3638,6 +3853,7 @@
       "id": "146f235bff1e870a",
       "name": "Sam Bennett",
       "team": "FLA",
+      "age": 30,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -3655,6 +3871,7 @@
       "id": "4b9a17509fba5ad4",
       "name": "Sean Durzi",
       "team": "NYR",
+      "age": 27,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3672,6 +3889,7 @@
       "id": "6c4305c58786a9f0",
       "name": "Owen Tippett",
       "team": "PHI",
+      "age": 27,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -3689,6 +3907,7 @@
       "id": "b6f4b683a8a17c18",
       "name": "Sam Malinski",
       "team": "COL",
+      "age": 28,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3706,6 +3925,7 @@
       "id": "becd628015532f84",
       "name": "Neal Pionk",
       "team": "WPG",
+      "age": 31,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3723,6 +3943,7 @@
       "id": "f6671acbce74517a",
       "name": "Matvei Gridin",
       "team": "CGY",
+      "age": 20,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -3740,6 +3961,7 @@
       "id": "ab65f9f87636552c",
       "name": "Jake McCabe",
       "team": "TOR",
+      "age": 32,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3757,6 +3979,7 @@
       "id": "ab89461930e99b58",
       "name": "Olen Zellweger",
       "team": "BUF",
+      "age": 22,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3774,6 +3997,7 @@
       "id": "e7ec437408ae9e03",
       "name": "Dylan Samberg",
       "team": "WPG",
+      "age": 27,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3791,6 +4015,7 @@
       "id": "a12d27d84cc36f44",
       "name": "Martin Fehervary",
       "team": "WSH",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3808,6 +4033,7 @@
       "id": "14fa4645f292d579",
       "name": "Aaron Ekblad",
       "team": "FLA",
+      "age": 30,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3825,6 +4051,7 @@
       "id": "de68b965df0aba02",
       "name": "Logan Stankoven",
       "team": "CAR",
+      "age": 23,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -3842,6 +4069,7 @@
       "id": "5f62743a91ebf99c",
       "name": "Tyler Bertuzzi",
       "team": "CHI",
+      "age": 31,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -3859,6 +4087,7 @@
       "id": "7bf685805ba0bf47",
       "name": "Brent Burns",
       "team": "COL",
+      "age": 41,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3876,6 +4105,7 @@
       "id": "686fcf5f35752104",
       "name": "Alex Ovechkin",
       "team": "WSH",
+      "age": 40,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -3893,6 +4123,7 @@
       "id": "d92d339738b56235",
       "name": "Matt Roy",
       "team": "WSH",
+      "age": 31,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3910,6 +4141,7 @@
       "id": "d8446a0be88acf06",
       "name": "Jordan Spence",
       "team": "OTT",
+      "age": 25,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3927,6 +4159,7 @@
       "id": "e6f36f759027f021",
       "name": "Josh Manson",
       "team": "COL",
+      "age": 34,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3944,6 +4177,7 @@
       "id": "91a9b975f144360d",
       "name": "Anton Lundell",
       "team": "FLA",
+      "age": 24,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -3961,6 +4195,7 @@
       "id": "b79f1fa35f7bc326",
       "name": "Damon Severson",
       "team": "CBJ",
+      "age": 32,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -3978,6 +4213,7 @@
       "id": "ea96e14cd9e2dc5a",
       "name": "Cole Perfetti",
       "team": "WPG",
+      "age": 24,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -3995,6 +4231,7 @@
       "id": "dbaaacdacde22395",
       "name": "Valeri Nichushkin",
       "team": "CBJ",
+      "age": 31,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -4012,6 +4249,7 @@
       "id": "20b755c80edd9e9e",
       "name": "Anthony Cirelli",
       "team": "T.B",
+      "age": 29,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -4029,6 +4267,7 @@
       "id": "0264cb9a67fb5263",
       "name": "Brayden McNabb",
       "team": "VGK",
+      "age": 35,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4046,6 +4285,7 @@
       "id": "671f78be3cf99e81",
       "name": "Pavel Zacha",
       "team": "BOS",
+      "age": 29,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -4063,6 +4303,7 @@
       "id": "555e4a84ce22b45d",
       "name": "Alex Vlasic",
       "team": "CHI",
+      "age": 25,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4080,6 +4321,7 @@
       "id": "cb11d17d706eb5ff",
       "name": "Janis Moser",
       "team": "T.B",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4097,6 +4339,7 @@
       "id": "5f9337d3a2fa94cf",
       "name": "Aliaksei Protas",
       "team": "WSH",
+      "age": 25,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -4114,6 +4357,7 @@
       "id": "2299a3046e0a6e79",
       "name": "Josh Doan",
       "team": "BUF",
+      "age": 24,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -4131,6 +4375,7 @@
       "id": "af7306968ec50148",
       "name": "Shane Pinto",
       "team": "OTT",
+      "age": 25,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -4148,6 +4393,7 @@
       "id": "4a23568d649950e6",
       "name": "Mikael Granlund",
       "team": "ANA",
+      "age": 34,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -4165,6 +4411,7 @@
       "id": "1bb4d5f206ea62a3",
       "name": "Adam Larsson",
       "team": "SEA",
+      "age": 33,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4182,6 +4429,7 @@
       "id": "e2fb27268f8dd424",
       "name": "Hampus Lindholm",
       "team": "BOS",
+      "age": 32,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4199,6 +4447,7 @@
       "id": "fede8ed2354d70b7",
       "name": "Cam Fowler",
       "team": "STL",
+      "age": 34,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4216,6 +4465,7 @@
       "id": "28bd78a0cd6e7b75",
       "name": "Tom Willander",
       "team": "VAN",
+      "age": 21,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4233,6 +4483,7 @@
       "id": "4b6c2ec033d125ef",
       "name": "Viktor Arvidsson",
       "team": "DET",
+      "age": 33,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -4250,6 +4501,7 @@
       "id": "8a9bbb8513e4edea",
       "name": "Oliver Ekman-Larsson",
       "team": "TOR",
+      "age": 35,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4267,6 +4519,7 @@
       "id": "5cb0b4a232c611a4",
       "name": "Ryan Pulock",
       "team": "NYI",
+      "age": 31,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4284,6 +4537,7 @@
       "id": "ee05da322ca91dbb",
       "name": "Drew Doughty",
       "team": "L.A",
+      "age": 36,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4301,6 +4555,7 @@
       "id": "999009ed037e1b19",
       "name": "Ryan McDonagh",
       "team": "T.B",
+      "age": 37,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4318,6 +4573,7 @@
       "id": "864b81e776cab8d9",
       "name": "Jonas Brodin",
       "team": "MIN",
+      "age": 33,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4335,6 +4591,7 @@
       "id": "fb6e53260dcb5c39",
       "name": "Carter Verhaeghe",
       "team": "FLA",
+      "age": 31,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -4352,6 +4609,7 @@
       "id": "5b5c2c8af82cabf6",
       "name": "Marcus Pettersson",
       "team": "NYR",
+      "age": 30,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4369,6 +4627,7 @@
       "id": "6599c7b949b52bf9",
       "name": "Yaroslav Askarov",
       "team": "S.J",
+      "age": 24,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -4385,6 +4644,7 @@
       "id": "eb46c3005a046072",
       "name": "Vincent Trocheck",
       "team": "UTA",
+      "age": 33,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -4402,6 +4662,7 @@
       "id": "1b8df7e821f52fd8",
       "name": "Rasmus Sandin",
       "team": "WSH",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4419,6 +4680,7 @@
       "id": "5add42d52ab10010",
       "name": "Ryan Leonard",
       "team": "WSH",
+      "age": 21,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -4436,6 +4698,7 @@
       "id": "c0d896de4c264225",
       "name": "Alex Romanov",
       "team": "NYI",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4453,6 +4716,7 @@
       "id": "1735e29eb74aedad",
       "name": "Arturs Silovs",
       "team": "PIT",
+      "age": 25,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -4469,6 +4733,7 @@
       "id": "4a1ffd5022eacd56",
       "name": "Braden Schneider",
       "team": "NYR",
+      "age": 24,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4486,6 +4751,7 @@
       "id": "052599719be5877c",
       "name": "Frank Nazar",
       "team": "CHI",
+      "age": 22,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -4503,6 +4769,7 @@
       "id": "b6a424dfd6a4d1cf",
       "name": "Artem Zub",
       "team": "OTT",
+      "age": 29,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4520,6 +4787,7 @@
       "id": "7caed73ccb4ffe8d",
       "name": "Alex Carrier",
       "team": "MTL",
+      "age": 29,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4537,6 +4805,7 @@
       "id": "d409c4d8e121dc7c",
       "name": "Tony DeAngelo",
       "team": "NYI",
+      "age": 30,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4554,6 +4823,7 @@
       "id": "d34bb3a67a485f8c",
       "name": "Pyotr Kochetkov",
       "team": "CAR",
+      "age": 27,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -4570,6 +4840,7 @@
       "id": "300b439c00e89800",
       "name": "Sam Rinzel",
       "team": "CHI",
+      "age": 22,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4587,6 +4858,7 @@
       "id": "e553c98de98503de",
       "name": "Jordan Eberle",
       "team": "SEA",
+      "age": 36,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -4604,6 +4876,7 @@
       "id": "7909175a68519072",
       "name": "Mikey Anderson",
       "team": "L.A",
+      "age": 27,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4621,6 +4894,7 @@
       "id": "e30266ccd96af024",
       "name": "Charle-Edouard D'Astous",
       "team": "T.B",
+      "age": 28,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4638,6 +4912,7 @@
       "id": "2fa1447549e45e4a",
       "name": "Jack Quinn",
       "team": "BUF",
+      "age": 24,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -4655,6 +4930,7 @@
       "id": "5f8f6958cc6d71f5",
       "name": "Michael Kesselring",
       "team": "S.J",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4672,6 +4948,7 @@
       "id": "c7d8db4dd14e9a87",
       "name": "Will Cuylle",
       "team": "NYR",
+      "age": 24,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -4689,6 +4966,7 @@
       "id": "41bb7cb63a409cdd",
       "name": "Mason Lohrei",
       "team": "BOS",
+      "age": 25,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4706,6 +4984,7 @@
       "id": "4689db66a9ba046c",
       "name": "Pavel Buchnevich",
       "team": "STL",
+      "age": 31,
       "group": "F",
       "sourcePos": "C,LW,RW",
       "stats": {
@@ -4723,6 +5002,7 @@
       "id": "cd690c03e0c68dd1",
       "name": "Jacob Middleton",
       "team": "CGY",
+      "age": 30,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4740,6 +5020,7 @@
       "id": "704fc0269769854f",
       "name": "Kevin Bahl",
       "team": "CGY",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4757,6 +5038,7 @@
       "id": "4ab245e760f3be56",
       "name": "Adam Pelech",
       "team": "NYI",
+      "age": 32,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4774,6 +5056,7 @@
       "id": "73971507aae086b1",
       "name": "Kyle Palmieri",
       "team": "NYI",
+      "age": 35,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -4791,6 +5074,7 @@
       "id": "964ef47d43bceb20",
       "name": "Chandler Stephenson",
       "team": "SEA",
+      "age": 32,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -4808,6 +5092,7 @@
       "id": "5882da7f8d55ef3f",
       "name": "Jamie Oleksiak",
       "team": "VAN",
+      "age": 33,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4825,6 +5110,7 @@
       "id": "5f82dd68cacd1558",
       "name": "Alex Laferriere",
       "team": "L.A",
+      "age": 24,
       "group": "F",
       "sourcePos": "C,LW,RW",
       "stats": {
@@ -4842,6 +5128,7 @@
       "id": "db04ac5f292f14cb",
       "name": "Nikita Zadorov",
       "team": "BOS",
+      "age": 31,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4859,6 +5146,7 @@
       "id": "765cab181eb68ec2",
       "name": "MacKenzie Blackwood",
       "team": "COL",
+      "age": 29,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -4875,6 +5163,7 @@
       "id": "edd723b83ffda2ab",
       "name": "Mats Zuccarello",
       "team": "L.A",
+      "age": 38,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -4892,6 +5181,7 @@
       "id": "d4492bf6fe2b3945",
       "name": "Morgan Frost",
       "team": "CGY",
+      "age": 27,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -4909,6 +5199,7 @@
       "id": "8d490aef84a776b3",
       "name": "William Borgen",
       "team": "BOS",
+      "age": 29,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4926,6 +5217,7 @@
       "id": "6f56807adc75dd86",
       "name": "Ivar Stenberg",
       "team": "S.J",
+      "age": 18,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -4943,6 +5235,7 @@
       "id": "ba20beffefbe4180",
       "name": "Alex Wennberg",
       "team": "S.J",
+      "age": 31,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -4960,6 +5253,7 @@
       "id": "58f00eb572c2fc00",
       "name": "Ben Kindel",
       "team": "PIT",
+      "age": 19,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -4977,6 +5271,7 @@
       "id": "ec935ff5203e48e6",
       "name": "Zayne Parekh",
       "team": "CGY",
+      "age": 20,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -4994,6 +5289,7 @@
       "id": "689643276dec0d14",
       "name": "John Marino",
       "team": "UTA",
+      "age": 29,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5011,6 +5307,7 @@
       "id": "d683a3c2e427de86",
       "name": "Brett Pesce",
       "team": "N.J",
+      "age": 31,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5028,6 +5325,7 @@
       "id": "c141ac6e6c487810",
       "name": "Filip Gustavsson",
       "team": "MIN",
+      "age": 28,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -5044,6 +5342,7 @@
       "id": "c37b3cbaca8232c7",
       "name": "Elias Lindholm",
       "team": "BOS",
+      "age": 31,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -5061,6 +5360,7 @@
       "id": "daf612e40496120c",
       "name": "James Hagens",
       "team": "BOS",
+      "age": 19,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -5078,6 +5378,7 @@
       "id": "a98cb0ee0f94d204",
       "name": "Kaiden Guhle",
       "team": "MTL",
+      "age": 24,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5095,6 +5396,7 @@
       "id": "6f817a669beb4a12",
       "name": "Brandon Bussi",
       "team": "CAR",
+      "age": 28,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -5111,6 +5413,7 @@
       "id": "d92fa1bbb4130d5f",
       "name": "Tyler Kleven",
       "team": "OTT",
+      "age": 24,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5128,6 +5431,7 @@
       "id": "04307ee616c7f0ac",
       "name": "Jonathan Huberdeau",
       "team": "CGY",
+      "age": 33,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -5145,6 +5449,7 @@
       "id": "5bf4898494d95528",
       "name": "Darcy Kuemper",
       "team": "L.A",
+      "age": 36,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -5161,6 +5466,7 @@
       "id": "b518628d1195c73f",
       "name": "Jared Spurgeon",
       "team": "MIN",
+      "age": 36,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5178,6 +5484,7 @@
       "id": "bbfa1cac902b188a",
       "name": "Nick Perbix",
       "team": "NSH",
+      "age": 28,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5195,6 +5502,7 @@
       "id": "434c8836b53fc605",
       "name": "Drew Helleson",
       "team": "ANA",
+      "age": 25,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5212,6 +5520,7 @@
       "id": "56f56c3878406c8a",
       "name": "Bobby McMann",
       "team": "SEA",
+      "age": 30,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -5229,6 +5538,7 @@
       "id": "666ebc57654f6837",
       "name": "Nick Seeler",
       "team": "PHI",
+      "age": 33,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5246,6 +5556,7 @@
       "id": "7649767120f74e5b",
       "name": "Zach Whitecloud",
       "team": "CGY",
+      "age": 29,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5263,6 +5574,7 @@
       "id": "bd75b603956e73fe",
       "name": "Chris Kreider",
       "team": "ANA",
+      "age": 35,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -5280,6 +5592,7 @@
       "id": "71d3db6e2a8196ff",
       "name": "Dante Fabbro",
       "team": "CBJ",
+      "age": 28,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5297,6 +5610,7 @@
       "id": "222032c488b76478",
       "name": "Ryan McLeod",
       "team": "BUF",
+      "age": 26,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -5314,6 +5628,7 @@
       "id": "dc0bed5e85a1af55",
       "name": "Connor McMichael",
       "team": "STL",
+      "age": 25,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -5331,6 +5646,7 @@
       "id": "0331958f49aa8a5c",
       "name": "Charlie Coyle",
       "team": "CBJ",
+      "age": 34,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -5348,6 +5664,7 @@
       "id": "e5f39bc7f1be254d",
       "name": "Tyson Foerster",
       "team": "PHI",
+      "age": 24,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -5365,6 +5682,7 @@
       "id": "b83c69d638d5ac4d",
       "name": "Ben Chiarot",
       "team": "DET",
+      "age": 35,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5382,6 +5700,7 @@
       "id": "d3852afda00bd0c1",
       "name": "Mario Ferraro",
       "team": "WPG",
+      "age": 27,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5399,6 +5718,7 @@
       "id": "23e93713654fe987",
       "name": "Blake Coleman",
       "team": "MIN",
+      "age": 34,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -5416,6 +5736,7 @@
       "id": "6f839981c673d060",
       "name": "Tyler Myers",
       "team": "DAL",
+      "age": 36,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5433,6 +5754,7 @@
       "id": "282eff951e8f16f9",
       "name": "Matt Duchene",
       "team": "DAL",
+      "age": 35,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -5450,6 +5772,7 @@
       "id": "d5309353b209127c",
       "name": "Alex Lyon",
       "team": "BUF",
+      "age": 33,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -5466,6 +5789,7 @@
       "id": "409ee3c30183c670",
       "name": "Pierre-Luc Dubois",
       "team": "WSH",
+      "age": 28,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -5483,6 +5807,7 @@
       "id": "2132e13417edaf32",
       "name": "Mason Marchment",
       "team": "S.J",
+      "age": 31,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -5500,6 +5825,7 @@
       "id": "83b6a730fa6cf925",
       "name": "Calum Ritchie",
       "team": "NYI",
+      "age": 21,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -5517,6 +5843,7 @@
       "id": "030aeaaaab205922",
       "name": "Connor Murphy",
       "team": "EDM",
+      "age": 33,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5534,6 +5861,7 @@
       "id": "dff227277d79a067",
       "name": "Rasmus Ristolainen",
       "team": "PHI",
+      "age": 31,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5551,6 +5879,7 @@
       "id": "671d2297f5742c44",
       "name": "Ivan Barbashev",
       "team": "VGK",
+      "age": 30,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -5568,6 +5897,7 @@
       "id": "9472b0650770b235",
       "name": "Brett Kulak",
       "team": "COL",
+      "age": 32,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5585,6 +5915,7 @@
       "id": "6b24ee9564cecbed",
       "name": "Louis Crevier",
       "team": "BUF",
+      "age": 25,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5602,6 +5933,7 @@
       "id": "b2ef559886750541",
       "name": "Joseph Woll",
       "team": "PHI",
+      "age": 28,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -5618,6 +5950,7 @@
       "id": "bdae343ada08844a",
       "name": "Kaedan Korczak",
       "team": "PIT",
+      "age": 25,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5635,6 +5968,7 @@
       "id": "95ea29ab8c8db6c7",
       "name": "Simon Holmstrom",
       "team": "NYI",
+      "age": 25,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -5652,6 +5986,7 @@
       "id": "6acc2b3bc5c5ba18",
       "name": "Matthew Robertson",
       "team": "NYR",
+      "age": 25,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5669,6 +6004,7 @@
       "id": "7994291111865de1",
       "name": "Artturi Lehkonen",
       "team": "COL",
+      "age": 31,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -5686,6 +6022,7 @@
       "id": "919ce8a3f313f1e2",
       "name": "Jalen Chatfield",
       "team": "CAR",
+      "age": 30,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5703,6 +6040,7 @@
       "id": "f57cab6a5ccf3df8",
       "name": "Dylan Demelo",
       "team": "WPG",
+      "age": 33,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5720,6 +6058,7 @@
       "id": "4cca865b5f492e2f",
       "name": "Ian Moore",
       "team": "ANA",
+      "age": 24,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5737,6 +6076,7 @@
       "id": "95f334d70befd685",
       "name": "Ty Emberson",
       "team": "EDM",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5754,6 +6094,7 @@
       "id": "f1ba427264376dfe",
       "name": "Samuel Girard",
       "team": "PIT",
+      "age": 28,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5771,6 +6112,7 @@
       "id": "84cef2a0dba640eb",
       "name": "Dmitri Voronkov",
       "team": "CBJ",
+      "age": 25,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -5788,6 +6130,7 @@
       "id": "d25ca0f864859705",
       "name": "Dawson Mercer",
       "team": "N.J",
+      "age": 24,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -5805,6 +6148,7 @@
       "id": "1d6a168c8a9e03f5",
       "name": "Joel Farabee",
       "team": "CGY",
+      "age": 26,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -5822,6 +6166,7 @@
       "id": "91023d6e115605c4",
       "name": "Nate Schmidt",
       "team": "UTA",
+      "age": 35,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5839,6 +6184,7 @@
       "id": "99f8b539611e174b",
       "name": "Kiefer Sherwood",
       "team": "S.J",
+      "age": 31,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -5856,6 +6202,7 @@
       "id": "fd880fedbe20c3a1",
       "name": "Christian Dvorak",
       "team": "PHI",
+      "age": 30,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -5873,6 +6220,7 @@
       "id": "074733b9364c6360",
       "name": "Jonas Siegenthaler",
       "team": "N.J",
+      "age": 29,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5890,6 +6238,7 @@
       "id": "34b090b14b401b9e",
       "name": "Mikael Backlund",
       "team": "CGY",
+      "age": 37,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -5907,6 +6256,7 @@
       "id": "6d26678005fc5f95",
       "name": "Ryker Evans",
       "team": "SEA",
+      "age": 24,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5924,6 +6274,7 @@
       "id": "893f785ec4b303a2",
       "name": "Niko Mikkola",
       "team": "FLA",
+      "age": 30,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5941,6 +6292,7 @@
       "id": "67943e1f1230dea4",
       "name": "Wyatt Kaiser",
       "team": "CHI",
+      "age": 24,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5958,6 +6310,7 @@
       "id": "d181f420c90ca5da",
       "name": "Theo Lindstein",
       "team": "STL",
+      "age": 21,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -5975,6 +6328,7 @@
       "id": "00b8a5c52d2df5fb",
       "name": "Alex Nedeljkovic",
       "team": "S.J",
+      "age": 30,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -5991,6 +6345,7 @@
       "id": "14238f1f60e126d6",
       "name": "Tristan Luneau",
       "team": "ANA",
+      "age": 20,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6008,6 +6363,7 @@
       "id": "8b5f73438c3bff84",
       "name": "Mavrik Bourque",
       "team": "NSH",
+      "age": 24,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -6025,6 +6381,7 @@
       "id": "7502962ab6b2b8b4",
       "name": "Cody Ceci",
       "team": "L.A",
+      "age": 32,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6042,6 +6399,7 @@
       "id": "ccaedb1d391823b5",
       "name": "Erik Cernak",
       "team": "T.B",
+      "age": 29,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6059,6 +6417,7 @@
       "id": "678b89af0f7bc32f",
       "name": "Anders Lee",
       "team": "UTA",
+      "age": 36,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -6076,6 +6435,7 @@
       "id": "c42bbdac28644007",
       "name": "Joel Edmundson",
       "team": "L.A",
+      "age": 33,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6093,6 +6453,7 @@
       "id": "b749eeeb48fdbb8a",
       "name": "Ryan Lindgren",
       "team": "SEA",
+      "age": 28,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6110,6 +6471,7 @@
       "id": "67e95feb227507cd",
       "name": "Timothy Liljegren",
       "team": "WSH",
+      "age": 27,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6127,6 +6489,7 @@
       "id": "bf57d3ae9f374239",
       "name": "Shane Wright",
       "team": "SEA",
+      "age": 22,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -6144,6 +6507,7 @@
       "id": "1921c4d08e20d72f",
       "name": "Matt Savoie",
       "team": "EDM",
+      "age": 22,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -6161,6 +6525,7 @@
       "id": "eb297f85f27bbac5",
       "name": "Nicolas Hague",
       "team": "NSH",
+      "age": 27,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6178,6 +6543,7 @@
       "id": "94abc3a120800ea7",
       "name": "Radko Gudas",
       "team": "FLA",
+      "age": 36,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6195,6 +6561,7 @@
       "id": "c72efbbf6b47efc3",
       "name": "Nico Daws",
       "team": "N.J",
+      "age": 25,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -6211,6 +6578,7 @@
       "id": "04b414e567caa80e",
       "name": "Jonathan Marchessault",
       "team": "NSH",
+      "age": 35,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -6228,6 +6596,7 @@
       "id": "483ab390be40f875",
       "name": "Conor Garland",
       "team": "CBJ",
+      "age": 30,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -6245,6 +6614,7 @@
       "id": "c743f22240012b83",
       "name": "Tyler Toffoli",
       "team": "S.J",
+      "age": 34,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -6262,6 +6632,7 @@
       "id": "a734e1409b14014a",
       "name": "Yegor Chinakhov",
       "team": "PIT",
+      "age": 25,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -6279,6 +6650,7 @@
       "id": "32223554794bb437",
       "name": "Andrew Copp",
       "team": "DET",
+      "age": 32,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -6296,6 +6668,7 @@
       "id": "d36c6866103db193",
       "name": "Igor Chernyshov",
       "team": "S.J",
+      "age": 20,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -6313,6 +6686,7 @@
       "id": "212931f3ba21cca8",
       "name": "Adam Wilsby",
       "team": "NSH",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6330,6 +6704,7 @@
       "id": "f7c3846ae2e95105",
       "name": "Conor Timmins",
       "team": "BUF",
+      "age": 27,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6347,6 +6722,7 @@
       "id": "2a2ea13791ec3be1",
       "name": "Philipp Grubauer",
       "team": "SEA",
+      "age": 34,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -6363,6 +6739,7 @@
       "id": "50ad5f7005673871",
       "name": "Sean Monahan",
       "team": "CBJ",
+      "age": 31,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -6380,6 +6757,7 @@
       "id": "2ebd909e3a025cfb",
       "name": "Sergei Murashov",
       "team": "PIT",
+      "age": 22,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -6396,6 +6774,7 @@
       "id": "8ba1b0f57f5a5446",
       "name": "Elias Pettersson (D)",
       "team": "VAN",
+      "age": 22,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6413,6 +6792,7 @@
       "id": "b1ed645e2f5f110d",
       "name": "Tristan Jarry",
       "team": "EDM",
+      "age": 31,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -6429,6 +6809,7 @@
       "id": "df0fa9a6f7163d5a",
       "name": "Brian Dumoulin",
       "team": "L.A",
+      "age": 34,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6446,6 +6827,7 @@
       "id": "b5ce045b1129e88e",
       "name": "Gabe Perreault",
       "team": "NYR",
+      "age": 21,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -6463,6 +6845,7 @@
       "id": "8146f48fe02359f2",
       "name": "Ian Cole",
       "team": "CHI",
+      "age": 37,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6480,6 +6863,7 @@
       "id": "38357c4821ca17ba",
       "name": "Frederik Andersen",
       "team": "EDM",
+      "age": 36,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -6496,6 +6880,7 @@
       "id": "11bf4be815065473",
       "name": "Taylor Hall",
       "team": "CAR",
+      "age": 34,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -6513,6 +6898,7 @@
       "id": "79be23a603341efe",
       "name": "Nick Jensen",
       "team": "ANA",
+      "age": 35,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6530,6 +6916,7 @@
       "id": "7e64f751ae39b804",
       "name": "Maveric Lamoureux",
       "team": "UTA",
+      "age": 22,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6547,6 +6934,7 @@
       "id": "f538f3d01492bd7b",
       "name": "Adin Hill",
       "team": "VGK",
+      "age": 30,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -6563,6 +6951,7 @@
       "id": "32a21c6a905652d0",
       "name": "Johnathan Kovacevic",
       "team": "N.J",
+      "age": 29,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6580,6 +6969,7 @@
       "id": "ddb17c71d79875eb",
       "name": "Josh Norris",
       "team": "BUF",
+      "age": 27,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -6597,6 +6987,7 @@
       "id": "d22d11b60612230b",
       "name": "Brandon Carlo",
       "team": "STL",
+      "age": 29,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6614,6 +7005,7 @@
       "id": "420236e29cb5a616",
       "name": "Claude Giroux",
       "team": "OTT",
+      "age": 19,
       "group": "F",
       "sourcePos": "C,LW,RW",
       "stats": {
@@ -6631,6 +7023,7 @@
       "id": "97161f2534c313d4",
       "name": "Anthony Mantha",
       "team": "N.J",
+      "age": 19,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -6648,6 +7041,7 @@
       "id": "aa96d7003a9c91a6",
       "name": "Chris Tanev",
       "team": "TOR",
+      "age": 36,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6665,6 +7059,7 @@
       "id": "bb6f35ce92796511",
       "name": "Yegor Sharangovich",
       "team": "CGY",
+      "age": 28,
       "group": "F",
       "sourcePos": "C,LW,RW",
       "stats": {
@@ -6682,6 +7077,7 @@
       "id": "b34aff6b5c703d86",
       "name": "Jonathan Aspirot",
       "team": "BOS",
+      "age": 27,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6699,6 +7095,7 @@
       "id": "349d8613d25da7e6",
       "name": "Ryan Shea",
       "team": "EDM",
+      "age": 29,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6716,6 +7113,7 @@
       "id": "bc0209bcdfb7de76",
       "name": "Lawson Crouse",
       "team": "UTA",
+      "age": 29,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -6733,6 +7131,7 @@
       "id": "c35d61a78f641823",
       "name": "Nils Lundkvist",
       "team": "DAL",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6750,6 +7149,7 @@
       "id": "3cbd34760297e591",
       "name": "Trevor van Riemsdyk",
       "team": "PIT",
+      "age": 35,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6767,6 +7167,7 @@
       "id": "e443e308281fe5e1",
       "name": "Kaapo Kakko",
       "team": "SEA",
+      "age": 25,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -6784,6 +7185,7 @@
       "id": "97f14168ead807b6",
       "name": "Jake Neighbours",
       "team": "STL",
+      "age": 24,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -6801,6 +7203,7 @@
       "id": "69985e6c694fa915",
       "name": "Mackie Samoskevich",
       "team": "SEA",
+      "age": 23,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -6818,6 +7221,7 @@
       "id": "2440c29c1066e7e0",
       "name": "Anthony Stolarz",
       "team": "TOR",
+      "age": 32,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -6834,6 +7238,7 @@
       "id": "0285e93b38901145",
       "name": "Roman Kantserov",
       "team": "CHI",
+      "age": 21,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -6851,6 +7256,7 @@
       "id": "5cf664ab2ac5fd29",
       "name": "Ryan Poehling",
       "team": "ANA",
+      "age": 27,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -6868,6 +7274,7 @@
       "id": "4a12f51aca40a6d6",
       "name": "Troy Terry",
       "team": "ANA",
+      "age": 28,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -6885,6 +7292,7 @@
       "id": "bf9bf39bc5f21f14",
       "name": "Parker Wotherspoon",
       "team": "VGK",
+      "age": 29,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6902,6 +7310,7 @@
       "id": "10a007b69f11c694",
       "name": "Jordan Binnington",
       "team": "STL",
+      "age": 33,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -6918,6 +7327,7 @@
       "id": "0ab81261bde4ff6b",
       "name": "Josh Mahura",
       "team": "SEA",
+      "age": 28,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -6935,6 +7345,7 @@
       "id": "d96d9313d1cf68af",
       "name": "Ross Colton",
       "team": "NSH",
+      "age": 29,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -6952,6 +7363,7 @@
       "id": "42ffa83ac8473a55",
       "name": "Noah Cates",
       "team": "PHI",
+      "age": 27,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -6969,6 +7381,7 @@
       "id": "636f697a2f56e35d",
       "name": "Marco Kasper",
       "team": "DET",
+      "age": 22,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -6986,6 +7399,7 @@
       "id": "5d473770b0dc5cbd",
       "name": "Easton Cowan",
       "team": "TOR",
+      "age": 21,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -7003,6 +7417,7 @@
       "id": "161017913588914f",
       "name": "Thomas Novak",
       "team": "PIT",
+      "age": 29,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -7020,6 +7435,7 @@
       "id": "32e624177acaa044",
       "name": "Trevor Moore",
       "team": "L.A",
+      "age": 31,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -7037,6 +7453,7 @@
       "id": "e6485d6cfc725c4a",
       "name": "Jeremy Lauzon",
       "team": "VGK",
+      "age": 29,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -7054,6 +7471,7 @@
       "id": "8a7e298a4767ff2c",
       "name": "Olli Maatta",
       "team": "MIN",
+      "age": 32,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -7071,6 +7489,7 @@
       "id": "66de29c5d77cf8cd",
       "name": "Jiri Kulich",
       "team": "BUF",
+      "age": 22,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -7088,6 +7507,7 @@
       "id": "d2d33e85f7d0de40",
       "name": "Elias Salomonsson",
       "team": "WPG",
+      "age": 21,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -7105,6 +7525,7 @@
       "id": "de1fa298c4e05ec8",
       "name": "Arseny Gritsyuk",
       "team": "N.J",
+      "age": 25,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -7122,6 +7543,7 @@
       "id": "79919c0dba458b86",
       "name": "Hunter Brzustewicz",
       "team": "CGY",
+      "age": 21,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -7139,6 +7561,7 @@
       "id": "0cbdd52c7dacef38",
       "name": "Dmitry Kulikov",
       "team": "FLA",
+      "age": 35,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -7156,6 +7579,7 @@
       "id": "45058a0ddf2f1a96",
       "name": "Henri Jokiharju",
       "team": "BOS",
+      "age": 27,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -7173,6 +7597,7 @@
       "id": "82711d4729ded97a",
       "name": "Jack Roslovic",
       "team": "TOR",
+      "age": 29,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -7190,6 +7615,7 @@
       "id": "ab131fa6afd9b76e",
       "name": "Kevin Lankinen",
       "team": "VAN",
+      "age": 31,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -7206,6 +7632,7 @@
       "id": "3c4195e0d22d4b0e",
       "name": "Ridly Greig",
       "team": "OTT",
+      "age": 24,
       "group": "F",
       "sourcePos": "C,LW,RW",
       "stats": {
@@ -7223,6 +7650,7 @@
       "id": "fb53021b0aa46ecc",
       "name": "Logan Mailloux",
       "team": "STL",
+      "age": 23,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -7240,6 +7668,7 @@
       "id": "06a7574f5163b8d9",
       "name": "Noah Ostlund",
       "team": "BUF",
+      "age": 22,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -7257,6 +7686,7 @@
       "id": "f75d729e67886d17",
       "name": "Albert Johansson",
       "team": "DET",
+      "age": 25,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -7274,6 +7704,7 @@
       "id": "7dd837487216fb38",
       "name": "Emil Martinsen Lilleberg",
       "team": "T.B",
+      "age": 25,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -7291,6 +7722,7 @@
       "id": "be55465327d8c196",
       "name": "Jacob Fowler",
       "team": "MTL",
+      "age": 21,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -7307,6 +7739,7 @@
       "id": "404cd9e1e431e492",
       "name": "Oliver Kapanen",
       "team": "MTL",
+      "age": 23,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -7324,6 +7757,7 @@
       "id": "7a1c0f9bdf4307f8",
       "name": "Shakir Mukhamadullin",
       "team": "EDM",
+      "age": 24,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -7341,6 +7775,7 @@
       "id": "8d7d9a5e3d5612b1",
       "name": "Emil Andrae",
       "team": "TOR",
+      "age": 24,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -7358,6 +7793,7 @@
       "id": "2c75bf93e46a71cf",
       "name": "Justin Barron",
       "team": "NSH",
+      "age": 24,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -7375,6 +7811,7 @@
       "id": "db6ca0e100dd26ea",
       "name": "Jordan Staal",
       "team": "CAR",
+      "age": 37,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -7392,6 +7829,7 @@
       "id": "88df97b97e8d4ab0",
       "name": "Frank Vatrano",
       "team": "ANA",
+      "age": 32,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -7409,6 +7847,7 @@
       "id": "f71f65f111c37c47",
       "name": "Simon Benoit",
       "team": "PHI",
+      "age": 27,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -7426,6 +7865,7 @@
       "id": "7f2af73225fd4676",
       "name": "Brayden Schenn",
       "team": "NYI",
+      "age": 35,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -7443,6 +7883,7 @@
       "id": "31306f3aef35a130",
       "name": "Emil Heineman",
       "team": "NYI",
+      "age": 24,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -7460,6 +7901,7 @@
       "id": "796e138e7545632f",
       "name": "Oliver Bjorkstrand",
       "team": "NYR",
+      "age": 31,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -7477,6 +7919,7 @@
       "id": "db49d37cc3f6bd82",
       "name": "Alex Iafallo",
       "team": "WPG",
+      "age": 32,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -7494,6 +7937,7 @@
       "id": "c755dd63524ff4a5",
       "name": "Casey Mittelstadt",
       "team": "BOS",
+      "age": 27,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -7511,6 +7955,7 @@
       "id": "9de13a300d26636a",
       "name": "Zachary Bolduc",
       "team": "MTL",
+      "age": 23,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -7528,6 +7973,7 @@
       "id": "2068b515367775a9",
       "name": "Jacob Bernard-Docker",
       "team": "DET",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -7545,6 +7991,7 @@
       "id": "f25ab7d88a954907",
       "name": "Cole Sillinger",
       "team": "CBJ",
+      "age": 23,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -7562,6 +8009,7 @@
       "id": "2397eff3fba9d0b5",
       "name": "William Karlsson",
       "team": "VGK",
+      "age": 33,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -7579,6 +8027,7 @@
       "id": "021250288b37fa37",
       "name": "Bobby Brink",
       "team": "MIN",
+      "age": 25,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -7596,6 +8045,7 @@
       "id": "5366d4bfb96aa9c9",
       "name": "Jason Zucker",
       "team": "BUF",
+      "age": 34,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -7613,6 +8063,7 @@
       "id": "757275a41295cdf4",
       "name": "Uvis Balinskis",
       "team": "FLA",
+      "age": 30,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -7630,6 +8081,7 @@
       "id": "5fab20d96c48d968",
       "name": "Vasily Podkolzin",
       "team": "EDM",
+      "age": 25,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -7647,6 +8099,7 @@
       "id": "7b349e71caf88682",
       "name": "Emmitt Finnie",
       "team": "DET",
+      "age": 21,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -7664,6 +8117,7 @@
       "id": "754435304ebe451a",
       "name": "Barrett Hayton",
       "team": "UTA",
+      "age": 26,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -7681,6 +8135,7 @@
       "id": "2dce2806c7fc1097",
       "name": "Lian Bichsel",
       "team": "DAL",
+      "age": 22,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -7698,6 +8153,7 @@
       "id": "7f42fe3feecfc2ca",
       "name": "Jamie Benn",
       "team": "DAL",
+      "age": 37,
       "group": "F",
       "sourcePos": "C,LW,RW",
       "stats": {
@@ -7715,6 +8171,7 @@
       "id": "44f0278e5b414805",
       "name": "Tyler Tucker",
       "team": "STL",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -7732,6 +8189,7 @@
       "id": "0740d4009ffbbe84",
       "name": "Nicholas Robertson",
       "team": "PIT",
+      "age": 24,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -7749,6 +8207,7 @@
       "id": "eaf76aab7e40afa9",
       "name": "Teuvo Teravainen",
       "team": "CHI",
+      "age": 31,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -7766,6 +8225,7 @@
       "id": "1d56db59bf1d7d5d",
       "name": "Declan Chisholm",
       "team": "N.J",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -7783,6 +8243,7 @@
       "id": "63c433d42a4a6d38",
       "name": "Matthew Wood",
       "team": "NSH",
+      "age": 21,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -7800,6 +8261,7 @@
       "id": "d0718b965d44cde3",
       "name": "Konsta Helenius",
       "team": "BUF",
+      "age": 20,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -7817,6 +8279,7 @@
       "id": "b813f6a32305c3fb",
       "name": "Matias Maccelli",
       "team": "NYI",
+      "age": 25,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -7834,6 +8297,7 @@
       "id": "ca49fc59cc198bd9",
       "name": "Scott Mayfield",
       "team": "NYI",
+      "age": 33,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -7851,6 +8315,7 @@
       "id": "c240727400dddcc6",
       "name": "Erik Haula",
       "team": "L.A",
+      "age": 35,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -7868,6 +8333,7 @@
       "id": "9c48ca361d830cb1",
       "name": "Vincent Desharnais",
       "team": "WSH",
+      "age": 30,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -7885,6 +8351,7 @@
       "id": "aa80131d9f40e40e",
       "name": "Tyler Seguin",
       "team": "DAL",
+      "age": 34,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -7902,6 +8369,7 @@
       "id": "fad015876dacd5a6",
       "name": "Fraser Minten",
       "team": "BOS",
+      "age": 22,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -7919,6 +8387,7 @@
       "id": "e1ee4adba6899ef6",
       "name": "Jean-Gabriel Pageau",
       "team": "NYI",
+      "age": 33,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -7936,6 +8405,7 @@
       "id": "0765e66037860058",
       "name": "Gabriel Landeskog",
       "team": "COL",
+      "age": 33,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -7953,6 +8423,7 @@
       "id": "5127909d34c4932f",
       "name": "Connor Brown",
       "team": "N.J",
+      "age": 32,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -7970,6 +8441,7 @@
       "id": "d2c567d853bfaea9",
       "name": "Drew O'Connor",
       "team": "VAN",
+      "age": 28,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -7987,6 +8459,7 @@
       "id": "ccd66ba18a219317",
       "name": "Ryan Graves",
       "team": "PIT",
+      "age": 31,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -8004,6 +8477,7 @@
       "id": "4caf4b738393c7ed",
       "name": "Collin Graf",
       "team": "S.J",
+      "age": 23,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -8021,6 +8495,7 @@
       "id": "8936852eb89238e7",
       "name": "Alex Killorn",
       "team": "ANA",
+      "age": 36,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -8038,6 +8513,7 @@
       "id": "65ff2e8820ef30f1",
       "name": "Jack Drury",
       "team": "NSH",
+      "age": 26,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -8055,6 +8531,7 @@
       "id": "d7bc143c5d3135a3",
       "name": "Fabian Zetterlund",
       "team": "OTT",
+      "age": 27,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -8072,6 +8549,7 @@
       "id": "0c11b4c74f999b6b",
       "name": "Sebastian Cossa",
       "team": "UTA",
+      "age": 23,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -8088,6 +8566,7 @@
       "id": "b90bc64fdb7472d0",
       "name": "Jayden Struble",
       "team": "MTL",
+      "age": 24,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -8105,6 +8584,7 @@
       "id": "8c384a7d7a5d2c2d",
       "name": "Connor Zary",
       "team": "CGY",
+      "age": 24,
       "group": "F",
       "sourcePos": "C,LW,RW",
       "stats": {
@@ -8122,6 +8602,7 @@
       "id": "aaf8149f3483b75d",
       "name": "Dmitri Simashev",
       "team": "UTA",
+      "age": 21,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -8139,6 +8620,7 @@
       "id": "8f5a4216dd5dbcc3",
       "name": "Ilya Protas",
       "team": "WSH",
+      "age": 20,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -8156,6 +8638,7 @@
       "id": "5899a2e18131895a",
       "name": "Kent Johnson",
       "team": "CBJ",
+      "age": 23,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -8173,6 +8656,7 @@
       "id": "45da571bc482b2df",
       "name": "Casey DeSmith",
       "team": "DAL",
+      "age": 35,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -8189,6 +8673,7 @@
       "id": "17ce656aba8644ed",
       "name": "Spencer Stastney",
       "team": "EDM",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -8206,6 +8691,7 @@
       "id": "24261f2d3d4a0909",
       "name": "Boone Jenner",
       "team": "WSH",
+      "age": 33,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -8223,6 +8709,7 @@
       "id": "4509f8cd7b57139f",
       "name": "Sean Couturier",
       "team": "PHI",
+      "age": 33,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -8240,6 +8727,7 @@
       "id": "ecd96486e3821570",
       "name": "Akira Schmid",
       "team": "FLA",
+      "age": 26,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -8256,6 +8744,7 @@
       "id": "143486b4f3a8f9f0",
       "name": "Michael DiPietro",
       "team": "BOS",
+      "age": 27,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -8272,6 +8761,7 @@
       "id": "46ea820ab6a7e48c",
       "name": "Evan Rodrigues",
       "team": "N.J",
+      "age": 33,
       "group": "F",
       "sourcePos": "C,LW,RW",
       "stats": {
@@ -8289,6 +8779,7 @@
       "id": "a81e7b4dae59ea48",
       "name": "Ryan Greene",
       "team": "CHI",
+      "age": 22,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -8306,6 +8797,7 @@
       "id": "2f865214fb61a919",
       "name": "Linus Karlsson",
       "team": "VAN",
+      "age": 26,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -8323,6 +8815,7 @@
       "id": "6031e6c10e2d7289",
       "name": "Zach Bogosian",
       "team": "MIN",
+      "age": 36,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -8340,6 +8833,7 @@
       "id": "4fa570aed5b6edb6",
       "name": "Nikolas Matinpalo",
       "team": "OTT",
+      "age": 27,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -8357,6 +8851,7 @@
       "id": "141de3f0a0628a70",
       "name": "Michael Amadio",
       "team": "OTT",
+      "age": 30,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -8374,6 +8869,7 @@
       "id": "720c24c97a78fb5e",
       "name": "Ryan Donato",
       "team": "CHI",
+      "age": 30,
       "group": "F",
       "sourcePos": "C,LW,RW",
       "stats": {
@@ -8391,6 +8887,7 @@
       "id": "13e29698fb86820c",
       "name": "Vincent Iorio",
       "team": "NYR",
+      "age": 23,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -8408,6 +8905,7 @@
       "id": "6517d1a00bd280ab",
       "name": "Dalibor Dvorsky",
       "team": "STL",
+      "age": 21,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -8425,6 +8923,7 @@
       "id": "af0c83018958f26a",
       "name": "Filip Chytil",
       "team": "VAN",
+      "age": 26,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -8442,6 +8941,7 @@
       "id": "0bba79f35c96ca36",
       "name": "Brett Howden",
       "team": "VGK",
+      "age": 28,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -8459,6 +8959,7 @@
       "id": "918279e1b40ad1d8",
       "name": "Warren Foegele",
       "team": "OTT",
+      "age": 30,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -8476,6 +8977,7 @@
       "id": "89d1f2a50f04bf34",
       "name": "Jake Evans",
       "team": "MTL",
+      "age": 30,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -8493,6 +8995,7 @@
       "id": "24da7185e1448758",
       "name": "Adam Boqvist",
       "team": "NYI",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -8510,6 +9013,7 @@
       "id": "d8f330ccef5d97b0",
       "name": "Joel Hanley",
       "team": "CGY",
+      "age": 35,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -8527,6 +9031,7 @@
       "id": "c2940522f9eb2762",
       "name": "Noah Laba",
       "team": "NYR",
+      "age": 23,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -8544,6 +9049,7 @@
       "id": "c95c20aa632366e0",
       "name": "Dennis Hildeby",
       "team": "T.B",
+      "age": 25,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -8560,6 +9066,7 @@
       "id": "ce3d29a393a120e2",
       "name": "Yanni Gourde",
       "team": "T.B",
+      "age": 34,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -8577,6 +9084,7 @@
       "id": "b552aaeb373886ee",
       "name": "Jordan Martinook",
       "team": "CAR",
+      "age": 34,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -8594,6 +9102,7 @@
       "id": "b59a2af9ecfcd8da",
       "name": "Devin Cooley",
       "team": "CGY",
+      "age": 29,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -8610,6 +9119,7 @@
       "id": "a7a61a8d23c91062",
       "name": "Eetu Luostarinen",
       "team": "FLA",
+      "age": 27,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -8627,6 +9137,7 @@
       "id": "2db8144f74298913",
       "name": "Pius Suter",
       "team": "STL",
+      "age": 30,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -8644,6 +9155,7 @@
       "id": "c241ab9502e29cf3",
       "name": "Adam Lowry",
       "team": "WPG",
+      "age": 33,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -8661,6 +9173,7 @@
       "id": "1a8a4a61e1161b80",
       "name": "J.T. Compher",
       "team": "DET",
+      "age": 31,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -8678,6 +9191,7 @@
       "id": "a56baf0dcd078fa8",
       "name": "Alex Newhook",
       "team": "MTL",
+      "age": 25,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -8695,6 +9209,7 @@
       "id": "39c5d497e8c1fedb",
       "name": "Jaden Schwartz",
       "team": "COL",
+      "age": 34,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -8712,6 +9227,7 @@
       "id": "f9e342bf1c95f8e4",
       "name": "Danila Yurov",
       "team": "MIN",
+      "age": 22,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -8729,6 +9245,7 @@
       "id": "f382099703a05591",
       "name": "Mathieu Olivier",
       "team": "CBJ",
+      "age": 29,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -8746,6 +9263,7 @@
       "id": "1e6e5bf19ffafba4",
       "name": "Nick Paul",
       "team": "TOR",
+      "age": 31,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -8763,6 +9281,7 @@
       "id": "b1464d09bbb52f79",
       "name": "Victor Olofsson",
       "team": "VGK",
+      "age": 31,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -8780,6 +9299,7 @@
       "id": "70698b66d6f9d42f",
       "name": "Parker Kelly",
       "team": "COL",
+      "age": 27,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -8797,6 +9317,7 @@
       "id": "9504aaf2ff92526c",
       "name": "Berkly Catton",
       "team": "SEA",
+      "age": 20,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -8814,6 +9335,7 @@
       "id": "e028b2ece2974af9",
       "name": "Joonas Korpisalo",
       "team": "NYR",
+      "age": 32,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -8830,6 +9352,7 @@
       "id": "15a63d2eb8060acb",
       "name": "Ilya Mikheyev",
       "team": "T.B",
+      "age": 31,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -8847,6 +9370,7 @@
       "id": "501f4df9cd081aa5",
       "name": "Charlie Lindgren",
       "team": "WSH",
+      "age": 32,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -8863,6 +9387,7 @@
       "id": "8afeaf1baf1a8b32",
       "name": "Samuel Ersson",
       "team": "OTT",
+      "age": 26,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -8879,6 +9404,7 @@
       "id": "2a9e1f49bfe75f1e",
       "name": "Ville Husso",
       "team": "ANA",
+      "age": 31,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -8895,6 +9421,7 @@
       "id": "c2ac9bc8b6d2f1bb",
       "name": "Teddy Blueger",
       "team": "TOR",
+      "age": 19,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -8912,6 +9439,7 @@
       "id": "b75f768f4b9e28e9",
       "name": "Justin Brazeau",
       "team": "PIT",
+      "age": 28,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -8929,6 +9457,7 @@
       "id": "d47aa2c52126f9e7",
       "name": "Daniil Tarasov (G)",
       "team": "DET",
+      "age": 27,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -8945,6 +9474,7 @@
       "id": "64161389b7918f18",
       "name": "Nate Danielson",
       "team": "DET",
+      "age": 21,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -8962,6 +9492,7 @@
       "id": "aa78de1f982766b3",
       "name": "Scott Laughton",
       "team": "L.A",
+      "age": 32,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -8979,6 +9510,7 @@
       "id": "519b7fb60c4d43d3",
       "name": "Ryan Strome",
       "team": "CGY",
+      "age": 33,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -8996,6 +9528,7 @@
       "id": "14538db25b646693",
       "name": "Elvis Merzlikins",
       "team": "CBJ",
+      "age": 32,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -9012,6 +9545,7 @@
       "id": "d25355dfb27dfefe",
       "name": "Vitek Vanecek",
       "team": "NYI",
+      "age": 30,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -9028,6 +9562,7 @@
       "id": "3eed7358692d32c3",
       "name": "Phillip Danault",
       "team": "MTL",
+      "age": 33,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -9045,6 +9580,7 @@
       "id": "5d4e184fda688908",
       "name": "Arvid Soderblom",
       "team": "CHI",
+      "age": 27,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -9061,6 +9597,7 @@
       "id": "13fd183c1d92ad9e",
       "name": "Justin Hryckowian",
       "team": "DAL",
+      "age": 25,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -9078,6 +9615,7 @@
       "id": "c9efbfc6ad21f874",
       "name": "Nicolas Roy",
       "team": "COL",
+      "age": 29,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -9095,6 +9633,7 @@
       "id": "f8956f4015121e61",
       "name": "Gage Goncalves",
       "team": "T.B",
+      "age": 25,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -9112,6 +9651,7 @@
       "id": "7072ac938c7d5cc2",
       "name": "Cody Glass",
       "team": "N.J",
+      "age": 27,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -9129,6 +9669,7 @@
       "id": "b8f40855412b920c",
       "name": "Jake Christiansen",
       "team": "CBJ",
+      "age": 26,
       "group": "D",
       "sourcePos": "D",
       "stats": {
@@ -9146,6 +9687,7 @@
       "id": "2a55d7fde7b478d8",
       "name": "Michael Eyssimont",
       "team": "BOS",
+      "age": 29,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -9163,6 +9705,7 @@
       "id": "bff9b858ba136706",
       "name": "Morgan Barron",
       "team": "WPG",
+      "age": 27,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -9180,6 +9723,7 @@
       "id": "9a3d1f3e430d4831",
       "name": "Max Domi",
       "team": "TOR",
+      "age": 31,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -9197,6 +9741,7 @@
       "id": "e3689599bd69392c",
       "name": "Alex Texier",
       "team": "MTL",
+      "age": 26,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -9214,6 +9759,7 @@
       "id": "b9276e024af43e55",
       "name": "Kirby Dach",
       "team": "MTL",
+      "age": 25,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -9231,6 +9777,7 @@
       "id": "2b43e8a358c29241",
       "name": "Michael McCarron",
       "team": "MIN",
+      "age": 31,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -9248,6 +9795,7 @@
       "id": "827b72b8379805e0",
       "name": "Justin Sourdif",
       "team": "WSH",
+      "age": 24,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -9265,6 +9813,7 @@
       "id": "36145296a6cad272",
       "name": "Braeden Bowman",
       "team": "VGK",
+      "age": 23,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -9282,6 +9831,7 @@
       "id": "62351ab6408520ba",
       "name": "Marat Khusnutdinov",
       "team": "BOS",
+      "age": 24,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -9299,6 +9849,7 @@
       "id": "f79092e5069a63c4",
       "name": "Connor Dewar",
       "team": "PIT",
+      "age": 27,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -9316,6 +9867,7 @@
       "id": "db94d9f0f6083cf6",
       "name": "Frederick Gaudreau",
       "team": "SEA",
+      "age": 33,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -9333,6 +9885,7 @@
       "id": "9331b95031cf0ced",
       "name": "Jonathan Drouin",
       "team": "STL",
+      "age": 31,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -9350,6 +9903,7 @@
       "id": "906678d2df02eb76",
       "name": "Nino Niederreiter",
       "team": "WPG",
+      "age": 33,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -9367,6 +9921,7 @@
       "id": "b15aa635bfa1f65d",
       "name": "Jack McBain",
       "team": "UTA",
+      "age": 26,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -9384,6 +9939,7 @@
       "id": "2e9d1aa2e906b32a",
       "name": "Peyton Krebs",
       "team": "BUF",
+      "age": 25,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -9401,6 +9957,7 @@
       "id": "df99bfd4e3ad75a1",
       "name": "Sam Steel",
       "team": "DAL",
+      "age": 28,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -9418,6 +9975,7 @@
       "id": "a2277662b2372151",
       "name": "Ethen Frank",
       "team": "WSH",
+      "age": 28,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -9435,6 +9993,7 @@
       "id": "c6413c31b90dcd49",
       "name": "Liam Ohgren",
       "team": "VAN",
+      "age": 22,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -9452,6 +10011,7 @@
       "id": "563982134908dc29",
       "name": "Josh Anderson",
       "team": "MTL",
+      "age": 32,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -9469,6 +10029,7 @@
       "id": "ff9c55c2e9d152c6",
       "name": "Noel Acciari",
       "team": "PHI",
+      "age": 34,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -9486,6 +10047,7 @@
       "id": "9563fb485ec7558b",
       "name": "Jason Dickinson",
       "team": "EDM",
+      "age": 31,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -9503,6 +10065,7 @@
       "id": "4742d151684ac470",
       "name": "Michael Carcone",
       "team": "UTA",
+      "age": 30,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -9520,6 +10083,7 @@
       "id": "a8dba0990cd89d35",
       "name": "Mark Kastelic",
       "team": "BOS",
+      "age": 27,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -9537,6 +10101,7 @@
       "id": "3ffb42002980e1a7",
       "name": "Alex Bump",
       "team": "PHI",
+      "age": 22,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -9554,6 +10119,7 @@
       "id": "d3a3e78cddc6bdf9",
       "name": "Max Shabanov",
       "team": "MIN",
+      "age": 25,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -9571,6 +10137,7 @@
       "id": "65268865a81a171a",
       "name": "Alex Kerfoot",
       "team": "NSH",
+      "age": 32,
       "group": "F",
       "sourcePos": "C,LW,RW",
       "stats": {
@@ -9588,6 +10155,7 @@
       "id": "d7a6c0f10d2eb329",
       "name": "Blake Lizotte",
       "team": "PIT",
+      "age": 28,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -9605,6 +10173,7 @@
       "id": "0c474215b396c81e",
       "name": "Vladislav Namestnikov",
       "team": "WPG",
+      "age": 33,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -9622,6 +10191,7 @@
       "id": "573977b352d71ed3",
       "name": "Pontus Holmberg",
       "team": "T.B",
+      "age": 27,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -9639,6 +10209,7 @@
       "id": "0d71e74c20dfe3fe",
       "name": "Michael Rasmussen",
       "team": "DET",
+      "age": 27,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -9656,6 +10227,7 @@
       "id": "c4ccd3c28f46806b",
       "name": "Nick Lardis",
       "team": "CHI",
+      "age": 21,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -9673,6 +10245,7 @@
       "id": "d8baf96ea24b2ccd",
       "name": "Dominic James",
       "team": "T.B",
+      "age": 24,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -9690,6 +10263,7 @@
       "id": "d434ffbc98a95828",
       "name": "Anthony Beauvillier",
       "team": "WSH",
+      "age": 29,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -9707,6 +10281,7 @@
       "id": "a5bede2ca1329dc9",
       "name": "Justus Annunen",
       "team": "NSH",
+      "age": 26,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -9723,6 +10298,7 @@
       "id": "a71270bef3cd5e26",
       "name": "Denver Barkey",
       "team": "PHI",
+      "age": 21,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -9740,6 +10316,7 @@
       "id": "7f6ca7640a1f0cc3",
       "name": "Oliver Moore",
       "team": "CHI",
+      "age": 21,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -9757,6 +10334,7 @@
       "id": "eb1b66efc808e6a3",
       "name": "Brad Lambert",
       "team": "WPG",
+      "age": 22,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -9774,6 +10352,7 @@
       "id": "8ddc3751a4210ac2",
       "name": "Stuart Skinner",
       "team": "WPG",
+      "age": 27,
       "group": "G",
       "sourcePos": "G",
       "stats": {
@@ -9790,6 +10369,7 @@
       "id": "4b844914a07e5a74",
       "name": "Nils Hoglander",
       "team": "NSH",
+      "age": 25,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -9807,6 +10387,7 @@
       "id": "43a5f851eb9525b8",
       "name": "Corey Perry",
       "team": "L.A",
+      "age": 41,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -9824,6 +10405,7 @@
       "id": "b89e06cb4389e519",
       "name": "Arttu Hyry",
       "team": "DAL",
+      "age": 25,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -9841,6 +10423,7 @@
       "id": "2ccdd900b098d717",
       "name": "Yakov Trenin",
       "team": "MIN",
+      "age": 29,
       "group": "F",
       "sourcePos": "C,LW,RW",
       "stats": {
@@ -9858,6 +10441,7 @@
       "id": "fb6462b0612a335a",
       "name": "Sean Kuraly",
       "team": "BOS",
+      "age": 33,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -9875,6 +10459,7 @@
       "id": "837cf9e5cb69e4b0",
       "name": "Joel Armia",
       "team": "L.A",
+      "age": 33,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -9892,6 +10477,7 @@
       "id": "00a4199e0cf685ff",
       "name": "Alexei Toropchenko",
       "team": "STL",
+      "age": 27,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -9909,6 +10495,7 @@
       "id": "2bb78886f046fca7",
       "name": "Adam Klapka",
       "team": "CGY",
+      "age": 25,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -9926,6 +10513,7 @@
       "id": "dba20cabee5bebd6",
       "name": "Tye Kartye",
       "team": "NYR",
+      "age": 25,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -9943,6 +10531,7 @@
       "id": "b60df184552e85c7",
       "name": "Isak Rosen",
       "team": "WPG",
+      "age": 23,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -9960,6 +10549,7 @@
       "id": "933c2b42be0047d3",
       "name": "Colton Sissons",
       "team": "TOR",
+      "age": 32,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -9977,6 +10567,7 @@
       "id": "d16fb0af4ba6d714",
       "name": "Keegan Kolesar",
       "team": "DET",
+      "age": 29,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -9994,6 +10585,7 @@
       "id": "73638322fd979392",
       "name": "Andre Burakovsky",
       "team": "OTT",
+      "age": 31,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -10011,6 +10603,7 @@
       "id": "6d25de9b4cf611a9",
       "name": "Adam Gaudette",
       "team": "S.J",
+      "age": 29,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -10028,6 +10621,7 @@
       "id": "7aee920d0b572c99",
       "name": "Nic Dowd",
       "team": "VGK",
+      "age": 36,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -10045,6 +10639,7 @@
       "id": "0cc61f8372c8432f",
       "name": "Nick Bjugstad",
       "team": "N.J",
+      "age": 34,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -10062,6 +10657,7 @@
       "id": "3f228074ebc73c1c",
       "name": "Tanner Jeannot",
       "team": "BOS",
+      "age": 29,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -10079,6 +10675,7 @@
       "id": "cc5b762ee72b9e1d",
       "name": "Steven Lorentz",
       "team": "TOR",
+      "age": 30,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -10096,6 +10693,7 @@
       "id": "b979a1bbb6ec90c8",
       "name": "Mark Jankowski",
       "team": "CAR",
+      "age": 31,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -10113,6 +10711,7 @@
       "id": "40cbdfb88faf4b92",
       "name": "Sam Carrick",
       "team": "BUF",
+      "age": 34,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -10130,6 +10729,7 @@
       "id": "4ca670fc8f8a0d47",
       "name": "Andrew Mangiapane",
       "team": "CHI",
+      "age": 30,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -10147,6 +10747,7 @@
       "id": "6091bf1b5a7f1469",
       "name": "Kasperi Kapanen",
       "team": "EDM",
+      "age": 30,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -10164,6 +10765,7 @@
       "id": "43a0c840576bbc54",
       "name": "Marcus Foligno",
       "team": "MIN",
+      "age": 35,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -10181,6 +10783,7 @@
       "id": "9c7cc326116aaf64",
       "name": "Taylor Raddysh",
       "team": "NYR",
+      "age": 28,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -10198,6 +10801,7 @@
       "id": "988b9fa2a8cf1b02",
       "name": "Daniil But",
       "team": "UTA",
+      "age": 21,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -10215,6 +10819,7 @@
       "id": "5570b0ed9dd65fd9",
       "name": "Eric Robinson",
       "team": "CAR",
+      "age": 31,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -10232,6 +10837,7 @@
       "id": "f6e51750064bb1ef",
       "name": "Radek Faksa",
       "team": "DAL",
+      "age": 32,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -10249,6 +10855,7 @@
       "id": "f2523c7e06c5b95d",
       "name": "Mason Appleton",
       "team": "DET",
+      "age": 30,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -10266,6 +10873,7 @@
       "id": "8162cce4d118f318",
       "name": "Zemgus Girgensons",
       "team": "T.B",
+      "age": 32,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -10283,6 +10891,7 @@
       "id": "c6bc6630e1deb3fb",
       "name": "Ondrej Palat",
       "team": "NYI",
+      "age": 35,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -10300,6 +10909,7 @@
       "id": "889eea5c4543eced",
       "name": "Martin Pospisil",
       "team": "CGY",
+      "age": 26,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -10317,6 +10927,7 @@
       "id": "2d30f5b327856854",
       "name": "Fedor Svechkov",
       "team": "COL",
+      "age": 23,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -10334,6 +10945,7 @@
       "id": "2329a340f920c69c",
       "name": "Max Sasson",
       "team": "VAN",
+      "age": 25,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -10351,6 +10963,7 @@
       "id": "0fbf35ea1bf0ddb1",
       "name": "Hendrix Lapierre",
       "team": "PIT",
+      "age": 24,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -10368,6 +10981,7 @@
       "id": "e976a7235545cdbf",
       "name": "Zachary L'Heureux",
       "team": "COL",
+      "age": 23,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -10385,6 +10999,7 @@
       "id": "300b80fc50b00938",
       "name": "Anthony Duclair",
       "team": "NYI",
+      "age": 31,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -10402,6 +11017,7 @@
       "id": "3137880a19e7cf64",
       "name": "Otto Stenberg",
       "team": "STL",
+      "age": 21,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -10419,6 +11035,7 @@
       "id": "fa3c70ede6a7047d",
       "name": "Cole Koepke",
       "team": "WPG",
+      "age": 28,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -10436,6 +11053,7 @@
       "id": "fbcf5649675ceafb",
       "name": "Alex Turcotte",
       "team": "L.A",
+      "age": 25,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -10453,6 +11071,7 @@
       "id": "d017c62e7331954a",
       "name": "Stefan Noesen",
       "team": "N.J",
+      "age": 33,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -10470,6 +11089,7 @@
       "id": "f79f71927c62423c",
       "name": "Jonathan Lekkerimaki",
       "team": "VAN",
+      "age": 22,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -10487,6 +11107,7 @@
       "id": "49a6599769ba78e7",
       "name": "Aatu Raty",
       "team": "VAN",
+      "age": 23,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -10504,6 +11125,7 @@
       "id": "64cdc4fb498d1f62",
       "name": "Miles Wood",
       "team": "CBJ",
+      "age": 30,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -10521,6 +11143,7 @@
       "id": "963d92c4e752269c",
       "name": "Dakota Joshua",
       "team": "TOR",
+      "age": 30,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -10538,6 +11161,7 @@
       "id": "db320722ea63d8ef",
       "name": "Colton Dach",
       "team": "EDM",
+      "age": 23,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -10555,6 +11179,7 @@
       "id": "5e7e005a2886a907",
       "name": "Nick Cousins",
       "team": "OTT",
+      "age": 33,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -10572,6 +11197,7 @@
       "id": "2ab363f11b0095d7",
       "name": "Trent Frederic",
       "team": "EDM",
+      "age": 28,
       "group": "F",
       "sourcePos": "C,LW,RW",
       "stats": {
@@ -10589,6 +11215,7 @@
       "id": "949bdd10d381e648",
       "name": "Jonatan Berggren",
       "team": "STL",
+      "age": 26,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -10606,6 +11233,7 @@
       "id": "e35ee542c7e0d1ad",
       "name": "Conor Geekie",
       "team": "T.B",
+      "age": 22,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -10623,6 +11251,7 @@
       "id": "bece0b34ce9d0f7f",
       "name": "Casey Cizikas",
       "team": "NYI",
+      "age": 35,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -10640,6 +11269,7 @@
       "id": "fdf8a450729f1c4c",
       "name": "Lenni Hameenaho",
       "team": "N.J",
+      "age": 21,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -10657,6 +11287,7 @@
       "id": "28d4b61662f494e1",
       "name": "Isac Lundestrom",
       "team": "CBJ",
+      "age": 26,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -10674,6 +11305,7 @@
       "id": "937730e4739dec14",
       "name": "Nick Foligno",
       "team": "MIN",
+      "age": 38,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -10691,6 +11323,7 @@
       "id": "aee06a25ebbc242a",
       "name": "Elmer Soderblom",
       "team": "PIT",
+      "age": 25,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -10708,6 +11341,7 @@
       "id": "e84292f3a6b2fe11",
       "name": "Lars Eller",
       "team": "FLA",
+      "age": 37,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -10725,6 +11359,7 @@
       "id": "e50f5f723636735f",
       "name": "Alex Holtz",
       "team": "VGK",
+      "age": 24,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -10742,6 +11377,7 @@
       "id": "e1272277dcf97cc8",
       "name": "Brandon Duhaime",
       "team": "TOR",
+      "age": 29,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -10759,6 +11395,7 @@
       "id": "353de52ff93c547d",
       "name": "Maxim Tsyplakov",
       "team": "CGY",
+      "age": 27,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -10776,6 +11413,7 @@
       "id": "9c8bc184cd350f89",
       "name": "Josh Samanski",
       "team": "EDM",
+      "age": 24,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -10793,6 +11431,7 @@
       "id": "cb0946c5394f8898",
       "name": "Filip Hallander",
       "team": "PIT",
+      "age": 26,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -10810,6 +11449,7 @@
       "id": "499b1610b6ee88f6",
       "name": "Alex Steeves",
       "team": "BOS",
+      "age": 26,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -10827,6 +11467,7 @@
       "id": "1905bbd7712ef123",
       "name": "William Carrier",
       "team": "CAR",
+      "age": 31,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -10844,6 +11485,7 @@
       "id": "3152e20ed54790c9",
       "name": "Isaac Howard",
       "team": "EDM",
+      "age": 22,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -10861,6 +11503,7 @@
       "id": "ce6b310680da087a",
       "name": "Colin Blackwell",
       "team": "DAL",
+      "age": 33,
       "group": "F",
       "sourcePos": "C,RW",
       "stats": {
@@ -10878,6 +11521,7 @@
       "id": "e64f4f84233969bd",
       "name": "Paul Cotter",
       "team": "VAN",
+      "age": 26,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -10895,6 +11539,7 @@
       "id": "2da1dd28db9fd062",
       "name": "Nico Sturm",
       "team": "MIN",
+      "age": 31,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -10912,6 +11557,7 @@
       "id": "b9b2a37757550124",
       "name": "Logan O'Connor",
       "team": "COL",
+      "age": 30,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -10929,6 +11575,7 @@
       "id": "7f5533d62f9dc2fc",
       "name": "Joe Veleno",
       "team": "NYR",
+      "age": 26,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -10946,6 +11593,7 @@
       "id": "54c899746c865ff6",
       "name": "Adam Edstrom",
       "team": "NSH",
+      "age": 25,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -10963,6 +11611,7 @@
       "id": "c47076a7e2f78cf2",
       "name": "Samuel Helenius",
       "team": "L.A",
+      "age": 23,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -10980,6 +11629,7 @@
       "id": "f72f4f34b23370eb",
       "name": "Oskar Back",
       "team": "DAL",
+      "age": 26,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -10997,6 +11647,7 @@
       "id": "216ea077a45d5323",
       "name": "Nikita Grebenkin",
       "team": "PHI",
+      "age": 23,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -11014,6 +11665,7 @@
       "id": "8101b18cf691ad66",
       "name": "Tim Washe",
       "team": "ANA",
+      "age": 25,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -11031,6 +11683,7 @@
       "id": "6d6ec604d809c4bc",
       "name": "Ben Meyers",
       "team": "SEA",
+      "age": 27,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -11048,6 +11701,7 @@
       "id": "0aa207fc025ce904",
       "name": "Ryan Winterton",
       "team": "SEA",
+      "age": 22,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -11065,6 +11719,7 @@
       "id": "ee5ad93dea6697cf",
       "name": "Reid Schaefer",
       "team": "NSH",
+      "age": 22,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -11082,6 +11737,7 @@
       "id": "62eb230224a435a9",
       "name": "Brandon Tanev",
       "team": "UTA",
+      "age": 34,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -11099,6 +11755,7 @@
       "id": "98e0086c467be100",
       "name": "Jeffrey Viel",
       "team": "T.B",
+      "age": 29,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -11116,6 +11773,7 @@
       "id": "142121fe58c9826d",
       "name": "Garnet Hathaway",
       "team": "FLA",
+      "age": 34,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -11133,6 +11791,7 @@
       "id": "029cb2113538de25",
       "name": "Jesper Boqvist",
       "team": "N.J",
+      "age": 27,
       "group": "F",
       "sourcePos": "C,LW",
       "stats": {
@@ -11150,6 +11809,7 @@
       "id": "cdbdd39a3e37e565",
       "name": "Ozzy Wiesblatt",
       "team": "NSH",
+      "age": 24,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -11167,6 +11827,7 @@
       "id": "3453ee3976ed0c91",
       "name": "Landon Slaggert",
       "team": "CHI",
+      "age": 24,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -11184,6 +11845,7 @@
       "id": "cb977ecb65586126",
       "name": "Zack Ostapchuk",
       "team": "S.J",
+      "age": 23,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -11201,6 +11863,7 @@
       "id": "516f573d1a3a3933",
       "name": "Jaroslav Chmelar",
       "team": "NYR",
+      "age": 23,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -11218,6 +11881,7 @@
       "id": "f591ef053c7991db",
       "name": "Jonas Rondbjerg",
       "team": "VGK",
+      "age": 27,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -11235,6 +11899,7 @@
       "id": "a5906d5fe7c56ea4",
       "name": "Jacob Quillan",
       "team": "TOR",
+      "age": 24,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -11252,6 +11917,7 @@
       "id": "f091606236c4edec",
       "name": "Jeff Malott",
       "team": "ANA",
+      "age": 30,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
@@ -11269,6 +11935,7 @@
       "id": "352206f6d73b01e4",
       "name": "Justin Kirkland",
       "team": "MIN",
+      "age": 30,
       "group": "F",
       "sourcePos": "C",
       "stats": {
@@ -11286,6 +11953,7 @@
       "id": "d73f1292659a058d",
       "name": "Liam O'Brien",
       "team": "UTA",
+      "age": 32,
       "group": "F",
       "sourcePos": "LW,RW",
       "stats": {
@@ -11303,6 +11971,7 @@
       "id": "067026dd5588cb8b",
       "name": "Matt Rempe",
       "team": "NYR",
+      "age": 24,
       "group": "F",
       "sourcePos": "RW",
       "stats": {
@@ -11320,6 +11989,7 @@
       "id": "cd099e6c159f1398",
       "name": "Jonah Gadjovich",
       "team": "FLA",
+      "age": 18,
       "group": "F",
       "sourcePos": "LW",
       "stats": {
