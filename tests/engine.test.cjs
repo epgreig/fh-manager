@@ -9,17 +9,19 @@ test('custom scoring includes defense and shorthanded bonuses',()=>{
  assert.equal(scorePlayer({name:'D',group:'D',stats:{G:10,A:20,BLK:100,PIM:40,SHP:2}},c),122);
  assert.equal(scorePlayer({name:'G',group:'G',stats:{W:30,SO:5,GA:120,SV:1500}},c),235);
 });
-test('snake turns and keeper costs',()=>{
+test('names-only keepers exclude players without reserving picks',()=>{
  assert.equal(ownerAt(12,12),12);assert.equal(ownerAt(13,12),12);assert.equal(ownerAt(24,12),1);
- assert.equal(keeperPick(2,1,12),24);
- const state=draftState(c,[{id:'k',team:1,round:2}],[],new Set(['k']));
- assert.equal(state.next,25);assert.equal(state.opponents,22);
+ const ids=new Set(['k','a']);
+ const state=draftState(c,[{id:'k'}],[],ids);
+ assert.equal(state.current,1);assert.equal(state.next,24);assert.equal(state.opponents,22);assert.ok(state.removed.has('k'));
+ assert.equal(draftState(c,[{id:'k'}],[{pick:3,id:'a'}],ids).current,2);
+ assert.throws(()=>draftState(c,[{id:'unknown'}],[],ids));
 });
-test('keepers skipped automatically and duplicate costs rejected',()=>{
- const ids=new Set(['a','b']);
- assert.equal(draftState(c,[{id:'a',team:1,round:1}],[],ids).current,2);
- assert.throws(()=>draftState(c,[{id:'a',team:1,round:1},{id:'b',team:1,round:1}],[],ids));
- assert.throws(()=>draftState(c,[],[{pick:1,id:'a'},{pick:2,id:'a'}],ids));
+test('fixed PAN wait stays 22 at consecutive own selections',()=>{
+ const ids=new Set(Array.from({length:24},(_,i)=>String(i)));
+ const log=Array.from({length:23},(_,i)=>({pick:i+1,id:String(i)}));
+ const state=draftState(c,[],log,ids);
+ assert.equal(state.current,24);assert.equal(state.next,25);assert.equal(state.opponents,22);
 });
 const skater={G:10,A:0,BLK:0,PIM:0,SHP:0};
 function pool(){return ['F','D','G'].flatMap(group=>[1,2,3,4].map(i=>({id:group+i,name:group+i,group,pos:group==='F'?'C,LW,RW':group,adp:i*3,stats:group==='G'?{W:10-i,SO:0,GA:0,SV:0}:{...skater,G:10-i}})));}

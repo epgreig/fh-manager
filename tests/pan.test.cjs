@@ -2,8 +2,8 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),fs=requir
 test('draft estimate blends rank and ADP equally and handles missing inputs',()=>{
  const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Pan.gs','utf8'),ctx);
  const formula=ctx.draftOrderFormula_(2).slice(1);
- const evaluate=(adp,rank,weight)=>vm.runInNewContext(formula.replaceAll('$S$2','weight'),{
-   F2:adp,Q2:rank,weight,IF:(condition,a,b)=>condition?a:b,AND:(...args)=>args.every(Boolean),ISNUMBER:x=>typeof x==='number'
+ const evaluate=(adp,rank,weight,multiplier=1)=>vm.runInNewContext(formula.replaceAll('$S$2','weight'),{
+   F2:adp,Q2:rank,U2:multiplier,weight,IF:(condition,a,b)=>condition?a:b,AND:(...args)=>args.every(Boolean),ISNUMBER:x=>typeof x==='number'
  });
  assert.equal(evaluate(80,40,.5),60);
  assert.equal(evaluate(80,40,0),80);
@@ -11,6 +11,8 @@ test('draft estimate blends rank and ADP equally and handles missing inputs',()=
  assert.equal(evaluate(80,'',.5),80);
  assert.equal(evaluate('',40,.5),40);
  assert.equal(evaluate('','',.5),'');
+ assert.equal(evaluate(80,40,.5,.81),48.6);
+ assert.equal(evaluate(80,40,.5,.77),46.2);
 });
 test('generated fallback formulas equal exhaustive independent availability outcomes',()=>{
  const cells={},modelFormulas=[];
@@ -38,7 +40,8 @@ test('generated fallback formulas equal exhaustive independent availability outc
    }
    assert.ok(Math.abs(evalCell('G'+(excluded+2))-expected)<1e-10);
  }
- assert.ok(modelFormulas.some(f=>f.includes('IF($N$2=0,0,')));
+ assert.ok(!modelFormulas.some(f=>f.includes('IF($N$2=0,0,')));
+ assert.ok(!modelFormulas.some(f=>f.includes('$M$2')));
  assert.ok(modelFormulas.some(f=>f.includes('ISNUMBER(O2)')));
  assert.ok(modelFormulas.some(f=>f.includes("COUNT('PAN Pools'!C2:C4)=3")));
  assert.ok(modelFormulas.some(f=>f.includes('($L$2-1+$N$2)')));

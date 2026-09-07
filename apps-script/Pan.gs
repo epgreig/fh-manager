@@ -8,14 +8,17 @@ function buildPanFormulas_(model,players,baselines,c) {
   if(pools.getMaxRows()<players.length+2)pools.insertRowsAfter(pools.getMaxRows(),players.length+2-pools.getMaxRows());
   model.getRange('O1:P1').setValues([['Probability available next','Draft-order uncertainty']]);
   model.getRange('P2').setFormula('=XLOOKUP("adpSigma",Settings!A2:A100,Settings!B2:B100)');
-  model.getRange('Q1:S1').setValues([['ESPN default rank','Predicted draft pick','ESPN rank weight']]);
+  model.getRange('Q1:S1').setValues([['ESPN default rank','Smart ADP','ESPN rank weight']]);
   model.getRange('S2').setFormula('=XLOOKUP("espnRankWeight",Settings!A2:A100,Settings!B2:B100)');
   model.getRange(2,17,players.length,1).setValues(players.map(p=>[p.espnRank==null?'':p.espnRank]));
+  model.getRange('T1:U1').setValues([['Age','Position multiplier']]);
+  model.getRange(2,20,players.length,1).setValues(players.map(p=>[p.age==null?'':p.age]));
+  model.getRange(2,21,players.length,1).setFormulas(players.map((p,i)=>['=XLOOKUP("multiplier"&I'+(i+2)+',Settings!A2:A100,Settings!B2:B100)']));
   model.getRange(2,18,players.length,1).setFormulas(players.map((p,i)=>[draftOrderFormula_(i+2)]));
   model.getRange(2,15,players.length,1).setFormulas(players.map((p,i)=>{
     const r=i+2;
     // Use the negative normal tail to avoid cancellation from 1-CDF.
-    return ['=IF(NOT(J'+r+'),0,IF($M$2="","",IF($N$2=0,1,IF(R'+r+'="","",LET(base,NORMDIST((R'+r+'-($L$2-1))/$P$2,0,1,TRUE),tail,NORMDIST((R'+r+'-($L$2-1+$N$2))/$P$2,0,1,TRUE),IF(base=0,"",MIN(1,MAX(0,tail/base))))))))'];
+    return ['=IF(NOT(J'+r+'),0,IF(R'+r+'="","",LET(base,NORMDIST((R'+r+'-($L$2-1))/$P$2,0,1,TRUE),tail,NORMDIST((R'+r+'-($L$2-1+$N$2))/$P$2,0,1,TRUE),IF(base=0,"",MIN(1,MAX(0,tail/base))))))'];
   }));
   const options=new Map(players.map(p=>[p.id,[]]));
   ['C','LW','RW','D','G'].forEach((pos,index)=>{
@@ -50,11 +53,11 @@ function buildPanFormulas_(model,players,baselines,c) {
     if(!choices.length)return ['=""'];
     const valid=choices.map(x=>x.valid).join(',');
     const costs=choices.map(x=>'(1-O'+r+')*(D'+r+'-'+x.base+'-'+x.fallback+')').join(',');
-    return ['=IF(OR(NOT(J'+r+'),$M$2=""),"",IF($N$2=0,0,IF(AND(ISNUMBER(O'+r+'),'+valid+'),MAX('+costs+'),"")))'];
+    return ['=IF(NOT(J'+r+'),"",IF(AND(ISNUMBER(O'+r+'),'+valid+'),MAX('+costs+'),""))'];
   }));
   pools.hideSheet();
 }
 
 function draftOrderFormula_(r) {
-  return '=IF(AND(ISNUMBER(F'+r+'),ISNUMBER(Q'+r+')),(1-$S$2)*F'+r+'+$S$2*Q'+r+',IF(ISNUMBER(F'+r+'),F'+r+',IF(ISNUMBER(Q'+r+'),Q'+r+',"")))';
+  return '=IF(AND(ISNUMBER(F'+r+'),ISNUMBER(Q'+r+')),((1-$S$2)*F'+r+'+$S$2*Q'+r+')*U'+r+',IF(ISNUMBER(F'+r+'),F'+r+'*U'+r+',IF(ISNUMBER(Q'+r+'),Q'+r+'*U'+r+',"")))';
 }

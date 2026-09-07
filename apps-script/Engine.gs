@@ -2,7 +2,7 @@ const DEFAULTS = {
   teams:12, draftSlot:1, rounds:16, G:3, A:1.5, BLK:0.3, PIM:0.5, SHP:1.5,
   defenseBonus:0.3, W:1.5, SO:2, GA:-1, SV:0.2,
   replacementC:49, replacementLW:37, replacementRW:37, replacementD:49, replacementG:25,
-  parTop:0.15, adpBottom:0.10, adpSigma:12, espnRankWeight:0.5
+  parTop:0.15, adpBottom:0.10, adpSigma:12, espnRankWeight:0.5, multiplierF:1, multiplierD:0.81, multiplierG:0.77, panGap:22, highlightCount:12
 };
 function scorePlayer(p, c) {
   const keys = p.group === 'G' ? ['W','SO','GA','SV'] : ['G','A','BLK','PIM','SHP'];
@@ -16,29 +16,22 @@ function ownerAt(pick, teams) {
 }
 function keeperPick(round, team, teams) {return (round-1)*teams+(round%2 ? team : teams+1-team);}
 function draftState(c, keepers, log, ids) {
-  const occupied = new Set(), removed = new Set(), counts = {};
-  keepers.forEach(k => {
-    if (!ids.has(k.id) || removed.has(k.id)) throw Error('Unknown or duplicate keeper: '+k.id);
-    if (!Number.isInteger(k.team)||k.team<1||k.team>c.teams||!Number.isInteger(k.round)||k.round<1||k.round>c.rounds) throw Error('Invalid keeper team or round');
-    const pick=keeperPick(k.round,k.team,c.teams);
-    if(occupied.has(pick)) throw Error('Two keepers cost the same pick');
-    counts[k.team]=(counts[k.team]||0)+1;
-    if(counts[k.team]>2) throw Error('Maximum two keepers per team');
-    occupied.add(pick); removed.add(k.id);
+  const removed = new Set();
+  keepers.forEach(k=>{
+    if(!ids.has(k.id))throw Error('Unknown keeper: '+k.id);
+    removed.add(k.id);
   });
-  let current=1;
-  const advance=()=>{while(occupied.has(current)) current++;};
-  advance();
   log.forEach(x=>{
-    if(x.pick!==current || !ids.has(x.id) || removed.has(x.id)) throw Error('Draft log conflicts with keeper settings or has duplicate picks');
-    removed.add(x.id); current++; advance();
+    if(!ids.has(x.id))throw Error('Unknown drafted player: '+x.id);
+    removed.add(x.id);
   });
+  const current=log.length+1;
   let next=current+1;
-  while(next<=c.teams*c.rounds && (occupied.has(next)||ownerAt(next,c.teams)!==c.draftSlot)) next++;
-  let opponents=0;
-  for(let p=current+1;p<next;p++) if(!occupied.has(p)) opponents++;
-  return {current,next:next<=c.teams*c.rounds?next:null,opponents,removed};
+  const limit=c.teams*c.rounds-new Set(keepers.map(k=>k.id)).size;
+  while(next<=limit && ownerAt(next,c.teams)!==c.draftSlot)next++;
+  return {current,next:next<=limit?next:null,opponents:c.panGap===undefined?22:c.panGap,removed,limit};
 }
+
 function evaluate(players,c,state) {
   const all=players.map(p=>({...p,points:scorePlayer(p,c)}));
   const baselines={};
