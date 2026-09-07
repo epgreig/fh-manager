@@ -32,7 +32,7 @@ function renderBoard_({c,players,state}) {
   ['F','D','G'].forEach((g,i)=>{
     const col=1+i*10,nameCol=['A','K','U'][i];
     s.getRange(2,col).setValue(['Forwards','Defensemen','Goalies'][i]);
-    s.getRange(3,col,1,9).setValues([['Player','POS','Tm','Age','ESPN','sADP','PAR','PAN','ID']]);
+    s.getRange(3,col,1,9).setValues([['Player','POS','Tm','Age','Rk','sADP','PAR','PAN','ID']]);
     const source='HSTACK(\'Board Data\'!A2:C'+last+',\'Board Data\'!T2:T'+last+',\'Board Data\'!Q2:R'+last+',\'Board Data\'!E2:E'+last+')';
     s.getRange(4,col).setFormula('=IFNA(SORT(FILTER('+source+',\'Board Data\'!I2:I'+last+'="'+g+'",\'Board Data\'!J2:J'+last+'=TRUE),7,FALSE,6,TRUE),"")');
     s.getRange(4,col+8).setFormula('=ARRAYFORMULA(IF('+nameCol+'4:'+nameCol+(n+3)+'="","",XLOOKUP('+nameCol+'4:'+nameCol+(n+3)+',\'Board Data\'!A2:A'+last+',\'Board Data\'!H2:H'+last+',"")))');

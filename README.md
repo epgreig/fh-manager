@@ -15,7 +15,7 @@ For a new sheet, create a blank Google Sheet, open Extensions > Apps Script, add
 - **Draft:** select one player cell on Board and use Draft selected player, or macro shortcut 1. Undo is shortcut 2. Check the Mac key combination under Extensions > Macros > Manage macros.
 - Draft and undo only change Draft Log. Board formulas recalculate. Clearing logged data rows restores players except keepers; preserve the header row. The selection counter counts logged entries, accommodating older logs with gaps from the former keeper-cost model.
 
-Board columns are Player, POS (forwards only), Tm, Age, ESPN rank, sADP, PAR, PAN. Age is taken from the Athletic workbook, not recalculated from birthdays. It has no conditional colours. Internal IDs remain hidden. Width is approximately 1,160 pixels at 100% zoom, plus Sheets row headers and browser chrome.
+Board columns are Player, POS (forwards only), Tm, Age, Rk (ESPN rank), sADP, PAR, PAN. Age is taken from the Athletic workbook, not recalculated from birthdays. It has no conditional colours. Internal IDs remain hidden. Width is approximately 1,160 pixels at 100% zoom, plus Sheets row headers and browser chrome.
 
 ESPN rank uses a red gradient and sADP a blue gradient, each highlighting about the lowest 12 values across the whole board. Refresh sets the percentile from the number of available numeric values; as drafting progresses the highlighted count can shrink slightly until refreshed. PAR retains a purple gradient for the highest 15%. PAN is white at zero or below and graduates to green above zero. All displayed numeric metrics round to whole values; calculations retain precision.
 
