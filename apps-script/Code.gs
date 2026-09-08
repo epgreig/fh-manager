@@ -95,7 +95,7 @@ function inputs_() {
   return {c,players,state:draftState(c,keepers,log,ids)};
 }
 function withLock_(fn) {const lock=LockService.getDocumentLock();lock.waitLock(10000);try{return fn();}finally{lock.releaseLock();}}
-function refreshBoard() {withLock_(()=>{migrateReplacementSettings_();addProjectionNames_();ensureNameSheets_();checkNames_();renderBoard_(inputs_());});}
+function refreshBoard() {withLock_(()=>{migrateReplacementSettings_();ensureEspnRanks_();addProjectionNames_();ensureNameSheets_();checkNames_();renderBoard_(inputs_());});}
 function draftSelectedPlayer() {
   const range=SpreadsheetApp.getActiveRange();
   if(!range||range.getSheet().getName()!=='Board'||range.getRow()<4||range.getNumRows()!==1||range.getNumColumns()!==1) throw Error('Select one player cell on Board');

@@ -9,3 +9,17 @@ test('snapshot matches every projection player uniquely with compatible eligibil
  assert.equal(ctx.matchEspn_('Nathan MacKinnon',espn).rank,1);
  assert.ok(espn.some(p=>p.rank===null));
 });
+
+test('refresh backfills missing ranks in legacy Players sheets without replacing existing inputs',()=>{
+ const rows=[['a','Nathan MacKinnon','','','','',2,'',''],['b','Connor McDavid','','','','',2,'',99],['c','Unknown Person','','','','',230,'','']];
+ const writes=[];
+ ctx.ESPN_DATA=JSON.parse(fs.readFileSync('data/processed/espn.json'));
+ ctx.SpreadsheetApp={getActive:()=>({getSheetByName:()=>({
+  getLastRow:()=>4,
+  getRange:(...range)=>({getValues:()=>rows,setValue:value=>writes.push({range,value}),setValues:values=>writes.push({range,values})})
+ })})};
+ ctx.ensureEspnRanks_();
+ assert.deepEqual(JSON.parse(JSON.stringify(writes[1])),{range:[2,9,3,1],values:[[1],[99],['']]});
+ assert.equal(rows[0][6],2);
+ assert.match(fs.readFileSync('apps-script/Code.gs','utf8'),/function refreshBoard\(\).*ensureEspnRanks_\(\)/);
+});

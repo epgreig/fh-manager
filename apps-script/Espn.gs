@@ -37,3 +37,20 @@ function importEspnSnapshot() {
   });
   refreshBoard();
 }
+
+// Upgrade older sheets without overwriting their existing ESPN inputs.
+function ensureEspnRanks_() {
+  const s=SpreadsheetApp.getActive().getSheetByName('Players');
+  s.getRange(1,9).setValue('ESPN default rank');
+  const count=s.getLastRow()-1;
+  if(count<1) return;
+  const rows=s.getRange(2,1,count,9).getValues();
+  let changed=false;
+  const ranks=rows.map(r=>{
+    if(r[8]!==''&&r[8]!=null) return [r[8]];
+    const p=matchEspn_(r[1],ESPN_DATA.players);
+    if(p&&typeof p.rank==='number'&&p.rank>0) {changed=true;return [p.rank];}
+    return [''];
+  });
+  if(changed) s.getRange(2,9,count,1).setValues(ranks);
+}
