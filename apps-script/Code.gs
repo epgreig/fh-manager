@@ -17,6 +17,8 @@ function migrateReplacementSettings_() {
   if(guide) {
     const rows=guide.getDataRange().getValues();
     rows.forEach(r=>{
+      if(r[0]==='Replacement assumptions')r[1]='Replacement ranks calibrated by comparing last year’s draft with contemporaneous rankings. Adjust ranks in Settings.';
+      if(r[0]==='PAR')r[1]='Season points minus positional replacement points derived from ranks in Settings. Defaults: C32 LW32 RW32 D32 G20. Multi-position forwards use their highest PAR.';
       if(r[0]==='PAN')r[1]='P(gone over a fixed 22-selection wait) × (positional PAR − expected best alternative PAR). The candidate is excluded. PAN stays fixed-gap even at consecutive own picks.';
       if(r[0]==='Uncertainty')r[1]='sADP = 50/50 ESPN ADP and default rank, times the positional multiplier. adpSigma controls uncertainty in picks. F=1, D=0.81, G=0.77 defaults.';
       if(r[0]==='Keepers')r[1]='Type names only. Keepers are removed from availability; no team, round cost, or reserved draft pick is needed.';
@@ -26,6 +28,17 @@ function migrateReplacementSettings_() {
   const keys=new Set(rows_('Settings').map(r=>r[0]));
   for(const key of ['espnRankWeight','multiplierF','multiplierD','multiplierG','panGap','highlightCount'])if(!keys.has(key))s.appendRow([key,DEFAULTS[key]]);
   ['C','LW','RW'].forEach(pos=>{const key='replacement'+pos;if(!keys.has(key)) s.appendRow([key,DEFAULTS[key]]);});
+  // Apply the requested calibration once per sheet; later user edits remain editable.
+  const properties=PropertiesService.getDocumentProperties();
+  const migration='replacementRanks20260908';
+  if(properties.getProperty(migration)!=='applied') {
+    const ranks={replacementC:32,replacementLW:32,replacementRW:32,replacementD:32,replacementG:20};
+    s.getDataRange().getValues().forEach((row,i)=>{
+      if(Object.prototype.hasOwnProperty.call(ranks,row[0]))s.getRange(i+1,2).setValue(ranks[row[0]]);
+    });
+    properties.setProperty(migration,'applied');
+  }
+
 }
 function table_(name, headers, rows) {
   const ss=SpreadsheetApp.getActive();
@@ -48,8 +61,8 @@ function setupDraftSheet() {
     ['Scoring','D bonus applies per G+A; SHP bonus is additional to regular G/A points.'],
     ['Use','Edit inputs, then Draft > Refresh board. Select one board player cell and run draft macro.'],
     ['ESPN','Paste ESPN eligibility and ADP in Players, with source/date. Yahoo POS stays separate.'],
-    ['PAR','Season points minus positional replacement points derived from ranks in Settings: C49 LW37 RW37 D49 G25. Multi-position forwards use their highest PAR.'],
-    ['Replacement assumptions','12 teams: 7 F, 3 D, 1 G starters; bench 3 F / 1 D / 1 G. IR excluded. Adjust ranks in Settings.'],
+    ['PAR','Season points minus positional replacement points derived from ranks in Settings: C32 LW32 RW32 D32 G20. Multi-position forwards use their highest PAR.'],
+    ['Replacement assumptions','Replacement ranks calibrated from last year’s draft and rankings. Adjust ranks in Settings.'],
     ['PAN','P(gone) × (positional PAR − expected best alternative PAR). Uses actual intervening non-keeper picks; excludes the candidate; best eligible PAN for multi-position players.'],
     ['Uncertainty','Conditional normal survival around blended ESPN ADP/default rank (espnRankWeight 0.5); adpSigma is a positive standard deviation in picks. Zero intervening picks means zero PAN. Missing ADP in an eligible pool leaves PAN blank.'],
     ['Keepers','Up to 2 per team; use draft slot 1–12 and cost round 1–16. Add all keepers before drafting.'],

@@ -25,7 +25,7 @@ Skaters: `3 G + 1.5 A + 0.3 BLK + 0.5 PIM + 1.5 SHP`. Defensemen receive another
 
 League: 12 teams, initial draft slot 1, snake order, roster of 2 C / 2 LW / 2 RW / 3 D / 1 skater FLEX / 1 G / 5 bench / 1 IR. IR is not an extra draft slot. With names-only keepers, no keeper ownership or cost-round scheduling is inferred. Total open selections are 16 × teams minus unique keeper count.
 
-PAR is points above the player at the configured positional replacement rank. Defaults: C49, LW37, RW37, D49, G25. These are ranks, not point values. Change them in Settings. A multi-position player receives their highest eligible PAR. Baselines include drafted and kept players, so they do not drift during the draft. ESPN eligibility is preferred; workbook positions are a provisional fallback marked `*`. An insufficient eligible pool leaves PAR blank.
+PAR is points above the player at the configured positional replacement rank. Defaults: C32, LW32, RW32, D32, G20. These are ranks, not point values. Change them in Settings. A multi-position player receives their highest eligible PAR. Baselines include drafted and kept players, so they do not drift during the draft. ESPN eligibility is preferred; workbook positions are a provisional fallback marked `*`. An insufficient eligible pool leaves PAR blank.
 
 ## Smart ADP and PAN
 
