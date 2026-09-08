@@ -26,7 +26,7 @@ function migrateReplacementSettings_() {
     guide.getRange(1,1,rows.length,rows[0].length).setValues(rows);
   }
   const keys=new Set(rows_('Settings').map(r=>r[0]));
-  for(const key of ['espnRankWeight','multiplierF','multiplierD','multiplierG','panGap','highlightCount'])if(!keys.has(key))s.appendRow([key,DEFAULTS[key]]);
+  for(const key of ['espnRankWeight','multiplierF','multiplierD','multiplierG','panGap','highlightCount','youngAgeMax'])if(!keys.has(key))s.appendRow([key,DEFAULTS[key]]);
   ['C','LW','RW'].forEach(pos=>{const key='replacement'+pos;if(!keys.has(key)) s.appendRow([key,DEFAULTS[key]]);});
   // Apply the requested calibration once per sheet; later user edits remain editable.
   const properties=PropertiesService.getDocumentProperties();
@@ -77,7 +77,7 @@ function rows_(name) {return SpreadsheetApp.getActive().getSheetByName(name).get
 function inputs_() {
   const c=Object.fromEntries(rows_('Settings').map(r=>[r[0],Number(r[1])]));
   for(const k of Object.keys(DEFAULTS)) if(!Number.isFinite(c[k])) throw Error('Invalid setting '+k);
-  for(const k of ['teams','draftSlot','rounds','panGap','highlightCount']) if(!Number.isInteger(c[k])||c[k]<1) throw Error('Invalid setting '+k);
+  for(const k of ['teams','draftSlot','rounds','panGap','highlightCount','youngAgeMax']) if(!Number.isInteger(c[k])||c[k]<1) throw Error('Invalid setting '+k);
   if(c.multiplierF<=0||c.multiplierD<=0||c.multiplierG<=0||c.espnRankWeight<0||c.espnRankWeight>1||c.draftSlot>c.teams||c.adpSigma<=0||c.parTop<=0||c.parTop>1||c.adpBottom<=0||c.adpBottom>1) throw Error('Settings out of range');
   const stats=['GP','G','A','BLK','PIM','SHP','W','SO','GA','SV'], grouped=new Map();
   rows_('Projections').forEach(r=>{

@@ -41,6 +41,8 @@ function renderBoard_({c,players,state}) {
     [145,46,32,28,38,42,40,40].forEach((w,j)=>s.setColumnWidth(col+j,w));
     s.hideColumns(col+8);if(g!=='F')s.hideColumns(col+1);if(i<2)s.setColumnWidth(col+9,10);
     s.getRange(2,col,2,8).setFontWeight('bold');s.getRange(4,col+3,n,5).setNumberFormat('0');
+    const ageCol=['D','N','X'][i];
+    rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied('=AND(ISNUMBER('+ageCol+'4),'+ageCol+'4<=XLOOKUP("youngAgeMax",INDIRECT("Settings!A2:A100"),INDIRECT("Settings!B2:B100")))').setBackground('#fff2cc').setRanges([s.getRange(4,col+3,n,1)]).build());
     parRanges.push(s.getRange(4,col+6,n,1));rankRanges.push(s.getRange(4,col+4,n,1));smartRanges.push(s.getRange(4,col+5,n,1));panRanges.push(s.getRange(4,col+7,n,1));
     [['B','#eeeeee'],['A','#fce5cd']].forEach(([letter,color])=>rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied('=AND('+nameCol+'4<>"",COUNTIF(INDIRECT("Targets!'+letter+'2:'+letter+'"),'+nameCol+'4)>0)').setBackground(color).setRanges([s.getRange(4,col,n,1)]).build()));
   });
