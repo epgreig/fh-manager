@@ -35,9 +35,9 @@ Defaults: **espnRankWeight 0.5, multiplierF 1.00, multiplierD 0.81, multiplierG 
 
 D/G multipliers minimize squared differences in cumulative D/G counts at the end of rounds 1–9 between the supplied prior draft and the order implied by the CURRENT ESPN 50/50 blend. The joint search spans 0.50–1.50 in 0.01 steps, holding F at 1; ties favour factors closest to 1. This transfers assumed positional demand to the current player pool, not historical per-player ADP accuracy. A constant factor cannot reproduce every round exactly. Run `python3 scripts/calibrate_positions.py PRIVATE_HISTORY.json` to reproduce the procedure. Private league history stays untracked.
 
-PAN estimates `P(gone) × (positional PAR − expected best alternative PAR)` across a **fixed 22-selection wait**, including when your own selections are consecutive. `panGap` defaults to 22 and does not alternate with snake-pick distance. Survival uses a normal distribution centred on sADP, with `adpSigma` defaulting to 12 picks, conditional on still being available now.
+PAN estimates `P(gone) × (positional PAR − expected best available PAR)` across a **fixed 22-selection wait**, including when your own selections are consecutive. `panGap` defaults to 22 and does not alternate with snake-pick distance. Survival uses a normal distribution centred on sADP, conditional on still being available now. Its uncertainty grows with draft rank: `MAX(adpSigmaFloor, adpSigmaRate × sADP)`, defaulting to 4 picks or 18% of sADP.
 
-Separate C/LW/RW/D/G pools calculate expected best available PAR, excluding the candidate. Drafted/kept players have zero availability. Zero PAR is the reserve fallback when all alternatives disappear. Multi-position players receive the highest eligible positional PAN. Missing sADP in a relevant pool leaves PAN blank. The formulas are inspectable in hidden Board Data and PAN Pools. There are no PAN simulations or custom-function runtime limits. Independence and normally distributed selection timing are simplifying assumptions; this does not model individual opponent rosters or auto-drafters explicitly.
+Separate C/LW/RW/D/G pools calculate one shared expected best available PAR per position. The calculation includes every player’s chance of surviving, including the candidate, matching FF-Manager. Drafted/kept players have zero availability, and zero PAR is the fallback when everyone above replacement disappears. Multi-position players receive the highest eligible positional PAN. Missing sADP in a relevant pool leaves PAN blank. The formulas are inspectable in hidden Board Data and PAN Pools. There are no PAN simulations or custom-function runtime limits. Independence and normally distributed selection timing are simplifying assumptions; this does not model individual opponent rosters or auto-drafters explicitly.
 
 Change blend weights/multipliers/uncertainty to recalculate live. Refresh after changing projections, scoring, replacement ranks, or player eligibility. Keepers, Draft Log, and Targets/Fades update live.
 
@@ -51,7 +51,7 @@ The raw Athletic workbook, extracted projections and generated projection script
 
 ## Validation and references
 
-Run `npm test` with Node 18+. Tests cover scoring, names-only keepers, fixed-gap PAN, blend arithmetic, fallback expectation, identity matching, live filtering and layout. Live Sheets rendering and execution speed should also be checked after refresh.
+Run `npm test` with Node 18+. Tests cover scoring, names-only keepers, fixed-gap PAN, blend arithmetic, shared expected-best calculations, identity matching, live filtering and layout. Live Sheets rendering and execution speed should also be checked after refresh.
 
 - ESPN source: https://lm-api-reads.fantasy.espn.com/apis/v3/games/fhl/seasons/2027/segments/0/leaguedefaults/1?view=kona_player_info
 - ESPN eligibility: https://support.espn.com/hc/en-us/articles/360054126392-Position-Eligibility

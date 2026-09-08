@@ -6,7 +6,7 @@ function onOpen() {
 function migrateReplacementSettings_() {
   const s=SpreadsheetApp.getActive().getSheetByName('Settings');
   const old=s.getDataRange().getValues();
-  for(let r=old.length-1;r>=1;r--)if(['simulations','nextAlternatives'].includes(old[r][0]))s.deleteRow(r+1);
+  for(let r=old.length-1;r>=1;r--)if(['simulations','nextAlternatives','adpSigma'].includes(old[r][0]))s.deleteRow(r+1);
   const existing=rows_('Settings');
   for(let i=existing.length-1;i>=0;i--) if(existing[i][0]==='replacementF') {
     // Locate actual sheet row, including any blank rows in the input table.
@@ -19,14 +19,14 @@ function migrateReplacementSettings_() {
     rows.forEach(r=>{
       if(r[0]==='Replacement assumptions')r[1]='Replacement ranks calibrated by comparing last year’s draft with contemporaneous rankings. Adjust ranks in Settings.';
       if(r[0]==='PAR')r[1]='Season points minus positional replacement points derived from ranks in Settings. Defaults: C32 LW32 RW32 D32 G20. Multi-position forwards use their highest PAR.';
-      if(r[0]==='PAN')r[1]='P(gone over a fixed 22-selection wait) × (positional PAR − expected best alternative PAR). The candidate is excluded. PAN stays fixed-gap even at consecutive own picks.';
-      if(r[0]==='Uncertainty')r[1]='sADP = 50/50 ESPN ADP and default rank, times the positional multiplier. adpSigma controls uncertainty in picks. F=1, D=0.81, G=0.77 defaults.';
+      if(r[0]==='PAN')r[1]='P(gone over a fixed 22-selection wait) × (positional PAR − shared expected best available PAR). Expected best includes every player’s chance of surviving, including the candidate. PAN stays fixed-gap even at consecutive own picks.';
+      if(r[0]==='Uncertainty')r[1]='sADP = 50/50 ESPN ADP and default rank, times the positional multiplier. Draft uncertainty is max(adpSigmaFloor, adpSigmaRate × sADP): defaults 4 picks and 18%. F=1, D=0.81, G=0.77.';
       if(r[0]==='Keepers')r[1]='Type names only. Keepers are removed from availability; no team, round cost, or reserved draft pick is needed.';
     });
     guide.getRange(1,1,rows.length,rows[0].length).setValues(rows);
   }
   const keys=new Set(rows_('Settings').map(r=>r[0]));
-  for(const key of ['espnRankWeight','multiplierF','multiplierD','multiplierG','panGap','highlightCount','youngAgeMax'])if(!keys.has(key))s.appendRow([key,DEFAULTS[key]]);
+  for(const key of ['espnRankWeight','multiplierF','multiplierD','multiplierG','panGap','highlightCount','youngAgeMax','adpSigmaFloor','adpSigmaRate'])if(!keys.has(key))s.appendRow([key,DEFAULTS[key]]);
   ['C','LW','RW'].forEach(pos=>{const key='replacement'+pos;if(!keys.has(key)) s.appendRow([key,DEFAULTS[key]]);});
   // Apply the requested calibration once per sheet; later user edits remain editable.
   const properties=PropertiesService.getDocumentProperties();
@@ -63,8 +63,8 @@ function setupDraftSheet() {
     ['ESPN','Paste ESPN eligibility and ADP in Players, with source/date. Yahoo POS stays separate.'],
     ['PAR','Season points minus positional replacement points derived from ranks in Settings: C32 LW32 RW32 D32 G20. Multi-position forwards use their highest PAR.'],
     ['Replacement assumptions','Replacement ranks calibrated from last year’s draft and rankings. Adjust ranks in Settings.'],
-    ['PAN','P(gone) × (positional PAR − expected best alternative PAR). Uses actual intervening non-keeper picks; excludes the candidate; best eligible PAN for multi-position players.'],
-    ['Uncertainty','Conditional normal survival around blended ESPN ADP/default rank (espnRankWeight 0.5); adpSigma is a positive standard deviation in picks. Zero intervening picks means zero PAN. Missing ADP in an eligible pool leaves PAN blank.'],
+    ['PAN','P(gone) × (positional PAR − shared expected best available PAR). Expected best includes every player’s survival chance, including the candidate; best eligible PAN for multi-position players.'],
+    ['Uncertainty','Conditional normal survival around sADP. Standard deviation is max(adpSigmaFloor, adpSigmaRate × sADP), defaulting to 4 picks or 18% of rank. Missing sADP in an eligible pool leaves PAN blank.'],
     ['Keepers','Up to 2 per team; use draft slot 1–12 and cost round 1–16. Add all keepers before drafting.'],
     ['Shortcuts','Extensions > Macros > Manage macros. Draft = 1; Undo = 2. Check the shortcut displayed on your Mac.'],
     ['Provenance','The Athletic workbook: The List cached season totals. Source KEEP? flags and fantasy scores are not imported.'],
@@ -78,7 +78,7 @@ function inputs_() {
   const c=Object.fromEntries(rows_('Settings').map(r=>[r[0],Number(r[1])]));
   for(const k of Object.keys(DEFAULTS)) if(!Number.isFinite(c[k])) throw Error('Invalid setting '+k);
   for(const k of ['teams','draftSlot','rounds','panGap','highlightCount','youngAgeMax']) if(!Number.isInteger(c[k])||c[k]<1) throw Error('Invalid setting '+k);
-  if(c.multiplierF<=0||c.multiplierD<=0||c.multiplierG<=0||c.espnRankWeight<0||c.espnRankWeight>1||c.draftSlot>c.teams||c.adpSigma<=0||c.parTop<=0||c.parTop>1||c.adpBottom<=0||c.adpBottom>1) throw Error('Settings out of range');
+  if(c.multiplierF<=0||c.multiplierD<=0||c.multiplierG<=0||c.espnRankWeight<0||c.espnRankWeight>1||c.draftSlot>c.teams||c.adpSigmaFloor<=0||c.adpSigmaRate<=0||c.parTop<=0||c.parTop>1||c.adpBottom<=0||c.adpBottom>1) throw Error('Settings out of range');
   const stats=['GP','G','A','BLK','PIM','SHP','W','SO','GA','SV'], grouped=new Map();
   rows_('Projections').forEach(r=>{
     if(typeof r[2]!=='number'||r[2]<0) throw Error('Invalid projection weight');
