@@ -13,6 +13,7 @@ function renderBoard_({c,players,state}) {
   const ss=SpreadsheetApp.getActive(), s=ss.getSheetByName('Board');
   // Score and rank once per explicit refresh; draft availability stays formula-driven.
   const result=evaluate(players,c,{...state,removed:new Set(),next:null});
+  showReplacementLevels_(result.baselines);
   const model=table_('Board Data',['Player','POS','Tm','Points','PAR','ADP','PAN','ID','Group','Available','', 'Current pick','Next own pick','PAN wait (selections)'],[]);
   model.clearContents();
   const n=players.length,last=n+1;
@@ -53,4 +54,17 @@ function renderBoard_({c,players,state}) {
   s.setConditionalFormatRules(rules);s.setFrozenRows(3);s.setHiddenGridlines(true);
   s.getRange(1,1,n+3,29).setFontFamily('Arial').setFontSize(10).setWrapStrategy(SpreadsheetApp.WrapStrategy.CLIP);s.setRowHeights(4,n,21);
   model.hideSheet();
+}
+
+function showReplacementLevels_(baselines) {
+  const s=SpreadsheetApp.getActive().getSheetByName('Settings');
+  s.getRange(1,3).setValue('Replacement points').setBackground('#17364d').setFontColor('#ffffff').setFontWeight('bold');
+  s.getRange(1,3).setNote('Calculated by Refresh board using the current scoring, projections and positional ranks. Includes drafted players and keepers so the PAR baseline stays fixed during the draft.');
+  s.getDataRange().getValues().forEach((row,i)=>{
+    const match=/^replacement(C|LW|RW|D|G)$/.exec(String(row[0]));
+    if(!match)return;
+    const value=baselines[match[1]];
+    s.getRange(i+1,3).setValue(value==null?'Unavailable':value).setNumberFormat('0.0');
+  });
+  s.setColumnWidth(3,155);
 }

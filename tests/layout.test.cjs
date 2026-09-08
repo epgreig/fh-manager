@@ -17,7 +17,7 @@ test('live board filters log availability and separates PAN from player lists',(
  const rule=new Proxy({}, {get:(_,name)=>(...args)=>{ruleCalls.push([name,...args]);return name==='build'?{}:rule;}});
  const ctx={SpreadsheetApp:{getActive:()=>({getSheetByName:()=>sheet}),newConditionalFormatRule:()=>rule,InterpolationType:{NUMBER:'number',PERCENTILE:'percentile'},BorderStyle:{SOLID:'solid'},WrapStrategy:{CLIP:'clip'}}};
  vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Engine.gs','utf8')+'\n'+fs.readFileSync('apps-script/Code.gs','utf8')+'\n'+fs.readFileSync('apps-script/Live.gs','utf8'),ctx);
- ctx.table_=()=>sheet;ctx.buildPanFormulas_=()=>calls.push("buildPanFormulas");
+ ctx.showReplacementLevels_=()=>{};ctx.table_=()=>sheet;ctx.buildPanFormulas_=()=>calls.push("buildPanFormulas");
  ctx.evaluate=()=>({available:['F','D','G'].map(g=>({group:g,id:g,name:g,points:100,par:20,adp:5,pan:null,pos:g,team:'TOR'})),panReady:false});
  ctx.renderBoard_({c:{teams:12,rounds:16,parTop:.15,adpBottom:.1,highlightCount:12},players:[{},{},{}],state:{current:1,next:24,removed:new Set()}});
  assert.ok(ruleCalls.some(r=>r[0]==='setGradientMaxpointWithValue'&&r[1]==='#ffffff'&&r[2]==='percentile'));
