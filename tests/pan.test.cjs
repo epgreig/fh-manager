@@ -14,7 +14,7 @@ test('draft estimate blends rank and ADP equally and handles missing inputs',()=
  assert.equal(evaluate(80,40,.5,.81),48.6);
  assert.equal(evaluate(80,40,.5,.77),46.2);
 });
-test('PAN uses FF-style shared expected best available and rank-scaled uncertainty',()=>{
+test('PAN subtracts shared expected best available and uses rank-scaled uncertainty',()=>{
  const cells={},modelFormulas=[];
  const sheet={getMaxColumns:()=>40,getMaxRows:()=>100,clearContents(){},hideSheet(){},getRange(row,col,n=1,m=1){
    return {setValues(values){values.forEach((r,i)=>r.forEach((v,j)=>cells[key(row+i,col+j)]=v));},
@@ -46,4 +46,6 @@ test('PAN uses FF-style shared expected best available and rank-scaled uncertain
   assert.ok(modelFormulas.some(f=>f.includes('($L$2-1+$N$2)')));
   assert.ok(modelFormulas.some(f=>f.includes('MAX(XLOOKUP("adpSigmaFloor"')&&f.includes('XLOOKUP("adpSigmaRate"')&&f.includes('*R2')));
   assert.ok(modelFormulas.some(f=>f.includes("SUM('PAN Pools'!E2:E4)")));
+  assert.ok(modelFormulas.some(f=>f.includes("D2-20-SUM('PAN Pools'!E2:E4)")));
+  assert.ok(!modelFormulas.some(f=>f.includes('(1-O2)*')));
 });

@@ -19,7 +19,7 @@ function migrateReplacementSettings_() {
     rows.forEach(r=>{
       if(r[0]==='Replacement assumptions')r[1]='Replacement ranks calibrated by comparing last year’s draft with contemporaneous rankings. Adjust ranks in Settings.';
       if(r[0]==='PAR')r[1]='Season points minus positional replacement points derived from ranks in Settings. Defaults: C32 LW32 RW32 D32 G20. Multi-position forwards use their highest PAR.';
-      if(r[0]==='PAN')r[1]='P(gone over a fixed 22-selection wait) × (positional PAR − shared expected best available PAR). Expected best includes every player’s chance of surviving, including the candidate. PAN stays fixed-gap even at consecutive own picks.';
+      if(r[0]==='PAN')r[1]='Positional PAR minus the expected best available PAR after a fixed 22-selection wait. Expected best includes every player’s chance of surviving, including the candidate. PAN stays fixed-gap even at consecutive own picks.';
       if(r[0]==='Uncertainty')r[1]='sADP = 50/50 ESPN ADP and default rank, times the positional multiplier. Draft uncertainty is max(adpSigmaFloor, adpSigmaRate × sADP): defaults 4 picks and 18%. F=1, D=0.81, G=0.77.';
       if(r[0]==='Keepers')r[1]='Type names only. Keepers are removed from availability; no team, round cost, or reserved draft pick is needed.';
     });
@@ -63,7 +63,7 @@ function setupDraftSheet() {
     ['ESPN','Paste ESPN eligibility and ADP in Players, with source/date. Yahoo POS stays separate.'],
     ['PAR','Season points minus positional replacement points derived from ranks in Settings: C32 LW32 RW32 D32 G20. Multi-position forwards use their highest PAR.'],
     ['Replacement assumptions','Replacement ranks calibrated from last year’s draft and rankings. Adjust ranks in Settings.'],
-    ['PAN','P(gone) × (positional PAR − shared expected best available PAR). Expected best includes every player’s survival chance, including the candidate; best eligible PAN for multi-position players.'],
+    ['PAN','Positional PAR minus the expected best available PAR after 22 selections. Expected best includes every player’s survival chance, including the candidate; multi-position players use their highest eligible PAN.'],
     ['Uncertainty','Conditional normal survival around sADP. Standard deviation is max(adpSigmaFloor, adpSigmaRate × sADP), defaulting to 4 picks or 18% of rank. Missing sADP in an eligible pool leaves PAN blank.'],
     ['Keepers','Up to 2 per team; use draft slot 1–12 and cost round 1–16. Add all keepers before drafting.'],
     ['Shortcuts','Extensions > Macros > Manage macros. Draft = 1; Undo = 2. Check the shortcut displayed on your Mac.'],

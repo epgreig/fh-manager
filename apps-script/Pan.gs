@@ -51,7 +51,7 @@ function buildPanFormulas_(model,players,baselines,c) {
     const r=i+2,choices=options.get(p.id);
     if(!choices.length)return ['=""'];
     const valid=choices.map(x=>x.valid).join(',');
-    const costs=choices.map(x=>'(1-O'+r+')*(D'+r+'-'+x.base+'-'+x.expected+')').join(',');
+    const costs=choices.map(x=>'(D'+r+'-'+x.base+'-'+x.expected+')').join(',');
     return ['=IF(NOT(J'+r+'),"",IF(AND(ISNUMBER(O'+r+'),'+valid+'),MAX('+costs+'),""))'];
   }));
   pools.hideSheet();
