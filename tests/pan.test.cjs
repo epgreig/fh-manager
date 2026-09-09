@@ -1,18 +1,19 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
-test('draft estimate blends rank and ADP equally and handles missing inputs',()=>{
+test('draft estimate uses a weighted geometric ADP/rank blend and handles missing inputs',()=>{
  const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Pan.gs','utf8'),ctx);
  const formula=ctx.draftOrderFormula_(2).slice(1);
  const evaluate=(adp,rank,weight,multiplier=1)=>vm.runInNewContext(formula.replaceAll('$S$2','weight'),{
-   F2:adp,Q2:rank,U2:multiplier,weight,IF:(condition,a,b)=>condition?a:b,AND:(...args)=>args.every(Boolean),ISNUMBER:x=>typeof x==='number'
+   F2:adp,Q2:rank,U2:multiplier,weight,POWER:Math.pow,IF:(condition,a,b)=>condition?a:b,AND:(...args)=>args.every(Boolean),ISNUMBER:x=>typeof x==='number'
  });
- assert.equal(evaluate(80,40,.5),60);
+ assert.ok(Math.abs(evaluate(80,40,.5)-Math.sqrt(80*40))<1e-10);
+ assert.ok(Math.abs(evaluate(80,40,.25)-Math.pow(80,.75)*Math.pow(40,.25))<1e-10);
  assert.equal(evaluate(80,40,0),80);
  assert.equal(evaluate(80,40,1),40);
  assert.equal(evaluate(80,'',.5),80);
  assert.equal(evaluate('',40,.5),40);
  assert.equal(evaluate('','',.5),'');
- assert.equal(evaluate(80,40,.5,.81),48.6);
- assert.equal(evaluate(80,40,.5,.77),46.2);
+ assert.ok(Math.abs(evaluate(80,40,.25,.85)-Math.pow(80,.75)*Math.pow(40,.25)*.85)<1e-10);
+ assert.ok(Math.abs(evaluate(80,40,.25,.81)-Math.pow(80,.75)*Math.pow(40,.25)*.81)<1e-10);
 });
 test('PAN subtracts shared expected best available and uses rank-scaled uncertainty',()=>{
  const cells={},modelFormulas=[];

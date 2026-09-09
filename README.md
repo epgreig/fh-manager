@@ -29,9 +29,9 @@ PAR is points above the player at the configured positional replacement rank. De
 
 ## Smart ADP and PAN
 
-`sADP = ((1 − espnRankWeight) × ESPN ADP + espnRankWeight × ESPN rank) × positional multiplier`.
+`sADP = ESPN ADP^(1 − espnRankWeight) × ESPN rank^espnRankWeight × positional multiplier`.
 
-Defaults: **espnRankWeight 0.5, multiplierF 1.00, multiplierD 0.81, multiplierG 0.77**. If one input is missing, use the other before multiplying; if both are missing, leave sADP blank. Original ADP remains in Players and Board Data. ESPN rank comes from `draftRanksByRankType.STANDARD.rank`, not ratings.totalRanking or custom manager rankings.
+Defaults: **espnRankWeight 0.25, multiplierF 1.00, multiplierD 0.85, multiplierG 0.81**. This gives ADP 75% weight and ESPN rank 25% weight in a weighted geometric mean. If one input is missing, use the other before multiplying; if both are missing, leave sADP blank. Original ADP remains in Players and Board Data. ESPN rank comes from `draftRanksByRankType.STANDARD.rank`, not ratings.totalRanking or custom manager rankings.
 
 D/G multipliers minimize squared differences in cumulative D/G counts at the end of rounds 1–9 between the supplied prior draft and the order implied by the CURRENT ESPN 50/50 blend. The joint search spans 0.50–1.50 in 0.01 steps, holding F at 1; ties favour factors closest to 1. This transfers assumed positional demand to the current player pool, not historical per-player ADP accuracy. A constant factor cannot reproduce every round exactly. Run `python3 scripts/calibrate_positions.py PRIVATE_HISTORY.json` to reproduce the procedure. Private league history stays untracked.
 

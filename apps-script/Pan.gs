@@ -58,5 +58,5 @@ function buildPanFormulas_(model,players,baselines,c) {
 }
 
 function draftOrderFormula_(r) {
-  return '=IF(AND(ISNUMBER(F'+r+'),ISNUMBER(Q'+r+')),((1-$S$2)*F'+r+'+$S$2*Q'+r+')*U'+r+',IF(ISNUMBER(F'+r+'),F'+r+'*U'+r+',IF(ISNUMBER(Q'+r+'),Q'+r+'*U'+r+',"")))';
+  return '=IF(AND(ISNUMBER(F'+r+'),ISNUMBER(Q'+r+')),POWER(F'+r+',1-$S$2)*POWER(Q'+r+',$S$2)*U'+r+',IF(ISNUMBER(F'+r+'),F'+r+'*U'+r+',IF(ISNUMBER(Q'+r+'),Q'+r+'*U'+r+',"")))';
 }

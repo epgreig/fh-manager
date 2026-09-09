@@ -20,7 +20,7 @@ function migrateReplacementSettings_() {
       if(r[0]==='Replacement assumptions')r[1]='Replacement ranks calibrated by comparing last year’s draft with contemporaneous rankings. Adjust ranks in Settings.';
       if(r[0]==='PAR')r[1]='Season points minus positional replacement points derived from ranks in Settings. Defaults: C32 LW32 RW32 D32 G20. Multi-position forwards use their highest PAR.';
       if(r[0]==='PAN')r[1]='Positional PAR minus the expected best available PAR after a fixed 22-selection wait. Expected best includes every player’s chance of surviving, including the candidate. PAN stays fixed-gap even at consecutive own picks.';
-      if(r[0]==='Uncertainty')r[1]='sADP = 50/50 ESPN ADP and default rank, times the positional multiplier. Draft uncertainty is max(adpSigmaFloor, adpSigmaRate × sADP): defaults 4 picks and 18%. F=1, D=0.81, G=0.77.';
+      if(r[0]==='Uncertainty')r[1]='sADP is the weighted geometric mean of ESPN ADP (75%) and default rank (25%), times the positional multiplier. Draft uncertainty is max(adpSigmaFloor, adpSigmaRate × sADP). F=1, D=0.85, G=0.81.';
       if(r[0]==='Keepers')r[1]='Type names only. Keepers are removed from availability; no team, round cost, or reserved draft pick is needed.';
     });
     guide.getRange(1,1,rows.length,rows[0].length).setValues(rows);
@@ -37,6 +37,14 @@ function migrateReplacementSettings_() {
       if(Object.prototype.hasOwnProperty.call(ranks,row[0]))s.getRange(i+1,2).setValue(ranks[row[0]]);
     });
     properties.setProperty(migration,'applied');
+  }
+  const sadpMigration='weightedGeometricSadp20260908';
+  if(properties.getProperty(sadpMigration)!=='applied') {
+    const values={espnRankWeight:0.25,multiplierF:1,multiplierD:0.85,multiplierG:0.81};
+    s.getDataRange().getValues().forEach((row,i)=>{
+      if(Object.prototype.hasOwnProperty.call(values,row[0]))s.getRange(i+1,2).setValue(values[row[0]]);
+    });
+    properties.setProperty(sadpMigration,'applied');
   }
 
 }
@@ -64,7 +72,7 @@ function setupDraftSheet() {
     ['PAR','Season points minus positional replacement points derived from ranks in Settings: C32 LW32 RW32 D32 G20. Multi-position forwards use their highest PAR.'],
     ['Replacement assumptions','Replacement ranks calibrated from last year’s draft and rankings. Adjust ranks in Settings.'],
     ['PAN','Positional PAR minus the expected best available PAR after 22 selections. Expected best includes every player’s survival chance, including the candidate; multi-position players use their highest eligible PAN.'],
-    ['Uncertainty','Conditional normal survival around sADP. Standard deviation is max(adpSigmaFloor, adpSigmaRate × sADP), defaulting to 4 picks or 18% of rank. Missing sADP in an eligible pool leaves PAN blank.'],
+    ['Uncertainty','sADP is ESPN ADP^0.75 × default rank^0.25 × positional multiplier. Conditional-normal uncertainty is max(4 picks, 18% of sADP). Missing sADP in an eligible pool leaves PAN blank.'],
     ['Keepers','Up to 2 per team; use draft slot 1–12 and cost round 1–16. Add all keepers before drafting.'],
     ['Shortcuts','Extensions > Macros > Manage macros. Draft = 1; Undo = 2. Check the shortcut displayed on your Mac.'],
     ['Provenance','The Athletic workbook: The List cached season totals. Source KEEP? flags and fantasy scores are not imported.'],
