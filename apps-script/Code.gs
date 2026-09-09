@@ -20,13 +20,13 @@ function migrateReplacementSettings_() {
       if(r[0]==='Replacement assumptions')r[1]='Replacement ranks calibrated by comparing last year’s draft with contemporaneous rankings. Adjust ranks in Settings.';
       if(r[0]==='PAR')r[1]='Season points minus positional replacement points derived from ranks in Settings. Defaults: C32 LW32 RW32 D32 G20. Multi-position forwards use their highest PAR.';
       if(r[0]==='PAN')r[1]='Positional PAR minus the expected best available PAR after a fixed 22-selection wait. Expected best includes every player’s chance of surviving, including the candidate. PAN stays fixed-gap even at consecutive own picks.';
-      if(r[0]==='Uncertainty')r[1]='sADP is the weighted geometric mean of ESPN ADP (75%) and default rank (25%), times the positional multiplier. Draft uncertainty is max(adpSigmaFloor, adpSigmaRate × sADP). F=1, D=0.85, G=0.81.';
+      if(r[0]==='Uncertainty')r[1]='sADP blends ESPN ADP (75%) and rank (25%) geometrically, then applies multiplier × (base / curvePivot)^(exponent − 1). F and D are linear; G uses multiplier 0.65 and exponent 1.235 at pivot 50.';
       if(r[0]==='Keepers')r[1]='Type names only. Keepers are removed from availability; no team, round cost, or reserved draft pick is needed.';
     });
     guide.getRange(1,1,rows.length,rows[0].length).setValues(rows);
   }
   const keys=new Set(rows_('Settings').map(r=>r[0]));
-  for(const key of ['espnRankWeight','multiplierF','multiplierD','multiplierG','panGap','highlightCount','youngAgeMax','adpSigmaFloor','adpSigmaRate'])if(!keys.has(key))s.appendRow([key,DEFAULTS[key]]);
+  for(const key of ['espnRankWeight','multiplierF','multiplierD','multiplierG','exponentF','exponentD','exponentG','curvePivot','panGap','highlightCount','youngAgeMax','adpSigmaFloor','adpSigmaRate'])if(!keys.has(key))s.appendRow([key,DEFAULTS[key]]);
   ['C','LW','RW'].forEach(pos=>{const key='replacement'+pos;if(!keys.has(key)) s.appendRow([key,DEFAULTS[key]]);});
   // Apply the requested calibration once per sheet; later user edits remain editable.
   const properties=PropertiesService.getDocumentProperties();
@@ -45,6 +45,14 @@ function migrateReplacementSettings_() {
       if(Object.prototype.hasOwnProperty.call(values,row[0]))s.getRange(i+1,2).setValue(values[row[0]]);
     });
     properties.setProperty(sadpMigration,'applied');
+  }
+  const curveMigration='goalieSadpCurve20260909';
+  if(properties.getProperty(curveMigration)!=='applied') {
+    const values={multiplierD:0.86,multiplierG:0.65,exponentF:1,exponentD:1,exponentG:1.235,curvePivot:50};
+    s.getDataRange().getValues().forEach((row,i)=>{
+      if(Object.prototype.hasOwnProperty.call(values,row[0]))s.getRange(i+1,2).setValue(values[row[0]]);
+    });
+    properties.setProperty(curveMigration,'applied');
   }
 
 }
@@ -72,7 +80,7 @@ function setupDraftSheet() {
     ['PAR','Season points minus positional replacement points derived from ranks in Settings: C32 LW32 RW32 D32 G20. Multi-position forwards use their highest PAR.'],
     ['Replacement assumptions','Replacement ranks calibrated from last year’s draft and rankings. Adjust ranks in Settings.'],
     ['PAN','Positional PAR minus the expected best available PAR after 22 selections. Expected best includes every player’s survival chance, including the candidate; multi-position players use their highest eligible PAN.'],
-    ['Uncertainty','sADP is ESPN ADP^0.75 × default rank^0.25 × positional multiplier. Conditional-normal uncertainty is max(4 picks, 18% of sADP). Missing sADP in an eligible pool leaves PAN blank.'],
+    ['Uncertainty','sADP starts with ESPN ADP^0.75 × rank^0.25. F is unchanged, D is ×0.86, and G uses 0.65 × base × (base/50)^0.235. Conditional-normal uncertainty is max(4 picks, 18% of sADP).'],
     ['Keepers','Up to 2 per team; use draft slot 1–12 and cost round 1–16. Add all keepers before drafting.'],
     ['Shortcuts','Extensions > Macros > Manage macros. Draft = 1; Undo = 2. Check the shortcut displayed on your Mac.'],
     ['Provenance','The Athletic workbook: The List cached season totals. Source KEEP? flags and fantasy scores are not imported.'],
@@ -86,7 +94,7 @@ function inputs_() {
   const c=Object.fromEntries(rows_('Settings').map(r=>[r[0],Number(r[1])]));
   for(const k of Object.keys(DEFAULTS)) if(!Number.isFinite(c[k])) throw Error('Invalid setting '+k);
   for(const k of ['teams','draftSlot','rounds','panGap','highlightCount','youngAgeMax']) if(!Number.isInteger(c[k])||c[k]<1) throw Error('Invalid setting '+k);
-  if(c.multiplierF<=0||c.multiplierD<=0||c.multiplierG<=0||c.espnRankWeight<0||c.espnRankWeight>1||c.draftSlot>c.teams||c.adpSigmaFloor<=0||c.adpSigmaRate<=0||c.parTop<=0||c.parTop>1||c.adpBottom<=0||c.adpBottom>1) throw Error('Settings out of range');
+  if(c.multiplierF<=0||c.multiplierD<=0||c.multiplierG<=0||c.exponentF<=0||c.exponentD<=0||c.exponentG<=0||c.curvePivot<=0||c.espnRankWeight<0||c.espnRankWeight>1||c.draftSlot>c.teams||c.adpSigmaFloor<=0||c.adpSigmaRate<=0||c.parTop<=0||c.parTop>1||c.adpBottom<=0||c.adpBottom>1) throw Error('Settings out of range');
   const stats=['GP','G','A','BLK','PIM','SHP','W','SO','GA','SV'], grouped=new Map();
   rows_('Projections').forEach(r=>{
     if(typeof r[2]!=='number'||r[2]<0) throw Error('Invalid projection weight');

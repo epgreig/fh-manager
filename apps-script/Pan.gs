@@ -10,9 +10,12 @@ function buildPanFormulas_(model,players,baselines,c) {
   model.getRange('Q1:S1').setValues([['ESPN default rank','Smart ADP','ESPN rank weight']]);
   model.getRange('S2').setFormula('=XLOOKUP("espnRankWeight",Settings!A2:A100,Settings!B2:B100)');
   model.getRange(2,17,players.length,1).setValues(players.map(p=>[p.espnRank==null?'':p.espnRank]));
-  model.getRange('T1:U1').setValues([['Age','Position multiplier']]);
+  model.getRange('T1:V1').setValues([['Age','Position multiplier','Position exponent']]);
+  model.getRange('W1').setValue('Curve pivot');
+  model.getRange('W2').setFormula('=XLOOKUP("curvePivot",Settings!A2:A100,Settings!B2:B100)');
   model.getRange(2,20,players.length,1).setValues(players.map(p=>[p.age==null?'':p.age]));
   model.getRange(2,21,players.length,1).setFormulas(players.map((p,i)=>['=XLOOKUP("multiplier"&I'+(i+2)+',Settings!A2:A100,Settings!B2:B100)']));
+  model.getRange(2,22,players.length,1).setFormulas(players.map((p,i)=>['=XLOOKUP("exponent"&I'+(i+2)+',Settings!A2:A100,Settings!B2:B100)']));
   model.getRange(2,18,players.length,1).setFormulas(players.map((p,i)=>[draftOrderFormula_(i+2)]));
   model.getRange(2,16,players.length,1).setFormulas(players.map((p,i)=>{
     const r=i+2;
@@ -58,5 +61,6 @@ function buildPanFormulas_(model,players,baselines,c) {
 }
 
 function draftOrderFormula_(r) {
-  return '=IF(AND(ISNUMBER(F'+r+'),ISNUMBER(Q'+r+')),POWER(F'+r+',1-$S$2)*POWER(Q'+r+',$S$2)*U'+r+',IF(ISNUMBER(F'+r+'),F'+r+'*U'+r+',IF(ISNUMBER(Q'+r+'),Q'+r+'*U'+r+',"")))';
+  const both='POWER(F'+r+',1-$S$2)*POWER(Q'+r+',$S$2)';
+  return '=IF(AND(ISNUMBER(F'+r+'),ISNUMBER(Q'+r+')),'+both+'*U'+r+'*POWER('+both+'/$W$2,V'+r+'-1),IF(ISNUMBER(F'+r+'),F'+r+'*U'+r+'*POWER(F'+r+'/$W$2,V'+r+'-1),IF(ISNUMBER(Q'+r+'),Q'+r+'*U'+r+'*POWER(Q'+r+'/$W$2,V'+r+'-1),"")))';
 }

@@ -2,8 +2,8 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),fs=requir
 test('draft estimate uses a weighted geometric ADP/rank blend and handles missing inputs',()=>{
  const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Pan.gs','utf8'),ctx);
  const formula=ctx.draftOrderFormula_(2).slice(1);
- const evaluate=(adp,rank,weight,multiplier=1)=>vm.runInNewContext(formula.replaceAll('$S$2','weight'),{
-   F2:adp,Q2:rank,U2:multiplier,weight,POWER:Math.pow,IF:(condition,a,b)=>condition?a:b,AND:(...args)=>args.every(Boolean),ISNUMBER:x=>typeof x==='number'
+ const evaluate=(adp,rank,weight,multiplier=1,exponent=1,pivot=50)=>vm.runInNewContext(formula.replaceAll('$S$2','weight').replaceAll('$W$2','pivot'),{
+   F2:adp,Q2:rank,U2:multiplier,V2:exponent,weight,pivot,POWER:Math.pow,IF:(condition,a,b)=>condition?a:b,AND:(...args)=>args.every(Boolean),ISNUMBER:x=>typeof x==='number'
  });
  assert.ok(Math.abs(evaluate(80,40,.5)-Math.sqrt(80*40))<1e-10);
  assert.ok(Math.abs(evaluate(80,40,.25)-Math.pow(80,.75)*Math.pow(40,.25))<1e-10);
@@ -12,8 +12,10 @@ test('draft estimate uses a weighted geometric ADP/rank blend and handles missin
  assert.equal(evaluate(80,'',.5),80);
  assert.equal(evaluate('',40,.5),40);
  assert.equal(evaluate('','',.5),'');
- assert.ok(Math.abs(evaluate(80,40,.25,.85)-Math.pow(80,.75)*Math.pow(40,.25)*.85)<1e-10);
+ assert.ok(Math.abs(evaluate(80,40,.25,.86)-Math.pow(80,.75)*Math.pow(40,.25)*.86)<1e-10);
  assert.ok(Math.abs(evaluate(80,40,.25,.81)-Math.pow(80,.75)*Math.pow(40,.25)*.81)<1e-10);
+ const goalieBase=Math.pow(25,.75)*Math.pow(25,.25);
+ assert.ok(Math.abs(evaluate(25,25,.25,.65,1.235)-.65*goalieBase*Math.pow(goalieBase/50,.235))<1e-10);
 });
 test('PAN subtracts shared expected best available and uses rank-scaled uncertainty',()=>{
  const cells={},modelFormulas=[];
@@ -21,7 +23,7 @@ test('PAN subtracts shared expected best available and uses rank-scaled uncertai
    return {setValues(values){values.forEach((r,i)=>r.forEach((v,j)=>cells[key(row+i,col+j)]=v));},
    setValue(v){cells[key(row,col)]=v;},setFormulas(values){values.forEach((r,i)=>r.forEach((v,j)=>cells[key(row+i,col+j)]=v));}};
  }};
- const model={getRange(){return {setValues(){},setFormula(f){modelFormulas.push(f);},setFormulas(rows){modelFormulas.push(...rows.flat());}};}};
+ const model={getRange(){return {setValue(){},setValues(){},setFormula(f){modelFormulas.push(f);},setFormulas(rows){modelFormulas.push(...rows.flat());}};}};
  const ctx={SpreadsheetApp:{getActive:()=>({})},table_:()=>sheet};vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Pan.gs','utf8'),ctx);
  function key(r,c){return ctx.panColumn_(c)+r;}
  const players=[{id:'a',points:100,group:'F',pos:'C'},{id:'b',points:80,group:'F',pos:'C'},{id:'c',points:60,group:'F',pos:'C'}];
