@@ -4,6 +4,7 @@ import json
 import re
 import unicodedata
 from pathlib import Path
+import openpyxl
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / 'data/raw'
@@ -23,6 +24,10 @@ ALIASES = {
     'Daniel Vladar':'Dan Vladar', 'Daniil Tarasov':'Daniil Tarasov (G)',
     'Matthew Savoie':'Matt Savoie', 'Alexandre Texier':'Alex Texier',
     'Dimitri Voronkov':'Dmitri Voronkov',
+    'Mat Barzal':'Mathew Barzal', 'Gabe Vilardi':'Gabriel Vilardi',
+    'Matthew Coronato':'Matt Coronato', 'Vasili Podkolzin':'Vasily Podkolzin',
+    'Alexander Romanov':'Alex Romanov', 'JJ Moser':'Janis Moser',
+    "Zach L'Heureux":"Zachary L'Heureux",
 }
 
 def key(name):
@@ -48,6 +53,19 @@ def apples_rows(filename):
     for row in sheet[7:]:
         if len(row) >= 13 and row[0].strip() and number(row[4]) is not None:
             yield dict(zip(header[:13], row[:13]))
+
+def laidlaw_rows(filename):
+    """Read season skater totals; goalie tiers have no stat projections."""
+    workbook = openpyxl.load_workbook(RAW / filename, read_only=True, data_only=True)
+    try:
+        sheet = workbook['Skaters']
+        if tuple(next(sheet.values)) != (None, 'GP', 'G', 'A', 'P', 'PPP', 'SOG', 'Hits', 'Blks'):
+            raise ValueError('Unexpected Steve Laidlaw skater columns')
+        for row in sheet.iter_rows(min_row=2, values_only=True):
+            if isinstance(row[0], str) and row[0].strip() and number(row[1]) is not None:
+                yield dict(zip(('Name','GP','G','A','P','PPP','SOG','Hits','BLK'), row))
+    finally:
+        workbook.close()
 
 def extract():
     athletic = json.loads(ATHLETIC.read_text())['players']
@@ -86,7 +104,9 @@ def extract():
     for author in ('Blake', 'Nate'):
         add('Apples & Ginos '+author, {'GP':'GP','G':'G','A':'A','BLK':'BLK','PIM':'PIM'},
             f"Apples & Ginos 2026-27 NHL Skater Projections - {author}'s Projections.csv",
-            'Name',reader=apples_rows,weight=0.05)
+            'Name',reader=apples_rows,weight=0.10)
+    add('Steve Laidlaw', {'GP':'GP','G':'G','A':'A','BLK':'BLK'},
+        '2026-27 Steve Laidlaw Fantasy Hockey Rankings.xlsx','Name',reader=laidlaw_rows,weight=0.10)
     identity = [(p['id'],p['source']) for p in output]
     if len(identity) != len(set(identity)):
         raise ValueError('Duplicate player/source pairs in secondary projections')
@@ -96,4 +116,4 @@ if __name__ == '__main__':
     projections, unmatched = extract()
     (ROOT/'apps-script/SecondaryProjectionData.gs').write_text('const SECONDARY_PROJECTION_DATA = '+json.dumps(projections, separators=(',',':'))+';\n')
     (ROOT/'data/processed/secondary-projections.json').write_text(json.dumps({'players':projections,'unmatched':unmatched},indent=2))
-    print(json.dumps({'rows':len(projections),'by_source':{s:sum(p['source']==s for p in projections) for s in ['Scott Cullen','Hashtag Hockey','Apples & Ginos Blake','Apples & Ginos Nate']},'unmatched':{s:len(v) for s,v in unmatched.items()}},indent=2))
+    print(json.dumps({'rows':len(projections),'by_source':{s:sum(p['source']==s for p in projections) for s in ['Scott Cullen','Hashtag Hockey','Apples & Ginos Blake','Apples & Ginos Nate','Steve Laidlaw']},'unmatched':{s:len(v) for s,v in unmatched.items()}},indent=2))

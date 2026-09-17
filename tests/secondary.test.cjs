@@ -5,13 +5,19 @@ test('secondary source import is idempotent and preserves later weight edits',()
   const athletic=JSON.parse(fs.readFileSync('data/processed/athletic.json')).players;
   const secondary=JSON.parse(fs.readFileSync('data/processed/secondary-projections.json')).players;
   const ids=new Set(athletic.map(p=>p.id));
-  assert.equal(secondary.length,1710);
+  assert.equal(secondary.length,2048);
   assert.equal(new Set(secondary.map(p=>p.id+'|'+p.source)).size,secondary.length);
   assert.ok(secondary.every(p=>ids.has(p.id)));
   const mcdavid=athletic.find(p=>p.name==='Connor McDavid');
   const cullen=secondary.find(p=>p.id===mcdavid.id&&p.source==='Scott Cullen');
   assert.ok(cullen.stats.G>0);
   assert.equal(cullen.stats.SHP,undefined);
+  const laidlaw=secondary.filter(p=>p.source==='Steve Laidlaw');
+  assert.equal(laidlaw.length,337);
+  assert.ok(laidlaw.every(p=>Object.keys(p.stats).sort().join(',')==='A,BLK,G,GP'));
+  assert.equal(laidlaw.find(p=>p.id===mcdavid.id).stats.G,40);
+  assert.equal(laidlaw.find(p=>p.id===mcdavid.id).stats.PIM,undefined);
+  assert.ok(athletic.slice(0,60).filter(p=>p.group!=='G').every(p=>laidlaw.some(x=>x.id===p.id)));
   for(const author of ['Blake','Nate']) {
     const source='Apples & Ginos '+author;
     const own=secondary.filter(p=>p.source===source);
@@ -29,7 +35,7 @@ test('secondary source import is idempotent and preserves later weight edits',()
     }));
   }
   const rows=[['ID','Source','Weight'],[mcdavid.id,'The Athletic',1]];
-  const cells={getLastRow:()=>rows.length,getMaxRows:()=>2000,getRange:(r,c,n,m)=>({
+  const cells={getLastRow:()=>rows.length,getMaxRows:()=>3000,getRange:(r,c,n,m)=>({
     getValues:()=>rows.slice(r-1,r-1+n).map(row=>row.slice(c-1,c-1+m)),
     setValues:values=>values.forEach((row,i)=>{rows[r-1+i]??=[];row.forEach((v,j)=>rows[r-1+i][c-1+j]=v)})
   })};
@@ -39,19 +45,20 @@ test('secondary source import is idempotent and preserves later weight edits',()
     PropertiesService:{getDocumentProperties:()=>({getProperty:k=>properties.get(k),setProperty:(k,v)=>properties.set(k,v)})}};
   vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Code.gs','utf8'),ctx);
   ctx.ensureSecondaryProjections_();
-  assert.equal(rows.length,1712);
-  assert.equal(rows[1][2],0.6);
+  assert.equal(rows.length,2050);
+  assert.equal(rows[1][2],0.5);
   assert.equal(rows.find(r=>r[0]===mcdavid.id&&r[1]==='Scott Cullen')[2],0.10);
-  assert.equal(rows.find(r=>r[0]===mcdavid.id&&r[1]==='Hashtag Hockey')[2],0.20);
-  assert.equal(rows.find(r=>r[0]===mcdavid.id&&r[1]==='Apples & Ginos Blake')[2],0.05);
-  assert.equal(rows.find(r=>r[0]===mcdavid.id&&r[1]==='Apples & Ginos Nate')[2],0.05);
+  assert.equal(rows.find(r=>r[0]===mcdavid.id&&r[1]==='Hashtag Hockey')[2],0.10);
+  assert.equal(rows.find(r=>r[0]===mcdavid.id&&r[1]==='Apples & Ginos Blake')[2],0.10);
+  assert.equal(rows.find(r=>r[0]===mcdavid.id&&r[1]==='Apples & Ginos Nate')[2],0.10);
+  assert.equal(rows.find(r=>r[0]===mcdavid.id&&r[1]==='Steve Laidlaw')[2],0.10);
   rows[1][2]=0.7;
   ctx.ensureSecondaryProjections_();
-  assert.equal(rows.length,1712);
+  assert.equal(rows.length,2050);
   assert.equal(rows[1][2],0.7);
 });
 
-test('existing default weights migrate without changing custom weights',()=>{
+test('requested six-source weights apply once and later edits persist',()=>{
   const secondary=JSON.parse(fs.readFileSync('data/processed/secondary-projections.json')).players;
   const id=secondary.find(p=>p.source==='Apples & Ginos Blake').id;
   function refresh(initial) {
@@ -67,8 +74,11 @@ test('existing default weights migrate without changing custom weights',()=>{
       PropertiesService:{getDocumentProperties:()=>({getProperty:k=>props.get(k),setProperty:(k,v)=>props.set(k,v)})}};
     vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Code.gs','utf8'),ctx);
     ctx.ensureSecondaryProjections_();
-    return rows.slice(1,4).map(r=>r[2]);
+    const migrated=rows.slice(1,4).map(r=>r[2]);
+    rows[1][2]=0.7;
+    ctx.ensureSecondaryProjections_();
+    return [migrated,rows[1][2]];
   }
-  assert.deepEqual(refresh({athletic:0.60,hashtag:0.25,cullen:0.15}),[0.60,0.20,0.10]);
-  assert.deepEqual(refresh({athletic:0.70,hashtag:0.25,cullen:0.15}),[0.70,0.25,0.15]);
+  assert.deepEqual(refresh({athletic:0.60,hashtag:0.25,cullen:0.15}),[[0.50,0.10,0.10],0.7]);
+  assert.deepEqual(refresh({athletic:0.70,hashtag:0.25,cullen:0.15}),[[0.50,0.10,0.10],0.7]);
 });

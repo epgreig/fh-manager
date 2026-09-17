@@ -22,8 +22,8 @@ function migrateReplacementSettings_() {
       if(r[0]==='PAN')r[1]='Positional PAR minus the expected best available PAR after a fixed 22-selection wait. Expected best includes every player’s chance of surviving, including the candidate. PAN stays fixed-gap even at consecutive own picks.';
       if(r[0]==='Uncertainty')r[1]='sADP blends ESPN ADP (75%) and rank (25%) geometrically, then applies multiplier × (base / curvePivot)^(exponent − 1). F and D are linear; G uses multiplier 0.65 and exponent 1.235 at pivot 50.';
       if(r[0]==='Keepers')r[1]='Type names only. Keepers are removed from availability; no team, round cost, or reserved draft pick is needed.';
-      if(r[0]==='Projections')r[1]='Default weights: Athletic 0.60, Hashtag Hockey 0.20, Scott Cullen 0.10, Apples & Ginos Blake 0.05, Nate 0.05. Each stat renormalizes over sources that supply it; blank is not zero.';
-      if(r[0]==='Provenance')r[1]='Athletic, Hashtag Hockey, Scott Cullen, and both Apples & Ginos season projections are blended. ESPN rank and ADP remain draft-timing inputs.';
+      if(r[0]==='Projections')r[1]='Default weights: Athletic 0.50; Hashtag Hockey, Scott Cullen, Steve Laidlaw, Apples & Ginos Blake, and Nate 0.10 each. Each stat renormalizes over sources that supply it; blank is not zero.';
+      if(r[0]==='Provenance')r[1]='Athletic, Hashtag Hockey, Scott Cullen, Steve Laidlaw, and both Apples & Ginos season projections are blended. ESPN rank and ADP remain draft-timing inputs.';
     });
     guide.getRange(1,1,rows.length,rows[0].length).setValues(rows);
   }
@@ -97,6 +97,16 @@ function ensureSecondaryProjections_() {
     }
     properties.setProperty(appleMarker,'applied');
   }
+  const laidlawMarker='projectionBlendLaidlaw20260916';
+  if(properties.getProperty(laidlawMarker)!=='applied') {
+    const weights={'The Athletic':0.50,'Hashtag Hockey':0.10,'Scott Cullen':0.10,
+      'Steve Laidlaw':0.10,'Apples & Ginos Blake':0.10,'Apples & Ginos Nate':0.10};
+    const values=s.getLastRow()>1?s.getRange(2,1,s.getLastRow()-1,3).getValues():[];
+    if(values.length)s.getRange(2,3,values.length,1).setValues(values.map(r=>[
+      Object.prototype.hasOwnProperty.call(weights,r[1])?weights[r[1]]:r[2]
+    ]));
+    properties.setProperty(laidlawMarker,'applied');
+  }
 }
 function setupDraftSheet() {
   table_('Settings',['Setting','Value'],Object.entries(DEFAULTS));
@@ -117,8 +127,8 @@ function setupDraftSheet() {
     ['Uncertainty','sADP starts with ESPN ADP^0.75 × rank^0.25. F is unchanged, D is ×0.86, and G uses 0.65 × base × (base/50)^0.235. Conditional-normal uncertainty is max(4 picks, 18% of sADP).'],
     ['Keepers','Up to 2 per team; use draft slot 1–12 and cost round 1–16. Add all keepers before drafting.'],
     ['Shortcuts','Extensions > Macros > Manage macros. Draft = 1; Undo = 2. Check the shortcut displayed on your Mac.'],
-    ['Provenance','Athletic, Hashtag Hockey, Scott Cullen, and both Apples & Ginos season projections are blended. ESPN rank and ADP remain draft-timing inputs.'],
-    ['Projections','Default weights: Athletic 0.60, Hashtag Hockey 0.20, Scott Cullen 0.10, Apples & Ginos Blake 0.05, Nate 0.05. Each stat renormalizes over sources that supply it; blank is not zero.'],
+    ['Provenance','Athletic, Hashtag Hockey, Scott Cullen, Steve Laidlaw, and both Apples & Ginos season projections are blended. ESPN rank and ADP remain draft-timing inputs.'],
+    ['Projections','Default weights: Athletic 0.50; Hashtag Hockey, Scott Cullen, Steve Laidlaw, Apples & Ginos Blake, and Nate 0.10 each. Each stat renormalizes over sources that supply it; blank is not zero.'],
     ['Eligibility reference','https://support.espn.com/hc/en-us/articles/360054126392-Position-Eligibility'],
     ['Macros reference','https://developers.google.com/apps-script/guides/sheets/macros']
   ]).setColumnWidth(2,760);
