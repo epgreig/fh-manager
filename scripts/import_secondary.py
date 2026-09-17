@@ -1,4 +1,4 @@
-"""Normalize the owner's Cullen and Hashtag Hockey CSVs against Athletic IDs."""
+"""Normalize secondary season projections against Athletic player IDs."""
 import csv
 import json
 import re
@@ -21,6 +21,8 @@ ALIASES = {
     'Emil Lilleberg':'Emil Martinsen Lilleberg',
     'Ukko-Pekka Luukkinen':'Ukko-Pekka Luukkonen',
     'Daniel Vladar':'Dan Vladar', 'Daniil Tarasov':'Daniil Tarasov (G)',
+    'Matthew Savoie':'Matt Savoie', 'Alexandre Texier':'Alex Texier',
+    'Dimitri Voronkov':'Dmitri Voronkov',
 }
 
 def key(name):
@@ -36,14 +38,30 @@ def rows(filename):
     with (RAW / filename).open(encoding='utf-8-sig', newline='') as handle:
         return list(csv.DictReader(handle))
 
+def apples_rows(filename):
+    """The downloadable CSV repeats its headers and includes calculated fantasy columns."""
+    with (RAW / filename).open(encoding='utf-8-sig', newline='') as handle:
+        sheet = list(csv.reader(handle))
+    header = sheet[6]
+    if header[:13] != ['Name','Team','Y! Pos','Proj PP','GP','G','A','PTS','PPP','SOG','HIT','BLK','PIM']:
+        raise ValueError(f'Unexpected Apples & Ginos columns: {filename}')
+    for row in sheet[7:]:
+        if len(row) >= 13 and row[0].strip() and number(row[4]) is not None:
+            yield dict(zip(header[:13], row[:13]))
+
 def extract():
     athletic = json.loads(ATHLETIC.read_text())['players']
-    names = {key(p['name']): p for p in athletic}
+    names = {}
+    for player in athletic:
+        normalized = key(player['name'])
+        if normalized in names:
+            raise ValueError(f'Ambiguous normalized Athletic name: {player["name"]}')
+        names[normalized] = player
     output, unmatched = [], {}
 
-    def add(source, data, filename, name_field, goalie=False):
+    def add(source, data, filename, name_field, goalie=False, reader=rows, weight=None):
         misses = []
-        for row in rows(filename):
+        for row in reader(filename):
             name = (row.get(name_field) or '').strip()
             if not name or name == name_field or number(row.get('GP')) is None:
                 continue
@@ -53,7 +71,8 @@ def extract():
                 continue
             stats = {field: number(row.get(column)) for field, column in data.items()}
             stats = {field: value for field, value in stats.items() if value is not None}
-            output.append({'id': player['id'], 'source': source, 'weight': 0.25 if source == 'Hashtag Hockey' else 0.15, 'stats': stats})
+            source_weight = weight if weight is not None else (0.20 if source == 'Hashtag Hockey' else 0.10)
+            output.append({'id': player['id'], 'source': source, 'weight': source_weight, 'stats': stats})
         unmatched[source + ' ' + ('goalies' if goalie else 'skaters')] = misses
 
     add('Scott Cullen', {'GP':'GP','G':'G','A':'A','BLK':'BLOCKS','PIM':'PIM'},
@@ -64,6 +83,10 @@ def extract():
         'HashtagHockeySkaters.csv','NAME')
     add('Hashtag Hockey', {'GP':'GP','W':'WIN','SO':'SHU','GA':'GA','SV':'SAV'},
         'HashtagHockeyGoalies.csv','NAME',True)
+    for author in ('Blake', 'Nate'):
+        add('Apples & Ginos '+author, {'GP':'GP','G':'G','A':'A','BLK':'BLK','PIM':'PIM'},
+            f"Apples & Ginos 2026-27 NHL Skater Projections - {author}'s Projections.csv",
+            'Name',reader=apples_rows,weight=0.05)
     identity = [(p['id'],p['source']) for p in output]
     if len(identity) != len(set(identity)):
         raise ValueError('Duplicate player/source pairs in secondary projections')
@@ -73,4 +96,4 @@ if __name__ == '__main__':
     projections, unmatched = extract()
     (ROOT/'apps-script/SecondaryProjectionData.gs').write_text('const SECONDARY_PROJECTION_DATA = '+json.dumps(projections, separators=(',',':'))+';\n')
     (ROOT/'data/processed/secondary-projections.json').write_text(json.dumps({'players':projections,'unmatched':unmatched},indent=2))
-    print(json.dumps({'rows':len(projections),'by_source':{s:sum(p['source']==s for p in projections) for s in ['Scott Cullen','Hashtag Hockey']},'unmatched':{s:len(v) for s,v in unmatched.items()}},indent=2))
+    print(json.dumps({'rows':len(projections),'by_source':{s:sum(p['source']==s for p in projections) for s in ['Scott Cullen','Hashtag Hockey','Apples & Ginos Blake','Apples & Ginos Nate']},'unmatched':{s:len(v) for s,v in unmatched.items()}},indent=2))

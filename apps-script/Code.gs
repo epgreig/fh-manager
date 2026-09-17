@@ -22,8 +22,8 @@ function migrateReplacementSettings_() {
       if(r[0]==='PAN')r[1]='Positional PAR minus the expected best available PAR after a fixed 22-selection wait. Expected best includes every player’s chance of surviving, including the candidate. PAN stays fixed-gap even at consecutive own picks.';
       if(r[0]==='Uncertainty')r[1]='sADP blends ESPN ADP (75%) and rank (25%) geometrically, then applies multiplier × (base / curvePivot)^(exponent − 1). F and D are linear; G uses multiplier 0.65 and exponent 1.235 at pivot 50.';
       if(r[0]==='Keepers')r[1]='Type names only. Keepers are removed from availability; no team, round cost, or reserved draft pick is needed.';
-      if(r[0]==='Projections')r[1]='Default source weights: Athletic 0.60, Hashtag Hockey 0.25, Scott Cullen 0.15. Each stat renormalizes over sources that supply it; blank is not zero. Edit weights in Projections, then refresh.';
-      if(r[0]==='Provenance')r[1]='Athletic, Scott Cullen and Hashtag Hockey season totals are blended. ESPN rank and ADP remain draft-timing inputs, not projection sources.';
+      if(r[0]==='Projections')r[1]='Default weights: Athletic 0.60, Hashtag Hockey 0.20, Scott Cullen 0.10, Apples & Ginos Blake 0.05, Nate 0.05. Each stat renormalizes over sources that supply it; blank is not zero.';
+      if(r[0]==='Provenance')r[1]='Athletic, Hashtag Hockey, Scott Cullen, and both Apples & Ginos season projections are blended. ESPN rank and ADP remain draft-timing inputs.';
     });
     guide.getRange(1,1,rows.length,rows[0].length).setValues(rows);
   }
@@ -85,6 +85,18 @@ function ensureSecondaryProjections_() {
     if(existing.length)s.getRange(2,3,existing.length,1).setValues(existing.map(r=>[r[1]==='The Athletic'?0.60:r[2]]));
     properties.setProperty(marker,'applied');
   }
+  const appleMarker='projectionBlendApples20260916';
+  if(properties.getProperty(appleMarker)!=='applied') {
+    // Migrate only untouched defaults; preserve any owner-adjusted source weights.
+    const previous={'The Athletic':0.60,'Hashtag Hockey':0.25,'Scott Cullen':0.15};
+    const current={'The Athletic':0.60,'Hashtag Hockey':0.20,'Scott Cullen':0.10};
+    const values=s.getLastRow()>1?s.getRange(2,1,s.getLastRow()-1,3).getValues():[];
+    const oldRows=existing.filter(r=>Object.prototype.hasOwnProperty.call(previous,r[1]));
+    if(oldRows.length && oldRows.every(r=>r[2]===previous[r[1]])) {
+      s.getRange(2,3,values.length,1).setValues(values.map((r,i)=>[i<existing.length&&Object.prototype.hasOwnProperty.call(current,r[1])?current[r[1]]:r[2]]));
+    }
+    properties.setProperty(appleMarker,'applied');
+  }
 }
 function setupDraftSheet() {
   table_('Settings',['Setting','Value'],Object.entries(DEFAULTS));
@@ -105,8 +117,8 @@ function setupDraftSheet() {
     ['Uncertainty','sADP starts with ESPN ADP^0.75 × rank^0.25. F is unchanged, D is ×0.86, and G uses 0.65 × base × (base/50)^0.235. Conditional-normal uncertainty is max(4 picks, 18% of sADP).'],
     ['Keepers','Up to 2 per team; use draft slot 1–12 and cost round 1–16. Add all keepers before drafting.'],
     ['Shortcuts','Extensions > Macros > Manage macros. Draft = 1; Undo = 2. Check the shortcut displayed on your Mac.'],
-    ['Provenance','Athletic, Scott Cullen and Hashtag Hockey season totals are blended. ESPN rank and ADP remain draft-timing inputs, not projection sources.'],
-    ['Projections','Default source weights: Athletic 0.60, Hashtag Hockey 0.25, Scott Cullen 0.15. Each stat renormalizes over sources that supply it; blank is not zero. Edit weights in Projections, then refresh.'],
+    ['Provenance','Athletic, Hashtag Hockey, Scott Cullen, and both Apples & Ginos season projections are blended. ESPN rank and ADP remain draft-timing inputs.'],
+    ['Projections','Default weights: Athletic 0.60, Hashtag Hockey 0.20, Scott Cullen 0.10, Apples & Ginos Blake 0.05, Nate 0.05. Each stat renormalizes over sources that supply it; blank is not zero.'],
     ['Eligibility reference','https://support.espn.com/hc/en-us/articles/360054126392-Position-Eligibility'],
     ['Macros reference','https://developers.google.com/apps-script/guides/sheets/macros']
   ]).setColumnWidth(2,760);
