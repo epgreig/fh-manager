@@ -33,7 +33,7 @@ First calculate `base = ESPN ADP^(1 − espnRankWeight) × ESPN rank^espnRankWei
 
 Defaults give ADP 75% weight and ESPN rank 25% weight. F uses multiplier 1.00/exponent 1; D uses 0.86/1; G uses 0.65/1.235 with `curvePivot` 50. This makes elite goalies move earlier more strongly than later goalies. If one input is missing, use the other as the base; if both are missing, leave sADP blank. Original ADP remains in Players and Board Data. ESPN rank comes from `draftRanksByRankType.STANDARD.rank`, not ratings.totalRanking or custom manager rankings.
 
-D/G multipliers minimize squared differences in cumulative D/G counts at the end of rounds 1–9 between the supplied prior draft and the order implied by the CURRENT ESPN 50/50 blend. The joint search spans 0.50–1.50 in 0.01 steps, holding F at 1; ties favour factors closest to 1. This transfers assumed positional demand to the current player pool, not historical per-player ADP accuracy. A constant factor cannot reproduce every round exactly. Run `python3 scripts/calibrate_positions.py PRIVATE_HISTORY.json` to reproduce the procedure. Private league history stays untracked.
+D/G adjustments were calibrated to cumulative positional counts through round 9 of the owner's prior draft using the current ESPN pool. The 75/25 geometric blend is adjusted by a constant D multiplier and a power curve for goalies. This transfers assumed positional demand to the current player pool, not historical per-player ADP accuracy. Run `python3 scripts/calibrate_positions.py PRIVATE_HISTORY.json` to reproduce the fixed-exponent fit. Private league history stays untracked.
 
 PAN estimates `positional PAR − expected best available PAR` after a **fixed 22-selection wait**, including when your own selections are consecutive. `panGap` defaults to 22 and does not alternate with snake-pick distance. Survival uses a normal distribution centred on sADP, conditional on still being available now. Its uncertainty grows with draft rank: `MAX(adpSigmaFloor, adpSigmaRate × sADP)`, defaulting to 4 picks or 18% of sADP.
 
@@ -43,11 +43,13 @@ Change blend weights/multipliers/uncertainty to recalculate live. Refresh after 
 
 ## Data
 
-`python3 scripts/import_athletic.py ~/Downloads/2026-27-Fantasy-Projections-Yahoo.xlsx` imports cached **The List** season totals, source adjustments, and Age. It does not import the source's fantasy scores or KEEP? flags. Missing scored stats fail loudly. Additional sources can be added to Projections with the same ID and nonnegative weights. Each statistic blends only sources supplying that statistic. Do not duplicate a player/source. The Player column shows names for inspection.
+`python3 scripts/import_athletic.py ~/Downloads/2026-27-Fantasy-Projections-Yahoo.xlsx` imports cached **The List** season totals, source adjustments, and Age. It does not import the source's fantasy scores or KEEP? flags. Missing scored stats fail loudly.
+
+`python3 scripts/import_secondary.py` normalizes the owner's Scott Cullen and Hashtag Hockey CSVs to Athletic player IDs. Refreshing an existing sheet adds their matched rows to Projections once. Initial weights are **Athletic 0.60, Hashtag Hockey 0.25, Scott Cullen 0.15**. Each stat blends only sources supplying it and renormalizes their weights: Cullen supplies no SHP, SV or GA. Missing source rows leave the remaining sources to carry that player. Names that cannot be matched safely are listed in `data/processed/secondary-projections.json`. The Player column shows names for inspection. You can adjust any source weight in Projections and refresh.
 
 `python3 scripts/fetch_espn.py --season 2027` retrieves ESPN's public draft pool and creates a dated snapshot. Run tests, push the script files, then import the snapshot from the sheet. The September 6 snapshot contains 1,686 players, 377 rank entries, and matches all 670 Athletic players using exact normalized names plus 19 reviewed ESPN-ID aliases. Missing ranks stay blank. The endpoint is undocumented and may change. The importer rejects missing ADP and a full 2,000-player response requiring pagination.
 
-The raw Athletic workbook, extracted projections and generated projection script are publicly versioned at the owner's request. Source data remains attributed to The Athletic; this repository does not grant rights to third-party data. Private league draft history is excluded from Git.
+The raw Athletic workbook and downloaded Scott Cullen and Hashtag Hockey CSVs, extracted projections, and generated script data are publicly versioned at the owner's request. Source data remains attributed to its creators; this repository does not grant rights to third-party data. Private league draft history is excluded from Git.
 
 ## Validation and references
 

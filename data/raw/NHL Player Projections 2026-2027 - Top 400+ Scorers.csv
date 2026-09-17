@@ -1,0 +1,418 @@
+RANK,PLAYER,TEAM,POS,GP,G,A,PTS
+1,Nikita Kucherov,Tampa Bay,RW,78,42,89,131
+2,Nathan MacKinnon,Colorado,C,81,48,81,129
+3,Connor McDavid,Edmonton,C,78,39,89,128
+4,Macklin Celebrini,San Jose,C,79,42,63,105
+5,David Pastrnak,Boston,RW,80,37,67,104
+6,Leon Draisaitl,Edmonton,C,72,41,60,101
+7,Kirill Kaprizov,Minnesota,LW,75,44,48,92
+8,Nick Suzuki,Montreal,C,84,30,62,92
+9,Mark Scheifele,Winnipeg,C,81,34,57,91
+10,Artemi Panarin,Los Angeles,LW,80,34,56,90
+11,Jason Robertson,Dallas,LW,84,39,50,89
+12,Kyle Connor,Winnipeg,LW,78,39,48,87
+13,Mikko Rantanen,Dallas,RW,73,30,57,87
+14,William Nylander,Toronto,RW,75,37,49,86
+15,Cale Makar,Colorado,D,77,23,63,86
+16,Martin Necas,Colorado,RW,78,32,53,85
+17,Jack Eichel,Vegas,C,72,28,57,85
+18,Clayton Keller,Utah,RW,82,28,57,85
+19,Jake Guentzel,Tampa Bay,LW,78,37,47,84
+20,Mitch Marner,Vegas,RW,80,25,59,84
+21,Evan Bouchard,Edmonton,D,83,18,66,84
+22,Jack Hughes,New Jersey,C,68,30,53,83
+23,Wyatt Johnston,Dallas,C,84,41,40,81
+24,Filip Forsberg,Nashville,LW,84,40,41,81
+25,Sidney Crosby,Pittsburgh,C,75,31,50,81
+26,Sebastian Aho,Carolina,C,79,30,51,81
+27,Quinn Hughes,Minnesota,D,76,12,69,81
+28,Brandon Hagel,Tampa Bay,LW,77,34,45,79
+29,Tim Stutzle,Ottawa,C,80,28,51,79
+30,Jesper Bratt,New Jersey,LW,84,23,56,79
+31,Cole Caufield,Montreal,LW,83,42,36,78
+32,Sam Reinhart,Florida,RW,77,40,38,78
+33,Alex DeBrincat,Detroit,LW,84,38,40,78
+34,Matthew Boldy,Minnesota,RW,78,35,43,78
+35,Lucas Raymond,Detroit,RW,82,27,49,76
+36,Aleksander Barkov,Florida,C,70,22,54,76
+37,Zach Werenski,Columbus,D,76,20,56,76
+38,Ivan Demidov,Montreal,RW,83,23,51,74
+39,Lane Hutson,Montreal,D,84,9,65,74
+40,Auston Matthews,Toronto,C,68,39,34,73
+41,Mika Zibanejad,N.Y. Rangers,C,82,29,44,73
+42,Tage Thompson,Buffalo,RW,78,38,34,72
+43,Adrian Kempe,Los Angeles,RW,82,37,35,72
+44,Logan Cooley,Utah,C,78,34,38,72
+45,Dylan Guenther,Utah,RW,77,36,35,71
+46,Dylan Larkin,Detroit,C,76,33,38,71
+47,Brayden Point,Tampa Bay,C,75,32,39,71
+48,Juraj Slafkovsky,Montreal,RW,82,28,43,71
+49,Matthew Tkachuk,Florida,RW,65,24,47,71
+50,John Tavares,Toronto,C,79,32,38,70
+51,Leo Carlsson,Anaheim,C,76,29,41,70
+52,Kirill Marchenko,Columbus,RW,78,29,41,70
+53,Travis Konecny,Philadelphia,RW,78,28,42,70
+54,Robert Thomas,St. Louis,C,70,21,49,70
+55,Cutter Gauthier,Anaheim,LW,80,37,32,69
+56,Nico Hischier,New Jersey,C,79,30,39,69
+57,J.T. Miller,N.Y. Rangers,C,73,23,46,69
+58,Rasmus Dahlin,Buffalo,D,78,19,50,69
+59,Nick Schmaltz,Utah,C,82,27,41,68
+60,Mark Stone,Vegas,RW,63,22,46,68
+61,Steven Stamkos,Nashville,LW,82,38,29,67
+62,Drake Batherson,Ottawa,RW,82,28,39,67
+63,Nikolaj Ehlers,Carolina,RW,79,25,42,67
+64,Beckett Sennecke,Anaheim,RW,83,25,42,67
+65,Gabriel Vilardi,Winnipeg,RW,77,29,37,66
+66,Alex Tuch,Washington,RW,79,31,34,65
+67,Connor Bedard,Chicago,C,67,25,40,65
+68,Ryan O'Reilly,Nashville,C,82,22,43,65
+69,Dylan Strome,Washington,C,82,21,43,64
+70,Brock Nelson,Colorado,C,82,31,32,63
+71,Brady Tkachuk,Florida,LW,70,28,35,63
+72,Trevor Zegras,Philadelphia,C,73,24,39,63
+73,Adam Fantilli,Columbus,C,83,30,32,62
+74,Bryan Rust,Pittsburgh,RW,70,29,33,62
+75,Brad Marchand,Florida,RW,72,29,33,62
+76,Will Smith,San Jose,RW,72,25,37,62
+77,Andrei Svechnikov,Carolina,LW,73,26,35,61
+78,Mathew Barzal,N.Y. Islanders,RW,68,17,44,61
+79,Josh Morrissey,Winnipeg,D,79,13,48,61
+80,Morgan Geekie,Boston,RW,79,33,27,60
+81,Bo Horvat,N.Y. Islanders,C,75,31,29,60
+82,Alexander Ovechkin,Washington,LW,77,31,29,60
+83,Kevin Fiala,Los Angeles,LW,75,28,32,60
+84,Aliaksei Protas,Washington,LW,77,26,34,60
+85,Matthew Knies,Toronto,LW,80,24,36,60
+86,Matvei Michkov,Philadelphia,RW,82,24,36,60
+87,Evgeni Malkin,Pittsburgh,RW,66,21,39,60
+88,Matthew Schaefer,N.Y. Islanders,D,82,21,39,60
+89,Patrick Kane,Chicagp,RW,67,20,40,60
+90,Elias Pettersson,Vancouver,C,74,20,40,60
+91,Erik Karlsson,Pittsburgh,D,79,13,47,60
+92,Adam Fox,N.Y. Rangers,D,72,11,49,60
+93,Carter Verhaeghe,Florida,LW,78,26,33,59
+94,Dylan Holloway,St. Louis,LW,72,25,34,59
+95,Luke Evangelista,Nashville,RW,78,17,42,59
+96,Pavel Dorofeyev,N.Y. Rangers,RW,84,36,22,58
+97,Zach Hyman,Edmonton,RW,73,35,23,58
+98,Jordan Kyrou,Washington,RW,77,26,32,58
+99,Quinton Byfield,Los Angeles,C,81,25,33,58
+100,Roope Hintz,Dallas,C,73,24,34,58
+101,Vincent Trocheck,Utah,C,75,20,38,58
+102,Ryan Nugent-Hopkins,Edmonton,LW,76,20,38,58
+103,Darren Raddysh,Toronto,D,76,15,43,58
+104,Roman Josi,Nashville,D,70,14,44,58
+105,Nazem Kadri,Colorado,C,81,23,34,57
+106,Porter Martone,Philadelphia,RW,77,22,35,57
+107,Mikhail Sergachev,Utah,D,78,13,44,57
+108,Victor Hedman,Tampa Bay,D,74,10,47,57
+109,Tom Wilson,Washington,RW,75,28,28,56
+110,J.J. Peterka,Boston,LW,82,28,28,56
+111,Jimmy Snuggerud,St. Louis,RW,75,23,33,56
+112,Jackson LaCombe,Anaheim,D,79,13,43,56
+113,John Carlson,Tampa Bay,D,77,11,45,56
+114,Brock Boeser,Vancouver,RW,77,28,27,55
+115,Rickard Rakell,Pittsburgh,LW,75,26,29,55
+116,Tomas Hertl,Vegas,C,74,25,30,55
+117,Jared McCann,Seattle,LW,74,24,31,55
+118,Jackson Blake,Carolina,RW,81,24,31,55
+119,Alexis Lafreniere,N.Y. Rangers,RW,84,24,31,55
+120,Pavel Buchnevich,St. Louis,RW,79,22,33,55
+121,Jakob Chychrun,Washington,D,79,21,34,55
+122,Mats Zuccarello,Los Angeles,RW,69,15,40,55
+123,Dylan Cozens,Ottawa,C,83,23,31,54
+124,Ivan Barbashev,Vegas,LW,79,22,32,54
+125,Anthony Cirelli,Tampa Bay,C,76,24,29,53
+126,Pavel Zacha,Boston,C,81,21,32,53
+127,Charlie Coyle,Columbus,C,84,20,33,53
+128,Gavin McKenna,Toronto,LW,77,19,34,53
+129,William Eklund,Ottawa,LW,78,16,37,53
+130,Moritz Seider,Detroit,D,84,9,44,53
+131,Sam Bennett,Florida,C,74,24,28,52
+132,Josh Doan,Buffalo,RW,82,24,28,52
+133,Matt Duchene,Dallas,C,70,20,32,52
+134,Tyler Bertuzzi,Chicago,LW,80,27,24,51
+135,Joel Eriksson Ek,Minnesota,C,73,23,28,51
+136,Logan Stankoven,Carolina,C,80,22,29,51
+137,Claude Giroux,Ottawa,RW,83,16,35,51
+138,Jake Sanderson,Ottawa,D,76,12,39,51
+139,Charlie McAvoy,Boston,D,72,10,41,51
+140,Miro Heiskanen,Dallas,D,70,8,43,51
+141,Owen Tippett,Philadelphia,RW,79,26,24,50
+142,Ryan Leonard,Washington,RW,78,22,28,50
+143,Marco Rossi,Vancouver,C,73,20,30,50
+144,Zach Benson,Buffalo,LW,76,17,33,50
+145,Chandler Stephenson,Seattle,C,79,15,35,50
+146,Timo Meier,New Jersey,LW,76,26,23,49
+147,Ryan McLeod,Buffalo,C,81,16,33,49
+148,Shayne Gostisbehere,Carolina,D,67,10,39,49
+149,Shea Theodore,Vegas,D,67,8,41,49
+150,Roman Kantserov,Chicago,RW,77,23,25,48
+151,Tyler Toffoli,San Jose,RW,78,23,25,48
+152,Mason Marchment,San Jose,LW,70,21,27,48
+153,Mason McTavish,St. Louis,C,73,20,28,48
+154,Michael Misa,San Jose,C,75,20,28,48
+155,Matthew Beniers,Seattle,C,82,20,28,48
+156,Chris Kreider,Anaheim,LW,75,24,23,47
+157,Viktor Arvidsson,Detroit,RW,69,22,25,47
+158,Vitali Pinchuk,Nashville,C,75,22,25,47
+159,William Karlsson,Vegas,C,68,20,27,47
+160,Anton Lundell,Florida,C,72,19,28,47
+161,Jack Quinn,Buffalo,RW,77,19,28,47
+162,Sean Monahan,Columbus,C,73,18,29,47
+163,Pierre-Luc Dubois,Washington,C,67,17,30,47
+164,Mikael Granlund,Anaheim,C,70,17,30,47
+165,Elias Lindholm,Boston,C,73,17,30,47
+166,Artturi Lehkonen,Colorado,LW,70,23,23,46
+167,Valeri Nichushkin,Columbus,RW,62,21,25,46
+168,Anton Frondell,Chicago,C,78,21,25,46
+169,Matt Coronato,Calgary,RW,79,21,25,46
+170,Jordan Eberle,Seattle,RW,72,20,26,46
+171,Connor McMichael,St. Louis,LW,80,18,28,46
+172,Dougie Hamilton,New Jersey,D,67,13,33,46
+173,Bowen Byram,Chicago,D,82,10,36,46
+174,Alex Laferriere,Los Angeles,RW,82,22,23,45
+175,Shane Pinto,Ottawa,C,76,21,24,45
+176,Tyler Seguin,Dallas,RW,64,20,25,45
+177,Taylor Hall,Carolina,LW,78,18,27,45
+178,Teuvo Teravainen,Chicago,LW,77,17,28,45
+179,Casey Mittelstadt,Boston,LW,76,15,30,45
+180,Brock Faber,Minnesota,D,80,12,33,45
+181,Filip Hronek,Vancouver,D,77,7,38,45
+182,Bobby McMann,Seattle,LW,76,25,19,44
+183,Jake DeBrusk,Vancouver,LW,82,24,20,44
+184,Anders Lee,Utah,LW,83,22,22,44
+185,Jason Zucker,Buffalo,LW,67,21,23,44
+186,Gabriel Perreault,N.Y. Rangers,LW,75,20,24,44
+187,Alexander Wennberg,San Jose,C,79,14,30,44
+188,Vince Dunn,Seattle,D,71,11,33,44
+189,Thomas Harley,Dallas,D,76,11,33,44
+190,Frank Nazar,Chicago,C,73,18,25,43
+191,Cole Perfetti,Winnipeg,LW,73,18,25,43
+192,Brayden Schenn,N.Y. Islanders,C,82,18,25,43
+193,Oliver Bjorkstrand,N.Y. Rangers,LW,81,17,26,43
+194,Noah Dobson,Montreal,D,77,11,32,43
+195,Jonathan Marchessault,Nashville,RW,71,20,22,42
+196,Collin Graf,San Jose,RW,78,19,23,42
+197,Morgan Frost,Calgary,C,80,18,24,42
+198,Calum Ritchie,N.Y. Islanders,LW,77,17,25,42
+199,Shane Wright,Seattle,C,78,17,25,42
+200,Christian Dvorak,Philadelphia,C,81,15,27,42
+201,Kaapo Kakko,Seattle,RW,72,14,28,42
+202,Jamie Benn,Dallas,LW,77,14,28,42
+203,Brandt Clarke,Los Angeles,D,80,8,34,42
+204,Luke Hughes,New Jersey,D,73,7,35,42
+205,Josh Norris,Buffalo,C,60,20,21,41
+206,Will Cuylle,N.Y. Rangers,LW,84,20,21,41
+207,Trevor Moore,Los Angeles,LW,74,19,22,41
+208,Mavrik Bourque,Nashville,C,78,19,22,41
+209,Simon Holmstrom,N.Y. Islanders,RW,77,17,24,41
+210,Conor Garland,Columbus,RW,77,16,25,41
+211,Thomas Chabot,Ottawa,D,70,10,31,41
+212,Anthony Mantha,New Jersey,RW,65,20,20,40
+213,Kyle Palmieri,N.Y. Islanders,RW,67,20,20,40
+214,Ben Kindel,Pittsburgh,C,79,19,21,40
+215,Igor Chernyshov,San Jose,LW,76,18,22,40
+216,Noah Cates,Philadelphia,C,76,16,24,40
+217,Mikael Backlund,Calgary,C,82,16,24,40
+218,Braeden Bowman,Vegas,RW,78,15,25,40
+219,Sean Couturier,Philadelphia,C,77,14,26,40
+220,Cole Hutson,Washington,D,77,12,28,40
+221,Mattias Ekholm,Edmonton,D,77,8,32,40
+222,Blake Coleman,Minnesota,LW,75,20,19,39
+223,Dawson Mercer,New Jersey,RW,84,20,19,39
+224,Boone Jenner,Washington,C,62,19,20,39
+225,Ryan Hartman,Minnesota,C,74,19,20,39
+226,Joel Farabee,Calgary,RW,84,19,20,39
+227,Egor Chinakhov,Pittsburgh,LW,72,18,21,39
+228,Linus Karlsson,Vancouver,RW,76,17,22,39
+229,Ivar Stenberg,San Jose,LW,77,14,25,39
+230,Matvei Gridin,Calgary,LW,75,12,27,39
+231,Morgan Rielly,Toronto,D,78,8,31,39
+232,Lawson Crouse,Utah,LW,82,21,17,38
+233,Yegor Sharangovich,Calgary,RW,78,20,18,38
+234,Fabian Zetterlund,Ottawa,RW,83,20,18,38
+235,Andrei Kuzmenko,Pittsburgh,LW,68,18,20,38
+236,Tommy Novak,Pittsburgh,C,73,16,22,38
+237,Konsta Helenius,Buffalo,C,78,16,22,38
+238,Eeli Tolvanen,N.Y. Rangers,RW,80,16,22,38
+239,Gabriel Landeskog,Colorado,RW,66,15,23,38
+240,Matias Maccelli,N.Y. Islanders,LW,67,12,26,38
+241,Tyson Foerster,Philadelphia,LW,77,22,15,37
+242,Kiefer Sherwood,San Jose,RW,73,20,17,37
+243,Dmitri Voronkov,Columbus,LW,69,18,19,37
+244,Jake Neighbours,St. Louis,LW,75,18,19,37
+245,Danila Yurov,Minnesota,C,75,16,21,37
+246,Fraser Minten,Boston,C,80,16,21,37
+247,Jean-Gabriel Pageau,N.Y. Islanders,C,78,15,22,37
+248,Jonathan Huberdeau,Calgary,LW,60,14,23,37
+249,Kent Johnson,Columbus,LW,75,14,23,37
+250,Easton Cowan,Toronto,RW,77,14,23,37
+251,Rasmus Andersson,Vegas,D,80,12,25,37
+252,Travis Sanheim,Philadelphia,D,83,10,27,37
+253,Seth Jones,Florida,D,67,9,28,37
+254,Noah Hanifin,Vegas,D,76,8,29,37
+255,Oliver Kapanen,Montreal,C,80,19,17,36
+256,Seth Jarvis,Carolina,RW,42,17,19,36
+257,Jaden Schwartz,Colorado,LW,68,17,19,36
+258,Mackie Samoskevich,Seattle,LW,76,16,20,36
+259,Arseny Gritsyuk,New Jersey,LW,73,15,21,36
+260,Andrew Copp,Detroit,C,73,11,25,36
+261,Ryan Strome,Calgary,C,74,11,25,36
+262,Justin Faulk,Detroit,D,74,10,26,36
+263,Alexander Nikishin,Carolina,D,81,10,26,36
+264,Cam Fowler,St. Louis,D,78,6,30,36
+265,Jack Roslovic,Toronto,RW,70,18,17,35
+266,Ilya Mikheyev,Tampa Bay,RW,78,17,18,35
+267,Zack Bolduc,Montreal,LW,75,16,19,35
+268,Jordan Staal,Carolina,C,78,16,19,35
+269,Ridly Greig,Ottawa,LW,76,14,21,35
+270,Brandon Montour,Seattle,D,70,12,23,35
+271,Gage Goncalves,Tampa Bay,RW,77,12,23,35
+272,Andre Burakovsky,Ottawa,RW,77,10,25,35
+273,Brent Burns,Colorado,D,84,10,25,35
+274,Devon Toews,Colorado,D,74,7,28,35
+275,Philip Broberg,St. Louis,D,77,7,28,35
+276,Michael Matheson,Montreal,D,79,7,28,35
+277,Dmitry Orlov,San Jose,D,81,5,30,35
+278,Justin Hryckowian,Dallas,LW,80,16,18,34
+279,Ryan Donato,Chicago,C,81,16,18,34
+280,Vasily Podkolzin,Edmonton,LW,83,15,19,34
+281,Barrett Hayton,Utah,LW,73,14,20,34
+282,Erik Haula,Los Angeles,C,78,14,20,34
+283,Emmitt Finnie,Detroit,LW,82,14,20,34
+284,Ryan Poehling,Anaheim,C,76,11,23,34
+285,Oliver Ekman-Larsson,Toronto,D,79,7,27,34
+286,Kris Letang,Pittsburgh,D,76,6,28,34
+287,Nick Paul,Toronto,LW,71,16,17,33
+288,Connor Brown,New Jersey,RW,76,14,19,33
+289,Troy Terry,Anaheim,RW,42,12,21,33
+290,Cole Sillinger,Columbus,LW,76,12,21,33
+291,Peyton Krebs,Buffalo,LW,82,11,22,33
+292,K'Andre Miller,Carolina,D,79,8,25,33
+293,MacKenzie Weegar,Utah,D,81,8,25,33
+294,Tony DeAngelo,N.Y. Islanders,D,66,7,26,33
+295,Owen Power,Buffalo,D,80,7,26,33
+296,Gustav Forsling,Florida,D,81,7,26,33
+297,Emil Heineman,N.Y. Islanders,LW,79,21,11,32
+298,Matthew Wood,Nashville,RW,78,17,15,32
+299,Alex Killorn,Anaheim,LW,77,15,17,32
+300,Justin Sourdif,Washington,C,77,14,18,32
+301,James Hagens,Boston,LW,75,13,19,32
+302,J.T. Compher,Detroit,C,80,12,20,32
+303,Simon Nemec,Calgary,D,77,9,23,32
+304,Ivan Provorov,Columbus,D,84,8,24,32
+305,Jordan Spence,Ottawa,D,74,6,26,32
+306,Cam York,Philadelphia,D,74,6,26,32
+307,Nick Lardis,Chicago,RW,80,19,12,31
+308,Nicholas Robertson,Pittsburgh,LW,74,17,14,31
+309,Corey Perry,Los Angeles,RW,70,16,15,31
+310,Matthew Savoie,Edmonton,RW,67,15,16,31
+311,Pius Suter,St. Louis,C,70,15,16,31
+312,Marco Kasper,Detroit,C,79,15,16,31
+313,Scott Laughton,Los Angeles,C,73,14,17,31
+314,Michael Amadio,Ottawa,RW,77,14,17,31
+315,Bobby Brink,Minnesota,RW,68,13,18,31
+316,Jordan Martinook,Carolina,LW,79,13,18,31
+317,Evan Rodrigues,New Jersey,LW,75,11,20,31
+318,Zayne Parekh,Calgary,D,76,10,21,31
+319,Vladislav Gavrikov,N.Y. Rangers,D,82,10,21,31
+320,Sean Durzi,N.Y. Rangers,D,67,7,24,31
+321,Jiri Kulich,Buffalo,LW,72,17,13,30
+322,Connor Zary,Calgary,LW,66,14,16,30
+323,Alex Newhook,Montreal,LW,68,14,16,30
+324,Ross Colton,Nashville,LW,72,13,17,30
+325,Ilya Protas,Washington,LW,76,13,17,30
+326,Berkly Catton,Seattle,RW,74,12,18,30
+327,Noah Ostlund,Buffalo,LW,75,12,18,30
+328,Alex Kerfoot,Nashville,LW,71,11,19,30
+329,Eetu Luostarinen,Florida,LW,77,11,19,30
+330,Yanni Gourde,Tampa Bay,C,75,9,21,30
+331,Damon Severson,Columbus,D,72,8,22,30
+332,Drew Doughty,Los Angeles,D,75,7,23,30
+333,Zeev Buium,Vancouver,D,78,7,23,30
+334,Sam Malinski,Colorado,D,80,7,23,30
+335,Brady Skjei,Nashville,D,82,7,23,30
+336,Luca Cagnoni,San Jose,D,74,6,24,30
+337,Mason Lohrei,Boston,D,75,6,24,30
+338,Esa Lindell,Dallas,D,83,6,24,30
+339,Drew O'Connor,Vancouver,LW,84,15,14,29
+340,Isaac Howard,Edmonton,LW,70,14,15,29
+341,Brendan Gallagher,Vancouver,RW,78,13,16,29
+342,Alex Iafallo,Winnipeg,RW,82,13,16,29
+343,Adam Lowry,Winnipeg,C,74,10,19,29
+344,Sam Steel,Dallas,LW,77,10,19,29
+345,Phillip Danault,Montreal,C,77,9,20,29
+346,Neal Pionk,Winnipeg,D,70,7,22,29
+347,Oliver Moore,Chicago,C,75,7,22,29
+348,Brett Howden,Vegas,LW,73,15,13,28
+349,Alex Steeves,Boston,LW,75,14,14,28
+350,Nino Niederreiter,Winnipeg,LW,70,13,15,28
+351,Kirby Dach,Montreal,RW,60,12,16,28
+352,Noah Laba,N.Y. Rangers,C,76,12,16,28
+353,Jake Evans,Montreal,C,75,11,17,28
+354,Jamie Drysdale,Philadelphia,D,74,8,20,28
+355,Stephen Halliday,Ottawa,C,75,8,20,28
+356,Viggo Bjorck,Winnipeg,C,75,8,20,28
+357,Simon Edvinsson,Detroit,D,75,8,20,28
+358,Darnell Nurse,San Jose,D,81,7,21,28
+359,Michael Carcone,Utah,RW,72,15,12,27
+360,Warren Foegele,Ottawa,LW,76,15,12,27
+361,Anthony Duclair,N.Y. Islanders,RW,60,14,13,27
+362,Joel Armia,Los Angeles,LW,71,14,13,27
+363,Dominic James,Tampa Bay,C,77,13,14,27
+364,Victor Olofsson,Vegas,LW,66,12,15,27
+365,Alexandre Texier,Montreal,LW,70,12,15,27
+366,Stefan Noesen,New Jersey,RW,70,12,15,27
+367,Ryan Greene,Chicago,LW,82,12,15,27
+368,Ville Koivunen,Pittsburgh,RW,75,9,18,27
+369,Jack Drury,Nashville,C,78,9,18,27
+370,Sean Walker,Carolina,D,82,8,19,27
+371,Pavel Mintyukov,Anaheim,D,75,6,21,27
+372,Jacob Trouba,San Jose,D,77,6,21,27
+373,Artyom Levshunov,Chicago,D,77,2,25,27
+374,Alex Bump,Philadelphia,LW,70,14,12,26
+375,Justin Brazeau,Pittsburgh,RW,70,13,13,26
+376,Filip Chytil,Vancouver,C,60,12,14,26
+377,Jack McBain,Utah,C,75,10,16,26
+378,Teddy Blueger,Toronto,C,66,9,17,26
+379,Maxim Shabanov,Minnesota,RW,70,9,17,26
+380,Martin Pospisil,Calgary,C,73,8,18,26
+381,Jared Spurgeon,Minnesota,D,73,6,20,26
+382,Hampus Lindholm,Boston,D,70,5,21,26
+383,Charle-Edouard D'Astous,Tampa Bay,D,75,5,21,26
+384,Jake McCabe,Toronto,D,76,5,21,26
+385,Aaron Ekblad,Florida,D,63,4,22,26
+386,Ryan McDonagh,Tampa Bay,D,70,4,22,26
+387,Frank Vatrano,Anaheim,RW,72,13,12,25
+388,Dalibor Dvorsky,St. Louis,RW,77,13,12,25
+389,A.J. Greer,Anaheim,LW,80,12,13,25
+390,Marat Khusnutdinov,Boston,RW,76,11,14,25
+391,Frederick Gaudreau,Seattle,C,72,9,16,25
+392,Alex Kerfoot,Nashville,RW,75,9,16,25
+393,Jake Walman,Edmonton,D,63,8,17,25
+394,Maxim Tsyplakov,Calgary,LW,70,8,17,25
+395,Denton Mateychuk,Columbus,D,76,7,18,25
+396,Carter Yakemchuk,Ottawa,D,76,6,19,25
+397,Tom Willander,Vancouver,D,77,5,20,25
+398,Martin Fehervary,Washington,D,77,5,20,25
+399,Artem Zub,Ottawa,D,72,4,21,25
+400,John Marino,Utah,D,70,3,22,25
+401,Mathieu Olivier,Columbus,RW,65,13,11,24
+402,Josh Anderson,Montreal,RW,76,13,11,24
+403,Carter Mazur,Detroit,LW,70,12,12,24
+404,Anthony Beauvillier,Washington,RW,77,12,12,24
+405,Parker Kelly,Colorado,LW,82,12,12,24
+406,Liam Ohgren,Vancouver,LW,77,11,13,24
+407,Nick Foligno,Minnesota,RW,71,9,15,24
+408,Denver Barkey,Philadelphia,LW,72,9,15,24
+409,Colton Parayko,St. Louis,D,75,8,16,24
+410,Olen Zellweger,Buffalo,D,76,7,17,24
+411,Mattias Samuelsson,Buffalo,D,72,6,18,24
+412,Adam Larsson,Seattle,D,84,6,18,24
+413,J.J. Moser,Tampa Bay,D,73,5,19,24
+414,Sam Rinzel,Chicago,D,77,5,19,24
+415,Ryan Pulock,N.Y. Islanders,D,71,4,20,24
+416,Jaccob Slavin,Carolina,D,78,4,20,24
+417,Marcus Pettersson,N.Y. Rangers,D,82,4,20,24

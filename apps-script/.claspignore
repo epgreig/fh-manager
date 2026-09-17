@@ -3,6 +3,7 @@
 !Engine.gs
 !Names.gs
 !ProjectionData.gs
+!SecondaryProjectionData.gs
 !appsscript.json
 !Live.gs
 !Espn.gs

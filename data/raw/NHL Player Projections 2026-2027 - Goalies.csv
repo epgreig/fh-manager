@@ -1,0 +1,61 @@
+RANK,PLAYER,TEAM,,GP,W,AVG,SV%,SO
+1,Andrei Vasilevskiy,Tampa Bay,G,58,37,2.43,0.911,3
+2,Jake Oettinger,Dallas,G,55,35,2.62,0.903,3
+3,Logan Thompson,Washington,G,56,33,2.52,0.911,3
+4,Connor Hellebuyck,Winnipeg,G,59,32,2.53,0.909,3
+5,Ilya Sorokin,N.Y. Islanders,G,57,28,2.77,0.907,5
+6,Jeremy Swayman,Boston,G,58,30,2.77,0.905,3
+7,Igor Shesterkin,N.Y. Rangers,G,55,28,2.63,0.910,3
+8,Jet Greaves,Columbus,G,57,28,2.65,0.91,3
+9,Jesper Wallstedt,Minnesota,G,48,26,2.67,0.908,4
+10,MacKenzie Blackwood,Colorado,G,45,25,2.47,0.908,3
+11,Scott Wedgewood,Colorado,G,37,23,2.30,0.913,2
+12,Pyotr Kochetkov,Carolina,G,42,24,2.40,0.902,3
+13,Karel Vejmelka,Arizona,G,56,29,2.86,0.898,2
+14,Jacob Markstrom,Florida,G,52,29,2.86,0.893,2
+15,Linus Ullmark,Ottawa,G,46,25,2.69,0.902,3
+16,Sergei Bobrovsky,Toronto,G,54,28,2.94,0.893,3
+17,Brandon Bussi,Carolina,G,40,25,2.57,0.895,2
+18,Joel Hofer,St. Louis,G,44,23,2.63,0.909,3
+19,Lukas Dostal,Anaheim,G,60,31,3.12,0.895,1
+20,Dustin Wolf,Calgary,G,55,26,2.83,0.904,2
+21,Jakub Dobes,Montreal,G,48,26,2.76,0.905,1
+22,Ukko-Pekka Luukkinen,Buffalo,G,46,24,2.65,0.904,2
+23,Juuse Saros,Nashville,G,60,28,3.04,0.898,2
+24,Daniel Vladar,Philadelphia,G,52,26,2.81,0.898,1
+25,Darcy Kuemper,Los Angeles,G,47,21,2.73,0.898,3
+26,Spencer Knight,Chicago,G,52,21,2.77,0.901,3
+27,Joey Daccord,Seattle,G,50,22,2.82,0.903,2
+28,Carter Hart,Vegas,G,49,23,2.79,0.899,1
+29,John Gibson,Detroit,G,48,22,2.94,0.9,2
+30,Filip Gustavsson,Minnesota,G,34,18,2.75,0.905,2
+31,Alex Lyon,Buffalo,G,37,19,2.85,0.902,2
+32,Jake Allen,New Jersey,G,45,20,2.89,0.902,1
+33,Arturs Silovs,Pittsburgh,G,50,24,3.36,0.884,0
+34,Adin Hill,Vegas,G,35,18,2.82,0.888,2
+35,Casey DeSmith,Dallas,G,29,14,2.58,0.906,1
+36,Akira Schmid,Florida,G,33,16,2.71,0.898,1
+37,Anton Forsberg,Los Angeles,G,33,15,2.77,0.902,2
+38,Frederik Andersen,Edmonton,G,27,14,2.61,0.895,1
+39,Alex Nedeljkovic,San Jose,G,38,17,2.95,0.897,1
+40,Anthony Stolarz,Toronto,G,28,14,2.81,0.909,1
+41,Nico Daws,New Jersey,G,33,15,2.86,0.9,1
+42,Jacob Fowler,Montreal,G,18,10,2.47,0.904,1
+43,Jordan Binnington,St. Louis,G,39,17,3.05,0.890,1
+44,Samuel Ersson,Ottawa,G,40,18,3.05,0.88,1
+45,Stuart Skinner,Winnipeg,G,26,14,2.82,0.895,1
+46,Kevin Lankinen,Vancouver,G,49,18,3.16,0.889,1
+47,Michael DiPietro,Boston,G,25,12,2.75,0.907,1
+48,Yaroslav Askarov,San Jose,G,48,20,3.37,0.889,1
+49,Justus Annunen,Nashville,G,26,11,2.70,0.905,1
+50,Joseph Woll,Philadelphia,G,33,15,3.09,0.903,1
+51,Sebastian Cossa,Arizona,G,26,13,2.83,0.894,1
+52,Sergei Murashov,Pittsburgh,G,30,14,3.01,0.893,0
+53,Charlie Lindgren,Washington,G,30,14,3.11,0.897,1
+54,Philipp Grubauer,Seattle,G,31,12,2.91,0.898,0
+55,Devin Cooley,Calgary,G,28,10,2.89,0.904,1
+56,Tristan Jarry,Edmonton,G,25,13,3.17,0.889,2
+57,Joonas Korpisalo,N.Y. Rangers,G,32,13,3.11,0.892,1
+58,Devon Levi,Edmonton,G,26,12,3.09,0.897,0
+59,Thatcher Demko,Vancouver,G,22,9,2.90,0.892,1
+60,Daniil Tarasov,Detroit,G,33,12,3.20,0.895,0

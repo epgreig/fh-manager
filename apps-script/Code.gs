@@ -22,6 +22,8 @@ function migrateReplacementSettings_() {
       if(r[0]==='PAN')r[1]='Positional PAR minus the expected best available PAR after a fixed 22-selection wait. Expected best includes every player’s chance of surviving, including the candidate. PAN stays fixed-gap even at consecutive own picks.';
       if(r[0]==='Uncertainty')r[1]='sADP blends ESPN ADP (75%) and rank (25%) geometrically, then applies multiplier × (base / curvePivot)^(exponent − 1). F and D are linear; G uses multiplier 0.65 and exponent 1.235 at pivot 50.';
       if(r[0]==='Keepers')r[1]='Type names only. Keepers are removed from availability; no team, round cost, or reserved draft pick is needed.';
+      if(r[0]==='Projections')r[1]='Default source weights: Athletic 0.60, Hashtag Hockey 0.25, Scott Cullen 0.15. Each stat renormalizes over sources that supply it; blank is not zero. Edit weights in Projections, then refresh.';
+      if(r[0]==='Provenance')r[1]='Athletic, Scott Cullen and Hashtag Hockey season totals are blended. ESPN rank and ADP remain draft-timing inputs, not projection sources.';
     });
     guide.getRange(1,1,rows.length,rows[0].length).setValues(rows);
   }
@@ -64,11 +66,31 @@ function table_(name, headers, rows) {
   if(rows.length) s.getRange(2,1,rows.length,headers.length).setValues(rows);
   s.setFrozenRows(1); s.autoResizeColumns(1,headers.length); return s;
 }
+function projectionRow_(p) {
+  const stats=['GP','G','A','BLK','PIM','SHP','W','SO','GA','SV'];
+  return [p.id,p.source,p.weight,...stats.map(k=>p.stats[k]===undefined?'':p.stats[k])];
+}
+function ensureSecondaryProjections_() {
+  const s=SpreadsheetApp.getActive().getSheetByName('Projections');
+  const existing=s.getLastRow()>1?s.getRange(2,1,s.getLastRow()-1,3).getValues():[];
+  const seen=new Set(existing.map(r=>r[0]+'|'+r[1]));
+  const additional=SECONDARY_PROJECTION_DATA.filter(p=>!seen.has(p.id+'|'+p.source)).map(projectionRow_);
+  if(additional.length) {
+    const last=s.getLastRow(), needed=last+additional.length;
+    if(s.getMaxRows()<needed)s.insertRowsAfter(s.getMaxRows(),needed-s.getMaxRows());
+    s.getRange(last+1,1,additional.length,13).setValues(additional);
+  }
+  const properties=PropertiesService.getDocumentProperties(), marker='projectionBlend20260916';
+  if(properties.getProperty(marker)!=='applied') {
+    if(existing.length)s.getRange(2,3,existing.length,1).setValues(existing.map(r=>[r[1]==='The Athletic'?0.60:r[2]]));
+    properties.setProperty(marker,'applied');
+  }
+}
 function setupDraftSheet() {
   table_('Settings',['Setting','Value'],Object.entries(DEFAULTS));
   table_('Players',['ID','Player','Team','Group','Source POS','ESPN POS','ESPN ADP','ESPN source / date'],PROJECTION_DATA.map(p=>[p.id,p.name,p.team,p.group,p.sourcePos,'','','']));
   const stats=['GP','G','A','BLK','PIM','SHP','W','SO','GA','SV'];
-  table_('Projections',['ID','Source','Weight',...stats],PROJECTION_DATA.map(p=>[p.id,p.source,p.weight,...stats.map(k=>p.stats[k]===undefined?'':p.stats[k])]));
+  table_('Projections',['ID','Source','Weight',...stats],PROJECTION_DATA.map(projectionRow_));
   table_('Keepers',['Player','Name check'],[]);
   ensureNameSheets_();
   table_('Draft Log',['Pick','Team draft slot','Player ID','Player','Time'],[]);
@@ -83,7 +105,8 @@ function setupDraftSheet() {
     ['Uncertainty','sADP starts with ESPN ADP^0.75 × rank^0.25. F is unchanged, D is ×0.86, and G uses 0.65 × base × (base/50)^0.235. Conditional-normal uncertainty is max(4 picks, 18% of sADP).'],
     ['Keepers','Up to 2 per team; use draft slot 1–12 and cost round 1–16. Add all keepers before drafting.'],
     ['Shortcuts','Extensions > Macros > Manage macros. Draft = 1; Undo = 2. Check the shortcut displayed on your Mac.'],
-    ['Provenance','The Athletic workbook: The List cached season totals. Source KEEP? flags and fantasy scores are not imported.'],
+    ['Provenance','Athletic, Scott Cullen and Hashtag Hockey season totals are blended. ESPN rank and ADP remain draft-timing inputs, not projection sources.'],
+    ['Projections','Default source weights: Athletic 0.60, Hashtag Hockey 0.25, Scott Cullen 0.15. Each stat renormalizes over sources that supply it; blank is not zero. Edit weights in Projections, then refresh.'],
     ['Eligibility reference','https://support.espn.com/hc/en-us/articles/360054126392-Position-Eligibility'],
     ['Macros reference','https://developers.google.com/apps-script/guides/sheets/macros']
   ]).setColumnWidth(2,760);
@@ -124,7 +147,7 @@ function inputs_() {
   return {c,players,state:draftState(c,keepers,log,ids)};
 }
 function withLock_(fn) {const lock=LockService.getDocumentLock();lock.waitLock(10000);try{return fn();}finally{lock.releaseLock();}}
-function refreshBoard() {withLock_(()=>{migrateReplacementSettings_();ensureEspnRanks_();addProjectionNames_();ensureNameSheets_();checkNames_();renderBoard_(inputs_());});}
+function refreshBoard() {withLock_(()=>{migrateReplacementSettings_();ensureEspnRanks_();ensureSecondaryProjections_();addProjectionNames_();ensureNameSheets_();checkNames_();renderBoard_(inputs_());});}
 function draftSelectedPlayer() {
   const range=SpreadsheetApp.getActiveRange();
   if(!range||range.getSheet().getName()!=='Board'||range.getRow()<4||range.getNumRows()!==1||range.getNumColumns()!==1) throw Error('Select one player cell on Board');
