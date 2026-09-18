@@ -34,7 +34,7 @@ function renderProjectionComparison_(input) {
   const sheet=ss.getSheetByName('Projection Comparison')||ss.insertSheet('Projection Comparison');
   if(sheet.getFilter())sheet.getFilter().remove();
   sheet.getDataRange().breakApart();sheet.clear();
-  const headers=['Player','Tm','POS','Blend FP','Std dev','Range','Sources',...result.sources];
+  const headers=['Player','Tm','POS','Blend FP','Std dev','Relative SD','Range','Sources',...result.sources];
   const count=result.rows.length, width=headers.length;
   if(sheet.getMaxRows()<count+2)sheet.insertRowsAfter(sheet.getMaxRows(),count+2-sheet.getMaxRows());
   if(sheet.getMaxColumns()<width)sheet.insertColumnsAfter(sheet.getMaxColumns(),width-sheet.getMaxColumns());
@@ -44,15 +44,17 @@ function renderProjectionComparison_(input) {
   if(count) {
     const last=sheet.getRange(1,width).getA1Notation().replace(/1$/,'');
     sheet.getRange(3,1,count,width).setValues(result.rows.map((p,i)=>{
-      const span='H'+(i+3)+':'+last+(i+3);
+      const span='I'+(i+3)+':'+last+(i+3);
       return [p.name,p.team,p.pos,p.points,
         '=IF(COUNT('+span+')<2,"",STDEV.P('+span+'))',
+        '=IF(COUNT('+span+')<2,"",IF(AVERAGE('+span+')<=0,"",STDEV.P('+span+')/AVERAGE('+span+')))',
         '=IF(COUNT('+span+')<2,"",MAX('+span+')-MIN('+span+'))',
         '=COUNT('+span+')',...p.totals];
     }));
-    sheet.getRange(3,8,count,result.sources.length).setNotes(result.rows.map(p=>p.notes));
+    sheet.getRange(3,9,count,result.sources.length).setNotes(result.rows.map(p=>p.notes));
     sheet.getRange(3,4,count,width-3).setNumberFormat('0.0');
-    sheet.getRange(3,7,count,1).setNumberFormat('0');
+    sheet.getRange(3,6,count,1).setNumberFormat('0.0%');
+    sheet.getRange(3,8,count,1).setNumberFormat('0');
     sheet.getRange(2,1,count+1,width).createFilter();
   }
   sheet.setFrozenRows(2);sheet.setFrozenColumns(1);
@@ -60,5 +62,6 @@ function renderProjectionComparison_(input) {
   sheet.setColumnWidths(4,width-3,100);
   sheet.getRange(2,1,1,width).setWrap(true);sheet.setRowHeight(2,42);
   sheet.getRange('E2').setNote('Unweighted population standard deviation of available, positive-weight source totals. Measures model disagreement, not a calibrated prediction interval. Missing-category imputation can reduce the apparent spread; sources may also share assumptions or data.');
+  sheet.getRange('F2').setNote('Std dev divided by the unweighted average of the displayed source totals. Blank with fewer than two sources or a nonpositive average. Can be exaggerated near zero; most useful for draftable players within a position.');
   sheet.getRange('D2').setNote('Your weighted category blend, scored with Settings including the defense bonus. Weights affect this total; each source gets equal weight in the disagreement statistics.');
 }
