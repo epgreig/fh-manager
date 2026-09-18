@@ -39,7 +39,8 @@ function renderProjectionComparison_(input) {
   if(sheet.getMaxRows()<count+2)sheet.insertRowsAfter(sheet.getMaxRows(),count+2-sheet.getMaxRows());
   if(sheet.getMaxColumns()<width)sheet.insertColumnsAfter(sheet.getMaxColumns(),width-sheet.getMaxColumns());
   sheet.getRange(1,1).setValue('Source disagreement · Missing stats use the blend (hover source cells). Missing players stay blank. Refresh board to update.');
-  sheet.getRange(1,1,1,width).merge().setFontColor('#555555').setFontSize(10);
+  // Keep the title unmerged so freezing the Player column is valid in Sheets.
+  sheet.getRange(1,1,1,width).setFontColor('#555555').setFontSize(10);
   sheet.getRange(2,1,1,width).setValues([headers]).setBackground('#17364d').setFontColor('#ffffff').setFontWeight('bold');
   if(count) {
     const last=sheet.getRange(1,width).getA1Notation().replace(/1$/,'');
