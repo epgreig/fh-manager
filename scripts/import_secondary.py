@@ -9,8 +9,8 @@ import openpyxl
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / 'data/raw'
 ATHLETIC = ROOT / 'data/processed/athletic.json'
-WEIGHTS = {'The Athletic':15, 'DtZ':5, 'LineupExperts':5, 'Apples & Ginos Blake':3,
-           'Apples & Ginos Nate':3, 'Steve Laidlaw':3, 'Hashtag Hockey':2, 'Scott Cullen':2}
+WEIGHTS = {'The Athletic':12, 'DtZ':6, 'LineupExperts':6, 'Apples & Ginos Blake':4,
+           'Apples & Ginos Nate':4, 'Steve Laidlaw':3, 'Hashtag Hockey':2, 'Scott Cullen':2}
 
 # Reviewed spelling variants only; never match on surname alone.
 ALIASES = {

@@ -22,7 +22,7 @@ function migrateReplacementSettings_() {
       if(r[0]==='PAN')r[1]='Positional PAR minus the expected best available PAR after a fixed 22-selection wait. Expected best includes every player’s chance of surviving, including the candidate. PAN stays fixed-gap even at consecutive own picks.';
       if(r[0]==='Uncertainty')r[1]='sADP blends ESPN ADP (75%) and rank (25%) geometrically, then applies multiplier × (base / curvePivot)^(exponent − 1). F and D are linear; G uses multiplier 0.65 and exponent 1.235 at pivot 50.';
       if(r[0]==='Keepers')r[1]='Type names only. Keepers are removed from availability; no team, round cost, or reserved draft pick is needed.';
-      if(r[0]==='Projections')r[1]='Weight parts: Athletic 15; DtZ and LineupExperts 5 each; Blake, Nate and Laidlaw 3 each; Hashtag and Cullen 2 each. Each stat renormalizes over sources that supply it; blank is not zero.';
+      if(r[0]==='Projections')r[1]='Weight parts: Athletic 12; DtZ and LineupExperts 6 each; Blake and Nate 4 each; Laidlaw 3; Hashtag and Cullen 2 each. Each stat renormalizes over sources that supply it; blank is not zero.';
       if(r[0]==='Provenance')r[1]='Athletic, DtZ, LineupExperts, Hashtag Hockey, Scott Cullen, Steve Laidlaw, and both Apples & Ginos season projections are blended. ESPN rank and ADP remain draft-timing inputs.';
     });
     guide.getRange(1,1,rows.length,rows[0].length).setValues(rows);
@@ -80,10 +80,10 @@ function ensureSecondaryProjections_() {
     if(s.getMaxRows()<needed)s.insertRowsAfter(s.getMaxRows(),needed-s.getMaxRows());
     s.getRange(last+1,1,additional.length,13).setValues(additional);
   }
-  const properties=PropertiesService.getDocumentProperties(), marker='projectionBlendEightSources20260917';
+  const properties=PropertiesService.getDocumentProperties(), marker='projectionBlendEightSourcesV2_20260917';
   if(properties.getProperty(marker)!=='applied') {
-    const weights={'The Athletic':15,'DtZ':5,'LineupExperts':5,'Hashtag Hockey':2,'Scott Cullen':2,
-      'Steve Laidlaw':3,'Apples & Ginos Blake':3,'Apples & Ginos Nate':3};
+    const weights={'The Athletic':12,'DtZ':6,'LineupExperts':6,'Hashtag Hockey':2,'Scott Cullen':2,
+      'Steve Laidlaw':3,'Apples & Ginos Blake':4,'Apples & Ginos Nate':4};
     const values=s.getLastRow()>1?s.getRange(2,1,s.getLastRow()-1,3).getValues():[];
     if(values.length)s.getRange(2,3,values.length,1).setValues(values.map(r=>[
       Object.prototype.hasOwnProperty.call(weights,r[1])?weights[r[1]]:r[2]
@@ -111,7 +111,7 @@ function setupDraftSheet() {
     ['Keepers','Up to 2 per team; use draft slot 1–12 and cost round 1–16. Add all keepers before drafting.'],
     ['Shortcuts','Extensions > Macros > Manage macros. Draft = 1; Undo = 2. Check the shortcut displayed on your Mac.'],
     ['Provenance','Athletic, DtZ, LineupExperts, Hashtag Hockey, Scott Cullen, Steve Laidlaw, and both Apples & Ginos season projections are blended. ESPN rank and ADP remain draft-timing inputs.'],
-    ['Projections','Weight parts: Athletic 15; DtZ and LineupExperts 5 each; Blake, Nate and Laidlaw 3 each; Hashtag and Cullen 2 each. Each stat renormalizes over sources that supply it; blank is not zero.'],
+    ['Projections','Weight parts: Athletic 12; DtZ and LineupExperts 6 each; Blake and Nate 4 each; Laidlaw 3; Hashtag and Cullen 2 each. Each stat renormalizes over sources that supply it; blank is not zero.'],
     ['Eligibility reference','https://support.espn.com/hc/en-us/articles/360054126392-Position-Eligibility'],
     ['Macros reference','https://developers.google.com/apps-script/guides/sheets/macros']
   ]).setColumnWidth(2,760);

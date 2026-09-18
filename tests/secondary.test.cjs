@@ -14,10 +14,10 @@ test('secondary source import is idempotent and preserves later weight edits',()
   assert.equal(cullen.stats.SHP,undefined);
   const lineup=secondary.find(p=>p.id===mcdavid.id&&p.source==='LineupExperts');
   assert.deepEqual(lineup.stats,{GP:82,G:41,A:89,BLK:30,PIM:41});
-  assert.equal(lineup.weight,5);
+  assert.equal(lineup.weight,6);
   const dtz=secondary.find(p=>p.id===mcdavid.id&&p.source==='DtZ');
   assert.deepEqual(dtz.stats,{GP:79,G:39,A:84,BLK:36,PIM:33,SHP:1});
-  assert.equal(dtz.weight,5);
+  assert.equal(dtz.weight,6);
   const hellebuyck=athletic.find(p=>p.name==='Connor Hellebuyck');
   assert.deepEqual(secondary.find(p=>p.id===hellebuyck.id&&p.source==='DtZ').stats,
     {GP:61,W:33,SO:4,GA:157,SV:1540});
@@ -56,11 +56,11 @@ test('secondary source import is idempotent and preserves later weight edits',()
   vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Code.gs','utf8'),ctx);
   ctx.ensureSecondaryProjections_();
   assert.equal(rows.length,2995);
-  assert.equal(rows[1][2],15);
+  assert.equal(rows[1][2],12);
   assert.equal(rows.find(r=>r[0]===mcdavid.id&&r[1]==='Scott Cullen')[2],2);
   assert.equal(rows.find(r=>r[0]===mcdavid.id&&r[1]==='Hashtag Hockey')[2],2);
-  assert.equal(rows.find(r=>r[0]===mcdavid.id&&r[1]==='Apples & Ginos Blake')[2],3);
-  assert.equal(rows.find(r=>r[0]===mcdavid.id&&r[1]==='Apples & Ginos Nate')[2],3);
+  assert.equal(rows.find(r=>r[0]===mcdavid.id&&r[1]==='Apples & Ginos Blake')[2],4);
+  assert.equal(rows.find(r=>r[0]===mcdavid.id&&r[1]==='Apples & Ginos Nate')[2],4);
   assert.equal(rows.find(r=>r[0]===mcdavid.id&&r[1]==='Steve Laidlaw')[2],3);
   rows[1][2]=0.7;
   ctx.ensureSecondaryProjections_();
@@ -89,6 +89,6 @@ test('requested eight-source weights apply once and later edits persist',()=>{
     ctx.ensureSecondaryProjections_();
     return [migrated,rows[1][2]];
   }
-  assert.deepEqual(refresh({athletic:0.60,hashtag:0.25,cullen:0.15}),[[15,2,2],0.7]);
-  assert.deepEqual(refresh({athletic:0.70,hashtag:0.25,cullen:0.15}),[[15,2,2],0.7]);
+  assert.deepEqual(refresh({athletic:0.60,hashtag:0.25,cullen:0.15}),[[12,2,2],0.7]);
+  assert.deepEqual(refresh({athletic:0.70,hashtag:0.25,cullen:0.15}),[[12,2,2],0.7]);
 });
