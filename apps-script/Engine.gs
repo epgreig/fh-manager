@@ -37,19 +37,17 @@ function draftState(c, keepers, log, ids) {
 function evaluate(players,c,state) {
   const all=players.map(p=>({...p,points:scorePlayer(p,c)}));
   const baselines={};
-  const positions=p=>p.group==='F'?String(p.pos||'').toUpperCase().split(/[,/\s]+/).filter(x=>['C','LW','RW'].includes(x)):[p.group];
-  ['C','LW','RW','D','G'].forEach(g=>{
-    const ranked=all.filter(p=>positions(p).includes(g)).sort((a,b)=>b.points-a.points);
-    const rank=['C','LW','RW'].includes(g)?c['panReplacement'+g]:c['replacement'+g];
+  ['D','G'].forEach(g=>{
+    const ranked=all.filter(p=>p.group===g).sort((a,b)=>b.points-a.points);
+    const rank=c['replacement'+g];
     if(!Number.isInteger(rank)||rank<1) throw Error('Replacement rank must be a positive integer: '+g);
-    // Insufficient verified eligibility leaves a baseline unknown, never substitutes Yahoo positions.
+    // An undersized positional pool leaves its replacement baseline unknown.
     baselines[g]=ranked.length>=rank?ranked[rank-1].points:null;
   });
   if(!Number.isFinite(c.replacementFPoints)||c.replacementFPoints<0)throw Error('Invalid forward replacement points');
   baselines.F=c.replacementFPoints;
   const available=all.filter(p=>!state.removed.has(p.id)).map(p=>{
-    const eligible=positions(p), values=eligible.map(g=>baselines[g]);
-    const baseline=p.group==='F'?baselines.F:(eligible.length&&values.every(v=>v!==null)?Math.min(...values):null);
+    const baseline=baselines[p.group];
     return {...p,par:baseline===null?null:p.points-baseline,pan:null};
   });
   return {available,baselines};

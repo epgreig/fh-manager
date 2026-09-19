@@ -26,8 +26,8 @@ test('PAN subtracts shared expected best available and uses rank-scaled uncertai
  const model={getRange(){return {setValue(){},setValues(){},setFormula(f){modelFormulas.push(f);},setFormulas(rows){modelFormulas.push(...rows.flat());}};}};
  const ctx={SpreadsheetApp:{getActive:()=>({})},table_:()=>sheet};vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Pan.gs','utf8'),ctx);
  function key(r,c){return ctx.panColumn_(c)+r;}
- const players=[{id:'a',points:100,group:'F',pos:'C'},{id:'b',points:80,group:'F',pos:'C'},{id:'c',points:60,group:'F',pos:'C'}];
- ctx.buildPanFormulas_(model,players,{C:20,LW:null,RW:null,D:null,G:null},{});
+ const players=[{id:'a',points:100,group:'F',pos:'C'},{id:'b',points:80,group:'F',pos:'LW'},{id:'c',points:60,group:'F',pos:'C,RW'}];
+ ctx.buildPanFormulas_(model,players,{F:20,D:null,G:null},{});
  const probabilities=[0.3,0.6,0.9],par=[80,60,40];
  function evalCell(cell){const value=cells[cell];if(typeof value==='number')return value;
    let expr=value.slice(1).replace(/'Board Data'!O(\d+)/g,(_,r)=>String(probabilities[Number(r)-2]));
@@ -40,6 +40,9 @@ test('PAN subtracts shared expected best available and uses rank-scaled uncertai
    for(let j=0;j<3;j++){const available=Boolean(mask&(1<<j));probability*=available?probabilities[j]:1-probabilities[j];if(available)best=Math.max(best,par[j]);}
    expected+=probability*best;
  }
+ assert.equal(cells.A1,'F ID');
+ assert.equal(cells.A2,'a');assert.equal(cells.A3,'b');assert.equal(cells.A4,'c');
+ assert.equal(cells.I1,'D ID');assert.equal(cells.Q1,'G ID');
  const shared=evalCell('E2')+evalCell('E3')+evalCell('E4');
  assert.ok(Math.abs(shared-expected)<1e-10);
  assert.ok(!modelFormulas.some(f=>f.includes('IF($N$2=0,0,')));
@@ -51,4 +54,6 @@ test('PAN subtracts shared expected best available and uses rank-scaled uncertai
   assert.ok(modelFormulas.some(f=>f.includes("SUM('PAN Pools'!E2:E4)")));
   assert.ok(modelFormulas.some(f=>f.includes("D2-20-SUM('PAN Pools'!E2:E4)")));
   assert.ok(!modelFormulas.some(f=>f.includes('(1-O2)*')));
+  for(const row of [2,3,4])assert.ok(modelFormulas.some(f=>f.includes('D'+row+"-20-SUM('PAN Pools'!E2:E4)")));
+  assert.equal((100-20-shared)-(80-20-shared),20);
 });

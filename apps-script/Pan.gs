@@ -27,11 +27,11 @@ function buildPanFormulas_(model,players,baselines,c) {
     return ['=IF(NOT(J'+r+'),0,IF(R'+r+'="","",LET(base,NORMDIST((R'+r+'-($L$2-1))/P'+r+',0,1,TRUE),tail,NORMDIST((R'+r+'-($L$2-1+$N$2))/P'+r+',0,1,TRUE),IF(base=0,"",MIN(1,MAX(0,tail/base))))))'];
   }));
   const options=new Map(players.map(p=>[p.id,[]]));
-  ['C','LW','RW','D','G'].forEach((pos,index)=>{
+  ['F','D','G'].forEach((pos,index)=>{
     const base=baselines[pos],start=1+8*index;
     const cols=Array.from({length:5},(_,i)=>panColumn_(start+i));
     const [idCol,valueCol,surviveCol,priorGoneCol,contributionCol]=cols;
-    const pool=players.map((p,i)=>({...p,modelRow:i+2})).filter(p=>p.group==='F'?String(p.pos).split(/[,/\s]+/).includes(pos):p.group===pos).sort((a,b)=>b.points-a.points||a.id.localeCompare(b.id));
+    const pool=players.map((p,i)=>({...p,modelRow:i+2})).filter(p=>p.group===pos).sort((a,b)=>b.points-a.points||a.id.localeCompare(b.id));
     pools.getRange(1,start,1,5).setValues([[pos+' ID','PAR above zero','P available','P better gone','Expected-best contribution']]);
     if(!pool.length||base===null)return;
     const end=pool.length+1;

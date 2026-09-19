@@ -29,18 +29,18 @@ test('replacement remains fixed after draft',()=>{
  const cfg={...c,panReplacementC:3,panReplacementLW:3,panReplacementRW:3,replacementD:3,replacementG:3,simulations:2};
  const p=pool();p[0].adp=null;
  const x=evaluate(p,cfg,{removed:new Set(['F2']),current:1,next:24,opponents:2});
- assert.equal(x.baselines.C,21);assert.equal(x.available.length,11);
+ assert.equal(x.baselines.F,161);assert.equal(x.available.length,11);
 });
-test('shared forward PAR is independent of positional PAN baselines',()=>{
+test('shared forward baseline does not depend on forward eligibility',()=>{
  const p=pool();p.find(x=>x.id==='F1').pos='C,LW';p.find(x=>x.id==='F2').pos='C';p.find(x=>x.id==='F3').pos='LW';p.find(x=>x.id==='F4').pos='RW';
  const cfg={...c,replacementFPoints:22,panReplacementC:2,panReplacementLW:2,panReplacementRW:1,replacementD:3,replacementG:3};
  const x=evaluate(p,cfg,{removed:new Set(),current:1,next:null});
- assert.equal(x.baselines.C,24);assert.equal(x.baselines.LW,21);assert.equal(x.baselines.RW,18);
+ assert.equal(x.baselines.F,22);assert.equal(x.baselines.C,undefined);
  assert.equal(x.available.find(p=>p.id==='F1').par,5);
  p[0].pos='';const missing=evaluate(p,cfg,{removed:new Set(),current:1,next:null});
  assert.equal(missing.available.find(p=>p.id==='F1').par,5);
- assert.equal(missing.baselines.C,null);
+ assert.equal(missing.baselines.F,22);
  const changed=evaluate(p,{...cfg,replacementFPoints:20},{removed:new Set()});
  assert.equal(changed.available.find(p=>p.id==='F1').par,7);
- for(const pos of ['C','LW','RW','D','G'])assert.equal(changed.baselines[pos],missing.baselines[pos]);
+ for(const pos of ['D','G'])assert.equal(changed.baselines[pos],missing.baselines[pos]);
 });

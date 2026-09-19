@@ -30,8 +30,8 @@ function migrateReplacementSettings_() {
     const rows=guide.getDataRange().getValues();
     rows.forEach(r=>{
       if(r[0]==='Replacement assumptions')r[1]='Replacement ranks calibrated by comparing last year’s draft with contemporaneous rankings. Adjust ranks in Settings.';
-      if(r[0]==='PAR')r[1]='Forward PAR is season points minus replacementFPoints (initially 161). D/G still use replacement ranks. PAN retains the saved positional forward ranks.';
-      if(r[0]==='PAN')r[1]='Positional PAR minus the expected best available PAR after a fixed 22-selection wait. Expected best includes every player’s chance of surviving, including the candidate. PAN stays fixed-gap even at consecutive own picks.';
+      if(r[0]==='PAR')r[1]='Forward PAR is season points minus replacementFPoints (initially 161). D/G still use replacement ranks. PAN uses one shared forward pool.';
+      if(r[0]==='PAN')r[1]='Group PAR minus the expected best available PAR after a fixed 22-selection wait; one shared F pool, separate D and G pools. Expected best includes every player’s chance of surviving, including the candidate. PAN stays fixed-gap even at consecutive own picks.';
       if(r[0]==='Uncertainty')r[1]='sADP blends ESPN ADP (75%) and rank (25%) geometrically, then applies multiplier × (base / curvePivot)^(exponent − 1). F and D are linear; G uses multiplier 0.65 and exponent 1.235 at pivot 50.';
       if(r[0]==='Keepers')r[1]='Type names only. Keepers are removed from availability; no team, round cost, or reserved draft pick is needed.';
       if(r[0]==='Projections')r[1]='Weight parts: Athletic 12; DtZ and LineupExperts 6 each; Blake and Nate 4 each; Laidlaw 3; Hashtag and Cullen 2 each. Each stat renormalizes over sources that supply it; blank is not zero.';
@@ -106,9 +106,9 @@ function setupDraftSheet() {
     ['Scoring','D bonus applies per G+A; SHP bonus is additional to regular G/A points.'],
     ['Use','Edit inputs, then Draft > Refresh board. Select one board player cell and run draft macro.'],
     ['ESPN','Paste ESPN eligibility and ADP in Players, with source/date. Yahoo POS stays separate.'],
-    ['PAR','Forward PAR is season points minus replacementFPoints (initially 161). D/G still use replacement ranks. PAN retains the saved positional forward ranks.'],
+    ['PAR','Forward PAR is season points minus replacementFPoints (initially 161). D/G still use replacement ranks. PAN uses one shared forward pool.'],
     ['Replacement assumptions','Replacement ranks calibrated from last year’s draft and rankings. Adjust ranks in Settings.'],
-    ['PAN','Positional PAR minus the expected best available PAR after 22 selections. Expected best includes every player’s survival chance, including the candidate; multi-position players use their highest eligible PAN.'],
+    ['PAN','Group PAR minus expected best available PAR after 22 selections. All forwards share one pool; D and G have separate pools. Expected best includes the candidate’s survival chance.'],
     ['Uncertainty','sADP starts with ESPN ADP^0.75 × rank^0.25. F is unchanged, D is ×0.86, and G uses 0.65 × base × (base/50)^0.235. Conditional-normal uncertainty is max(4 picks, 18% of sADP).'],
     ['Keepers','Up to 2 per team; use draft slot 1–12 and cost round 1–16. Add all keepers before drafting.'],
     ['Shortcuts','Extensions > Macros > Manage macros. Draft = 1; Undo = 2. Check the shortcut displayed on your Mac.'],
@@ -122,8 +122,6 @@ function setupDraftSheet() {
 function rows_(name) {return SpreadsheetApp.getActive().getSheetByName(name).getDataRange().getValues().slice(1).filter(r=>r[0]!=='');}
 function inputs_() {
   const c=Object.fromEntries(rows_('Settings').map(r=>[r[0],Number(r[1])]));
-  const panRanks=JSON.parse(PropertiesService.getDocumentProperties().getProperty('panForwardReplacementRanks'));
-  for(const pos of ['C','LW','RW'])c['panReplacement'+pos]=panRanks[pos];
   for(const k of Object.keys(DEFAULTS)) if(!Number.isFinite(c[k])) throw Error('Invalid setting '+k);
   for(const k of ['teams','draftSlot','rounds','panGap','highlightCount','youngAgeMax']) if(!Number.isInteger(c[k])||c[k]<1) throw Error('Invalid setting '+k);
   if(c.multiplierF<=0||c.multiplierD<=0||c.multiplierG<=0||c.exponentF<=0||c.exponentD<=0||c.exponentG<=0||c.curvePivot<=0||c.espnRankWeight<0||c.espnRankWeight>1||c.draftSlot>c.teams||c.adpSigmaFloor<=0||c.adpSigmaRate<=0||c.parTop<=0||c.parTop>1||c.adpBottom<=0||c.adpBottom>1) throw Error('Settings out of range');
