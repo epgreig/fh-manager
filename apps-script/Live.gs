@@ -61,11 +61,11 @@ function renderBoard_({c,players,state}) {
 function showReplacementLevels_(baselines) {
   const s=SpreadsheetApp.getActive().getSheetByName('Settings');
   s.getRange(1,3).setValue('Replacement points').setBackground('#17364d').setFontColor('#ffffff').setFontWeight('bold');
-  s.getRange(1,3).setNote('Calculated by Refresh board using the current scoring, projections and positional ranks. Includes drafted players and keepers so the PAR baseline stays fixed during the draft.');
+  s.getRange(1,3).setNote('Forward PAR uses replacementFPoints directly. D/G points are calculated from their ranks on Refresh board, including drafted players and keepers.');
   s.getDataRange().getValues().forEach((row,i)=>{
-    const match=/^replacement(C|LW|RW|D|G)$/.exec(String(row[0]));
+    const match=/^replacement(FPoints|D|G)$/.exec(String(row[0]));
     if(!match)return;
-    const value=baselines[match[1]];
+    const value=baselines[match[1]==='FPoints'?'F':match[1]];
     s.getRange(i+1,3).setValue(value==null?'Unavailable':value).setNumberFormat('0.0');
   });
   s.setColumnWidth(3,155);

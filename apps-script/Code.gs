@@ -3,22 +3,34 @@ function onOpen() {
     .addItem('Refresh board','refreshBoard').addItem('Draft selected player','draftSelectedPlayer')
     .addItem('Undo last pick','undoLastPick').addItem('Import ESPN snapshot','importEspnSnapshot').addToUi();
 }
+function migrateForwardReplacement_(sheet, properties) {
+  const rows=sheet.getDataRange().getValues();
+  const values=Object.fromEntries(rows.slice(1).map(r=>[r[0],r[1]]));
+  if(!properties.getProperty('panForwardReplacementRanks')) {
+    const ranks={C:40,LW:36,RW:36};
+    for(const pos of Object.keys(ranks)) {
+      const value=values['replacement'+pos];
+      if(value!==undefined) {
+        if(!Number.isInteger(value)||value<1)throw Error('Invalid PAN replacement rank for '+pos);
+        ranks[pos]=value;
+      }
+    }
+    properties.setProperty('panForwardReplacementRanks',JSON.stringify(ranks));
+  }
+  for(let r=rows.length-1;r>=1;r--)if(/^replacement(C|LW|RW|F)$/.test(String(rows[r][0])))sheet.deleteRow(r+1);
+  if(!Object.prototype.hasOwnProperty.call(values,'replacementFPoints'))sheet.appendRow(['replacementFPoints',DEFAULTS.replacementFPoints]);
+}
 function migrateReplacementSettings_() {
   const s=SpreadsheetApp.getActive().getSheetByName('Settings');
   const old=s.getDataRange().getValues();
   for(let r=old.length-1;r>=1;r--)if(['simulations','nextAlternatives','adpSigma'].includes(old[r][0]))s.deleteRow(r+1);
-  const existing=rows_('Settings');
-  for(let i=existing.length-1;i>=0;i--) if(existing[i][0]==='replacementF') {
-    // Locate actual sheet row, including any blank rows in the input table.
-    const values=s.getDataRange().getValues();
-    for(let r=values.length-1;r>=1;r--) if(values[r][0]==='replacementF') s.deleteRow(r+1);
-  }
+  migrateForwardReplacement_(s,PropertiesService.getDocumentProperties());
   const guide=SpreadsheetApp.getActive().getSheetByName('Guide');
   if(guide) {
     const rows=guide.getDataRange().getValues();
     rows.forEach(r=>{
       if(r[0]==='Replacement assumptions')r[1]='Replacement ranks calibrated by comparing last year’s draft with contemporaneous rankings. Adjust ranks in Settings.';
-      if(r[0]==='PAR')r[1]='Season points minus positional replacement points derived from ranks in Settings. Defaults: C32 LW32 RW32 D32 G20. Multi-position forwards use their highest PAR.';
+      if(r[0]==='PAR')r[1]='Forward PAR is season points minus replacementFPoints (initially 161). D/G still use replacement ranks. PAN retains the saved positional forward ranks.';
       if(r[0]==='PAN')r[1]='Positional PAR minus the expected best available PAR after a fixed 22-selection wait. Expected best includes every player’s chance of surviving, including the candidate. PAN stays fixed-gap even at consecutive own picks.';
       if(r[0]==='Uncertainty')r[1]='sADP blends ESPN ADP (75%) and rank (25%) geometrically, then applies multiplier × (base / curvePivot)^(exponent − 1). F and D are linear; G uses multiplier 0.65 and exponent 1.235 at pivot 50.';
       if(r[0]==='Keepers')r[1]='Type names only. Keepers are removed from availability; no team, round cost, or reserved draft pick is needed.';
@@ -29,17 +41,7 @@ function migrateReplacementSettings_() {
   }
   const keys=new Set(rows_('Settings').map(r=>r[0]));
   for(const key of ['espnRankWeight','multiplierF','multiplierD','multiplierG','exponentF','exponentD','exponentG','curvePivot','panGap','highlightCount','youngAgeMax','adpSigmaFloor','adpSigmaRate'])if(!keys.has(key))s.appendRow([key,DEFAULTS[key]]);
-  ['C','LW','RW'].forEach(pos=>{const key='replacement'+pos;if(!keys.has(key)) s.appendRow([key,DEFAULTS[key]]);});
-  // Apply the requested calibration once per sheet; later user edits remain editable.
   const properties=PropertiesService.getDocumentProperties();
-  const migration='replacementRanks20260908';
-  if(properties.getProperty(migration)!=='applied') {
-    const ranks={replacementC:32,replacementLW:32,replacementRW:32,replacementD:32,replacementG:20};
-    s.getDataRange().getValues().forEach((row,i)=>{
-      if(Object.prototype.hasOwnProperty.call(ranks,row[0]))s.getRange(i+1,2).setValue(ranks[row[0]]);
-    });
-    properties.setProperty(migration,'applied');
-  }
   const sadpMigration='weightedGeometricSadp20260908';
   if(properties.getProperty(sadpMigration)!=='applied') {
     const values={espnRankWeight:0.25,multiplierF:1,multiplierD:0.85,multiplierG:0.81};
@@ -104,7 +106,7 @@ function setupDraftSheet() {
     ['Scoring','D bonus applies per G+A; SHP bonus is additional to regular G/A points.'],
     ['Use','Edit inputs, then Draft > Refresh board. Select one board player cell and run draft macro.'],
     ['ESPN','Paste ESPN eligibility and ADP in Players, with source/date. Yahoo POS stays separate.'],
-    ['PAR','Season points minus positional replacement points derived from ranks in Settings: C32 LW32 RW32 D32 G20. Multi-position forwards use their highest PAR.'],
+    ['PAR','Forward PAR is season points minus replacementFPoints (initially 161). D/G still use replacement ranks. PAN retains the saved positional forward ranks.'],
     ['Replacement assumptions','Replacement ranks calibrated from last year’s draft and rankings. Adjust ranks in Settings.'],
     ['PAN','Positional PAR minus the expected best available PAR after 22 selections. Expected best includes every player’s survival chance, including the candidate; multi-position players use their highest eligible PAN.'],
     ['Uncertainty','sADP starts with ESPN ADP^0.75 × rank^0.25. F is unchanged, D is ×0.86, and G uses 0.65 × base × (base/50)^0.235. Conditional-normal uncertainty is max(4 picks, 18% of sADP).'],
@@ -120,6 +122,8 @@ function setupDraftSheet() {
 function rows_(name) {return SpreadsheetApp.getActive().getSheetByName(name).getDataRange().getValues().slice(1).filter(r=>r[0]!=='');}
 function inputs_() {
   const c=Object.fromEntries(rows_('Settings').map(r=>[r[0],Number(r[1])]));
+  const panRanks=JSON.parse(PropertiesService.getDocumentProperties().getProperty('panForwardReplacementRanks'));
+  for(const pos of ['C','LW','RW'])c['panReplacement'+pos]=panRanks[pos];
   for(const k of Object.keys(DEFAULTS)) if(!Number.isFinite(c[k])) throw Error('Invalid setting '+k);
   for(const k of ['teams','draftSlot','rounds','panGap','highlightCount','youngAgeMax']) if(!Number.isInteger(c[k])||c[k]<1) throw Error('Invalid setting '+k);
   if(c.multiplierF<=0||c.multiplierD<=0||c.multiplierG<=0||c.exponentF<=0||c.exponentD<=0||c.exponentG<=0||c.curvePivot<=0||c.espnRankWeight<0||c.espnRankWeight>1||c.draftSlot>c.teams||c.adpSigmaFloor<=0||c.adpSigmaRate<=0||c.parTop<=0||c.parTop>1||c.adpBottom<=0||c.adpBottom>1) throw Error('Settings out of range');

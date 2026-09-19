@@ -25,7 +25,9 @@ Skaters: `3 G + 1.5 A + 0.3 BLK + 0.5 PIM + 1.5 SHP`. Defensemen receive another
 
 League: 12 teams, initial draft slot 1, snake order, roster of 2 C / 2 LW / 2 RW / 3 D / 1 skater FLEX / 1 G / 5 bench / 1 IR. IR is not an extra draft slot. With names-only keepers, no keeper ownership or cost-round scheduling is inferred. Total open selections are 16 × teams minus unique keeper count.
 
-PAR is points above the player at the configured positional replacement rank. Defaults: C32, LW32, RW32, D32, G20. These are ranks, not point values. Change them in Settings. A multi-position player receives their highest eligible PAR. Baselines include drafted and kept players, so they do not drift during the draft. ESPN eligibility is preferred; workbook positions are a provisional fallback marked `*`. An insufficient eligible pool leaves PAR blank.
+Forward PAR uses one shared baseline: **season fantasy points minus `replacementFPoints`**, initially 161 points. Adjust this point value in Settings and refresh. D and G continue to use positional replacement ranks; their existing settings are preserved. Baselines include drafted and kept players. Forward PAR no longer varies with C/LW/RW eligibility.
+
+On the first refresh, the former C/LW/RW ranks are saved in document properties (`panForwardReplacementRanks`) and removed from Settings. PAN continues using those saved positional ranks, including its zero-PAR fallback, so the forward PAR change does not change PAN. New sheets start PAN at C40/LW36/RW36. ESPN eligibility remains preferred, with workbook positions as the provisional fallback.
 
 ## Smart ADP and PAN
 

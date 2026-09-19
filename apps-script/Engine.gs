@@ -1,7 +1,7 @@
 const DEFAULTS = {
   teams:12, draftSlot:1, rounds:16, G:3, A:1.5, BLK:0.3, PIM:0.5, SHP:1.5,
   defenseBonus:0.3, W:1.5, SO:2, GA:-1, SV:0.2,
-  replacementC:32, replacementLW:32, replacementRW:32, replacementD:32, replacementG:20,
+  replacementFPoints:161, replacementD:32, replacementG:20,
   parTop:0.15, adpBottom:0.10, adpSigmaFloor:4, adpSigmaRate:0.18, espnRankWeight:0.25,
   multiplierF:1, multiplierD:0.86, multiplierG:0.65, exponentF:1, exponentD:1, exponentG:1.235, curvePivot:50,
   panGap:22, highlightCount:12, youngAgeMax:23
@@ -40,14 +40,16 @@ function evaluate(players,c,state) {
   const positions=p=>p.group==='F'?String(p.pos||'').toUpperCase().split(/[,/\s]+/).filter(x=>['C','LW','RW'].includes(x)):[p.group];
   ['C','LW','RW','D','G'].forEach(g=>{
     const ranked=all.filter(p=>positions(p).includes(g)).sort((a,b)=>b.points-a.points);
-    const rank=c['replacement'+g];
+    const rank=['C','LW','RW'].includes(g)?c['panReplacement'+g]:c['replacement'+g];
     if(!Number.isInteger(rank)||rank<1) throw Error('Replacement rank must be a positive integer: '+g);
     // Insufficient verified eligibility leaves a baseline unknown, never substitutes Yahoo positions.
     baselines[g]=ranked.length>=rank?ranked[rank-1].points:null;
   });
+  if(!Number.isFinite(c.replacementFPoints)||c.replacementFPoints<0)throw Error('Invalid forward replacement points');
+  baselines.F=c.replacementFPoints;
   const available=all.filter(p=>!state.removed.has(p.id)).map(p=>{
     const eligible=positions(p), values=eligible.map(g=>baselines[g]);
-    const baseline=eligible.length&&values.every(v=>v!==null)?Math.min(...values):null;
+    const baseline=p.group==='F'?baselines.F:(eligible.length&&values.every(v=>v!==null)?Math.min(...values):null);
     return {...p,par:baseline===null?null:p.points-baseline,pan:null};
   });
   return {available,baselines};
