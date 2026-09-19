@@ -10,6 +10,7 @@ function FH_STATE(settings,keepers,log,identities) {
   return [[state.current,state.next||'',state.opponents]];
 }
 function renderBoard_({c,players,state}) {
+  CacheService.getDocumentCache().put('draftPlayerIdentitiesV1',JSON.stringify(players.map(p=>({id:p.id,name:p.name}))),21600);
   const ss=SpreadsheetApp.getActive(), s=ss.getSheetByName('Board');
   // Score and rank once per explicit refresh; draft availability stays formula-driven.
   const result=evaluate(players,c,{...state,removed:new Set(),next:null});
@@ -23,7 +24,11 @@ function renderBoard_({c,players,state}) {
   model.getRange(2,10,n,1).setFormulas(result.available.map((p,i)=>{
     const r=i+2;return ['=AND(COUNTIF(\'Draft Log\'!C$2:C,H'+r+')=0,COUNTIF(Keepers!A$2:A,A'+r+')=0,COUNTIF(Keepers!A$2:A,H'+r+')=0)'];
   }));
-  model.getRange('L2').setFormula('=FH_STATE(Settings!A2:B100,Keepers!A2:A1000,\'Draft Log\'!A2:E1000,Players!A2:B'+last+')');
+  // Native formulas avoid another Apps Script execution after every logged pick.
+  model.getRange('L2').setFormula('=COUNTA(\'Draft Log\'!A2:A1000)+1');
+  model.getRange('N2').setFormula('=XLOOKUP("panGap",Settings!A2:A100,Settings!B2:B100)');
+  const kept='SUMPRODUCT(--((COUNTIF(Keepers!A$2:A1000,A2:A'+last+')+COUNTIF(Keepers!A$2:A1000,H2:H'+last+'))>0))';
+  model.getRange('M2').setFormula('=IFERROR(LET(teams,XLOOKUP("teams",Settings!A2:A100,Settings!B2:B100),slot,XLOOKUP("draftSlot",Settings!A2:A100,Settings!B2:B100),lim,teams*XLOOKUP("rounds",Settings!A2:A100,Settings!B2:B100)-'+kept+',picks,SEQUENCE(MAX(1,lim-L2),1,L2+1),owners,IF(MOD(INT((picks-1)/teams),2)=0,MOD(picks-1,teams)+1,teams-MOD(picks-1,teams)),INDEX(FILTER(picks,(picks<=lim)*(owners=slot)),1)),"")');
   buildPanFormulas_(model,result.available,result.baselines,c);
   s.getRange(1,1,s.getMaxRows(),s.getMaxColumns()).breakApart();s.clear();s.showRows(1,s.getMaxRows());s.showColumns(1,s.getMaxColumns());
   if(s.getMaxColumns()<29)s.insertColumnsAfter(s.getMaxColumns(),29-s.getMaxColumns());

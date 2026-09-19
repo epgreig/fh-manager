@@ -45,6 +45,7 @@ function checkNames_() {
 function onEdit(e) {
   if(!e||!e.range) return;
   const name=e.range.getSheet().getName();
+  if(name==='Players'){CacheService.getDocumentCache().remove('draftPlayerIdentitiesV1');return;}
   if(!['Targets','Keepers'].includes(name)) return;
   withLock_(()=>{checkNames_();});
 }

@@ -156,6 +156,13 @@ function inputs_() {
   return {c,players,state:draftState(c,keepers,log,ids)};
 }
 function withLock_(fn) {const lock=LockService.getDocumentLock();lock.waitLock(10000);try{return fn();}finally{lock.releaseLock();}}
+function draftIdentities_() {
+  const cache=CacheService.getDocumentCache(),key='draftPlayerIdentitiesV1';
+  const saved=cache.get(key);if(saved)return JSON.parse(saved);
+  const s=SpreadsheetApp.getActive().getSheetByName('Players');
+  const players=s.getRange(2,1,s.getLastRow()-1,2).getValues().filter(r=>r[0]).map(r=>({id:r[0],name:r[1]}));
+  cache.put(key,JSON.stringify(players),21600);return players;
+}
 function refreshBoard() {withLock_(()=>{migrateReplacementSettings_();ensureEspnRanks_();ensureSecondaryProjections_();addProjectionNames_();ensureNameSheets_();checkNames_();const input=inputs_();renderBoard_(input);renderProjectionComparison_(input);});}
 function draftSelectedPlayer() {
   const range=SpreadsheetApp.getActiveRange();
@@ -167,7 +174,7 @@ function draftSelectedPlayer() {
   if(!id) throw Error('Select a player');
   withLock_(()=>{
     const c=Object.fromEntries(rows_('Settings').map(r=>[r[0],Number(r[1])]));
-    const players=rows_('Players').map(r=>({id:r[0],name:r[1]}));
+    const players=draftIdentities_();
     const keepers=rows_('Keepers').map(r=>{const m=resolvePlayerName_(r[0],players);if(!m.player)throw Error('Unknown keeper: '+r[0]);return {id:m.player.id};});
     const log=rows_('Draft Log').map(r=>({pick:r[0],id:r[2]}));
     const state=draftState(c,keepers,log,new Set(players.map(p=>p.id)));

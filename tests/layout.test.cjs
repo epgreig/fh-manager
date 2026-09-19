@@ -15,7 +15,7 @@ test('live board filters log availability and separates PAN from player lists',(
    return ()=>sheet;
  }});
  const rule=new Proxy({}, {get:(_,name)=>(...args)=>{ruleCalls.push([name,...args]);return name==='build'?{}:rule;}});
- const ctx={SpreadsheetApp:{getActive:()=>({getSheetByName:()=>sheet}),newConditionalFormatRule:()=>rule,InterpolationType:{NUMBER:'number',PERCENTILE:'percentile'},BorderStyle:{SOLID:'solid'},WrapStrategy:{CLIP:'clip'}}};
+ const ctx={CacheService:{getDocumentCache:()=>({put:()=>{}})},SpreadsheetApp:{getActive:()=>({getSheetByName:()=>sheet}),newConditionalFormatRule:()=>rule,InterpolationType:{NUMBER:'number',PERCENTILE:'percentile'},BorderStyle:{SOLID:'solid'},WrapStrategy:{CLIP:'clip'}}};
  vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Engine.gs','utf8')+'\n'+fs.readFileSync('apps-script/Code.gs','utf8')+'\n'+fs.readFileSync('apps-script/Live.gs','utf8'),ctx);
  ctx.showReplacementLevels_=()=>{};ctx.table_=()=>sheet;ctx.buildPanFormulas_=()=>calls.push("buildPanFormulas");
  ctx.evaluate=()=>({available:['F','D','G'].map(g=>({group:g,id:g,name:g,points:100,par:20,adp:5,pan:null,pos:g,team:'TOR'})),panReady:false});
@@ -26,7 +26,9 @@ test('live board filters log availability and separates PAN from player lists',(
  assert.deepEqual([...hidden].sort((a,b)=>a-b),[9,12,19,22,29]);
  assert.equal(Object.entries(widths).reduce((sum,[col,w])=>sum+(hidden.has(Number(col))?0:w),0),1161);
  assert.equal(formulas.filter(f=>f.startsWith('=IFNA(SORT(FILTER')).length,3);
- assert.ok(formulas.some(f=>f.startsWith('=FH_STATE(')));
+ assert.ok(!formulas.some(f=>f.includes('FH_STATE')));
+ assert.ok(formulas.some(f=>f.startsWith('=COUNTA(\'Draft Log\'!A2:A1000)+1')));
+ assert.ok(formulas.some(f=>f.includes('XLOOKUP("panGap"')));
  assert.ok(calls.includes('buildPanFormulas'));
  assert.ok(!formulas.some(f=>f.includes('FH_PAN')));
  assert.ok(formulas.filter(f=>f.startsWith('=IFNA(SORT(FILTER')).every(f=>f.includes('HSTACK(')&&f.includes('!T2:T')&&f.includes('),7,FALSE,6,TRUE')));
