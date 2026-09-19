@@ -2,8 +2,8 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),fs=requir
 test('draft estimate uses a weighted geometric ADP/rank blend and handles missing inputs',()=>{
  const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Pan.gs','utf8'),ctx);
  const formula=ctx.draftOrderFormula_(2).slice(1);
- const evaluate=(adp,rank,weight,multiplier=1,exponent=1,pivot=50)=>vm.runInNewContext(formula.replaceAll('$S$2','weight').replaceAll('$W$2','pivot'),{
-   F2:adp,Q2:rank,U2:multiplier,V2:exponent,weight,pivot,POWER:Math.pow,IF:(condition,a,b)=>condition?a:b,AND:(...args)=>args.every(Boolean),ISNUMBER:x=>typeof x==='number'
+ const evaluate=(adp,rank,weight,multiplier=1,exponent=1,pivot=50,dom='',domWeight=0)=>vm.runInNewContext(formula.replaceAll('$S$2','weight').replaceAll('$W$2','pivot').replaceAll('$Y$2','domWeight').replace('domWeight=0','domWeight===0'),{
+   F2:adp,Q2:rank,U2:multiplier,V2:exponent,X2:dom,domWeight,weight,pivot,POWER:Math.pow,IF:(condition,a,b)=>condition?a:b,AND:(...args)=>args.every(Boolean),ISNUMBER:x=>typeof x==='number'
  });
  assert.ok(Math.abs(evaluate(80,40,.5)-Math.sqrt(80*40))<1e-10);
  assert.ok(Math.abs(evaluate(80,40,.25)-Math.pow(80,.75)*Math.pow(40,.25))<1e-10);
@@ -12,6 +12,11 @@ test('draft estimate uses a weighted geometric ADP/rank blend and handles missin
  assert.equal(evaluate(80,'',.5),80);
  assert.equal(evaluate('',40,.5),40);
  assert.equal(evaluate('','',.5),'');
+ assert.equal(evaluate(80,40,.5,1,1,50,10,1),10);
+ assert.ok(Math.abs(evaluate(80,40,.5,.86,1,50,10,.25)-Math.pow(Math.sqrt(80*40)*.86,.75)*Math.pow(10,.25))<1e-10);
+ assert.equal(evaluate('','',.5,1,1,50,10,.25),10);
+ assert.equal(evaluate('','',.5,1,1,50,10,0),'');
+ assert.equal(evaluate(80,'',.5,1,1,50,'',.25),80);
  assert.ok(Math.abs(evaluate(80,40,.25,.86)-Math.pow(80,.75)*Math.pow(40,.25)*.86)<1e-10);
  assert.ok(Math.abs(evaluate(80,40,.25,.81)-Math.pow(80,.75)*Math.pow(40,.25)*.81)<1e-10);
  const goalieBase=Math.pow(25,.75)*Math.pow(25,.25);
@@ -23,7 +28,7 @@ test('PAN subtracts shared expected best available and uses rank-scaled uncertai
    return {setValues(values){values.forEach((r,i)=>r.forEach((v,j)=>cells[key(row+i,col+j)]=v));},
    setValue(v){cells[key(row,col)]=v;},setFormulas(values){values.forEach((r,i)=>r.forEach((v,j)=>cells[key(row+i,col+j)]=v));}};
  }};
- const model={getRange(){return {setValue(){},setValues(){},setFormula(f){modelFormulas.push(f);},setFormulas(rows){modelFormulas.push(...rows.flat());}};}};
+ const model={getMaxColumns:()=>26,getRange(){return {setValue(){},setValues(){},setFormula(f){modelFormulas.push(f);},setFormulas(rows){modelFormulas.push(...rows.flat());}};}};
  const ctx={SpreadsheetApp:{getActive:()=>({})},table_:()=>sheet};vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Pan.gs','utf8'),ctx);
  function key(r,c){return ctx.panColumn_(c)+r;}
  const players=[{id:'a',points:100,group:'F',pos:'C'},{id:'b',points:80,group:'F',pos:'LW'},{id:'c',points:60,group:'F',pos:'C,RW'}];

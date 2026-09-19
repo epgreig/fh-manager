@@ -4,8 +4,22 @@ const DEFAULTS = {
   replacementFPoints:161, replacementD:32, replacementG:20,
   parTop:0.15, adpBottom:0.10, adpSigmaFloor:4, adpSigmaRate:0.18, espnRankWeight:0.25,
   multiplierF:1, multiplierD:0.86, multiplierG:0.65, exponentF:1, exponentD:1, exponentG:1.235, curvePivot:50,
-  panGap:22, highlightCount:12, youngAgeMax:23
+  panGap:22, highlightCount:12, youngAgeMax:23, domRankWeight:0.25
 };
+function domProjectionRanks_(players, rows, c) {
+  const columns=['GP','G','A','BLK','PIM','SHP','W','SO','GA','SV'];
+  const source=new Map(rows.filter(r=>r[1]==='The Athletic').map(r=>[r[0],r]));
+  const ranked=players.flatMap(p=>{
+    const row=source.get(p.id);if(!row)return [];
+    const stats=Object.fromEntries(columns.map((k,i)=>[k,row[i+3]]));
+    const required=p.group==='G'?['W','SO','GA','SV']:['G','A','BLK','PIM','SHP'];
+    if(!required.every(k=>typeof stats[k]==='number'&&Number.isFinite(stats[k])))return [];
+    return [{id:p.id,points:scorePlayer({...p,stats},c)}];
+  }).sort((a,b)=>b.points-a.points||a.id.localeCompare(b.id));
+  const ranks=new Map();let rank=0;
+  ranked.forEach((p,i)=>{if(i===0||p.points!==ranked[i-1].points)rank=i+1;ranks.set(p.id,rank);});
+  return ranks;
+}
 function scorePlayer(p, c) {
   const keys = p.group === 'G' ? ['W','SO','GA','SV'] : ['G','A','BLK','PIM','SHP'];
   keys.forEach(k => {if (!Number.isFinite(p.stats[k])) throw Error(p.name+': missing '+k);});
