@@ -13,7 +13,7 @@ function renderBoard_({c,players,state}) {
   CacheService.getDocumentCache().put('draftPlayerIdentitiesV1',JSON.stringify(players.map(p=>({id:p.id,name:p.name}))),21600);
   const ss=SpreadsheetApp.getActive(), s=ss.getSheetByName('Board');
   const identities=ss.getSheetByName('Players');
-  identities.getRange(1,10).setValue('Dom rank (league points)').setNote('Rank by The Athletic projections alone under current Settings scoring, including the defense bonus; includes kept/drafted players. Not the workbook published RK or your blended ranking.');
+  identities.getRange(1,10).setValue('Dom rank (league PAR)').setNote('Rank by The Athletic projections alone under current Settings scoring minus replacement points. F uses replacementFPoints; D/G use Dom-only points at their configured ranks. Includes kept/drafted players.');
   identities.getRange(2,10,players.length,1).setValues(players.map(p=>[p.domRank==null?'':p.domRank]));
   // Score and rank once per explicit refresh; draft availability stays formula-driven.
   const result=evaluate(players,c,{...state,removed:new Set(),next:null});

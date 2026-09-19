@@ -14,7 +14,7 @@ function buildPanFormulas_(model,players,baselines,c) {
   model.getRange('T1:V1').setValues([['Age','Position multiplier','Position exponent']]);
   model.getRange('W1').setValue('Curve pivot');
   model.getRange('W2').setFormula('=XLOOKUP("curvePivot",Settings!A2:A100,Settings!B2:B100)');
-  model.getRange('X1:Y1').setValues([['Dom rank (league points)','Dom rank weight']]);
+  model.getRange('X1:Y1').setValues([['Dom rank (league PAR)','Dom rank weight']]);
   model.getRange(2,24,players.length,1).setValues(players.map(p=>[p.domRank==null?'':p.domRank]));
   model.getRange('Y2').setFormula('=XLOOKUP("domRankWeight",Settings!A2:A100,Settings!B2:B100)');
   model.getRange(2,20,players.length,1).setValues(players.map(p=>[p.age==null?'':p.age]));
@@ -65,10 +65,10 @@ function buildPanFormulas_(model,players,baselines,c) {
 }
 
 function draftOrderFormula_(r) {
-  const espn=espnDraftOrderFormula_(r).slice(1),dom='X'+r;
-  return '=IF($Y$2=0,'+espn+',IF(ISNUMBER('+dom+'),IF(ISNUMBER('+espn+'),POWER('+espn+',1-$Y$2)*POWER('+dom+',$Y$2),'+dom+'),'+espn+'))';
-}
-function espnDraftOrderFormula_(r) {
-  const both='POWER(F'+r+',1-$S$2)*POWER(Q'+r+',$S$2)';
-  return '=IF(AND(ISNUMBER(F'+r+'),ISNUMBER(Q'+r+')),'+both+'*U'+r+'*POWER('+both+'/$W$2,V'+r+'-1),IF(ISNUMBER(F'+r+'),F'+r+'*U'+r+'*POWER(F'+r+'/$W$2,V'+r+'-1),IF(ISNUMBER(Q'+r+'),Q'+r+'*U'+r+'*POWER(Q'+r+'/$W$2,V'+r+'-1),"")))';
+  const refs=['F'+r,'Q'+r,'X'+r],weights=['(1-$S$2-$Y$2)','$S$2','$Y$2'];
+  const valid=refs.map(ref=>'AND(ISNUMBER('+ref+'),'+ref+'>0)');
+  const sum=valid.map((ok,i)=>'IF('+ok+','+weights[i]+',0)').join('+');
+  const product=refs.map((ref,i)=>'POWER(IF('+valid[i]+','+ref+',1),'+weights[i]+')').join('*');
+  const base='POWER('+product+',1/('+sum+'))';
+  return '=IF(('+sum+')=0,"",'+base+'*U'+r+'*POWER('+base+'/$W$2,V'+r+'-1))';
 }

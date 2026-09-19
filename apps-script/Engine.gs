@@ -2,9 +2,9 @@ const DEFAULTS = {
   teams:12, draftSlot:1, rounds:16, G:3, A:1.5, BLK:0.3, PIM:0.5, SHP:1.5,
   defenseBonus:0.3, W:1.5, SO:2, GA:-1, SV:0.2,
   replacementFPoints:161, replacementD:32, replacementG:20,
-  parTop:0.15, adpBottom:0.10, adpSigmaFloor:4, adpSigmaRate:0.18, espnRankWeight:0.25,
-  multiplierF:1, multiplierD:0.86, multiplierG:0.65, exponentF:1, exponentD:1, exponentG:1.235, curvePivot:50,
-  panGap:22, highlightCount:12, youngAgeMax:23, domRankWeight:0.25
+  parTop:0.15, adpBottom:0.10, adpSigmaFloor:4, adpSigmaRate:0.18, espnRankWeight:0.20,
+  multiplierF:1, multiplierD:1, multiplierG:1, exponentF:1, exponentD:1, exponentG:1, curvePivot:50,
+  panGap:22, highlightCount:12, youngAgeMax:23, domRankWeight:0.40
 };
 function domProjectionRanks_(players, rows, c) {
   const columns=['GP','G','A','BLK','PIM','SHP','W','SO','GA','SV'];
@@ -14,11 +14,25 @@ function domProjectionRanks_(players, rows, c) {
     const stats=Object.fromEntries(columns.map((k,i)=>[k,row[i+3]]));
     const required=p.group==='G'?['W','SO','GA','SV']:['G','A','BLK','PIM','SHP'];
     if(!required.every(k=>typeof stats[k]==='number'&&Number.isFinite(stats[k])))return [];
-    return [{id:p.id,points:scorePlayer({...p,stats},c)}];
-  }).sort((a,b)=>b.points-a.points||a.id.localeCompare(b.id));
+    return [{id:p.id,group:p.group,points:scorePlayer({...p,stats},c)}];
+  });
+  const baselines={F:c.replacementFPoints};
+  for(const group of ['D','G']) {
+    const pool=ranked.filter(p=>p.group===group).sort((a,b)=>b.points-a.points);
+    const rank=c['replacement'+group];
+    baselines[group]=Number.isInteger(rank)&&rank>0&&pool.length>=rank?pool[rank-1].points:null;
+  }
+  const byValue=ranked.filter(p=>Number.isFinite(baselines[p.group]))
+    .map(p=>({...p,par:p.points-baselines[p.group]})).sort((a,b)=>b.par-a.par||a.id.localeCompare(b.id));
   const ranks=new Map();let rank=0;
-  ranked.forEach((p,i)=>{if(i===0||p.points!==ranked[i-1].points)rank=i+1;ranks.set(p.id,rank);});
+  byValue.forEach((p,i)=>{if(i===0||p.par!==byValue[i-1].par)rank=i+1;ranks.set(p.id,rank);});
   return ranks;
+}
+function smartAdpBase_(adp,espnRank,domRank,c) {
+  const inputs=[[adp,1-c.espnRankWeight-c.domRankWeight],[espnRank,c.espnRankWeight],[domRank,c.domRankWeight]];
+  const valid=inputs.filter(([v,w])=>Number.isFinite(v)&&v>0&&w>0);
+  const weight=valid.reduce((s,x)=>s+x[1],0);
+  return weight?Math.exp(valid.reduce((s,[v,w])=>s+w*Math.log(v),0)/weight):null;
 }
 function scorePlayer(p, c) {
   const keys = p.group === 'G' ? ['W','SO','GA','SV'] : ['G','A','BLK','PIM','SHP'];

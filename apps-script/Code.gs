@@ -32,7 +32,7 @@ function migrateReplacementSettings_() {
       if(r[0]==='Replacement assumptions')r[1]='Replacement ranks calibrated by comparing last year’s draft with contemporaneous rankings. Adjust ranks in Settings.';
       if(r[0]==='PAR')r[1]='Forward PAR is season points minus replacementFPoints (initially 161). D/G still use replacement ranks. PAN uses one shared forward pool.';
       if(r[0]==='PAN')r[1]='Group PAR minus the expected best available PAR after a fixed 22-selection wait; one shared F pool, separate D and G pools. Expected best includes every player’s chance of surviving, including the candidate. PAN stays fixed-gap even at consecutive own picks.';
-      if(r[0]==='Uncertainty')r[1]='sADP geometrically blends the adjusted ESPN estimate with Dom-only league-points rank. domRankWeight defaults to 0.25; zero restores ESPN only. ESPN retains its ADP/rank mix and positional adjustments.';
+      if(r[0]==='Uncertainty')r[1]='sADP = ESPN rank^0.2 × ESPN ADP^0.4 × Dom PAR rank^0.4, before optional position adjustments. Dom uses his own stats and D/G replacement points with the shared forward baseline.';
       if(r[0]==='Keepers')r[1]='Type names only. Keepers are removed from availability; no team, round cost, or reserved draft pick is needed.';
       if(r[0]==='Projections')r[1]='Weight parts: Athletic 12; DtZ and LineupExperts 6 each; Blake and Nate 4 each; Laidlaw 3; Hashtag and Cullen 2 each. Each stat renormalizes over sources that supply it; blank is not zero.';
       if(r[0]==='Provenance')r[1]='Athletic, DtZ, LineupExperts, Hashtag Hockey, Scott Cullen, Steve Laidlaw, and both Apples & Ginos season projections are blended. ESPN rank and ADP remain draft-timing inputs.';
@@ -57,6 +57,15 @@ function migrateReplacementSettings_() {
       if(Object.prototype.hasOwnProperty.call(values,row[0]))s.getRange(i+1,2).setValue(values[row[0]]);
     });
     properties.setProperty(curveMigration,'applied');
+  }
+
+  const parBlendMigration='domParDirectBlend20260919';
+  if(properties.getProperty(parBlendMigration)!=='applied') {
+    const values={espnRankWeight:0.2,domRankWeight:0.4,multiplierF:1,multiplierD:1,multiplierG:1,exponentF:1,exponentD:1,exponentG:1};
+    s.getDataRange().getValues().forEach((row,i)=>{
+      if(Object.prototype.hasOwnProperty.call(values,row[0]))s.getRange(i+1,2).setValue(values[row[0]]);
+    });
+    properties.setProperty(parBlendMigration,'applied');
   }
 
 }
@@ -109,7 +118,7 @@ function setupDraftSheet() {
     ['PAR','Forward PAR is season points minus replacementFPoints (initially 161). D/G still use replacement ranks. PAN uses one shared forward pool.'],
     ['Replacement assumptions','Replacement ranks calibrated from last year’s draft and rankings. Adjust ranks in Settings.'],
     ['PAN','Group PAR minus expected best available PAR after 22 selections. All forwards share one pool; D and G have separate pools. Expected best includes the candidate’s survival chance.'],
-    ['Uncertainty','sADP mixes the position-adjusted ESPN estimate (75%) and Dom-only league-points rank (25%) geometrically; change domRankWeight in Settings. Conditional-normal uncertainty is max(4 picks, 18% of sADP).'],
+    ['Uncertainty','sADP geometrically blends ESPN rank (20%), ESPN ADP (40%), and Dom-only PAR rank (40%), before optional positional adjustments. Conditional-normal uncertainty is max(4 picks, 18% of sADP).'],
     ['Keepers','Up to 2 per team; use draft slot 1–12 and cost round 1–16. Add all keepers before drafting.'],
     ['Shortcuts','Extensions > Macros > Manage macros. Draft = 1; Undo = 2. Check the shortcut displayed on your Mac.'],
     ['Provenance','Athletic, DtZ, LineupExperts, Hashtag Hockey, Scott Cullen, Steve Laidlaw, and both Apples & Ginos season projections are blended. ESPN rank and ADP remain draft-timing inputs.'],
@@ -125,7 +134,7 @@ function inputs_() {
   for(const k of Object.keys(DEFAULTS)) if(!Number.isFinite(c[k])) throw Error('Invalid setting '+k);
   for(const k of ['teams','draftSlot','rounds','panGap','highlightCount','youngAgeMax']) if(!Number.isInteger(c[k])||c[k]<1) throw Error('Invalid setting '+k);
   if(c.multiplierF<=0||c.multiplierD<=0||c.multiplierG<=0||c.exponentF<=0||c.exponentD<=0||c.exponentG<=0||c.curvePivot<=0||c.espnRankWeight<0||c.espnRankWeight>1||c.draftSlot>c.teams||c.adpSigmaFloor<=0||c.adpSigmaRate<=0||c.parTop<=0||c.parTop>1||c.adpBottom<=0||c.adpBottom>1) throw Error('Settings out of range');
-  if(c.domRankWeight<0||c.domRankWeight>1)throw Error('domRankWeight must be between 0 and 1');
+  if(c.domRankWeight<0||c.domRankWeight>1||c.domRankWeight+c.espnRankWeight>1)throw Error('Dom and ESPN rank weights must be nonnegative and sum to at most 1; ADP gets the remainder');
   const stats=['GP','G','A','BLK','PIM','SHP','W','SO','GA','SV'], grouped=new Map();
   const projectionRows=rows_('Projections');
   projectionRows.forEach(r=>{

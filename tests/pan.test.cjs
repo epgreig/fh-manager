@@ -1,26 +1,21 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
-test('draft estimate uses a weighted geometric ADP/rank blend and handles missing inputs',()=>{
+test('sADP directly blends ADP 40%, ESPN rank 20%, and Dom PAR rank 40%',()=>{
  const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Pan.gs','utf8'),ctx);
- const formula=ctx.draftOrderFormula_(2).slice(1);
- const evaluate=(adp,rank,weight,multiplier=1,exponent=1,pivot=50,dom='',domWeight=0)=>vm.runInNewContext(formula.replaceAll('$S$2','weight').replaceAll('$W$2','pivot').replaceAll('$Y$2','domWeight').replace('domWeight=0','domWeight===0'),{
-   F2:adp,Q2:rank,U2:multiplier,V2:exponent,X2:dom,domWeight,weight,pivot,POWER:Math.pow,IF:(condition,a,b)=>condition?a:b,AND:(...args)=>args.every(Boolean),ISNUMBER:x=>typeof x==='number'
+ const formula=ctx.draftOrderFormula_(2).slice(1).replaceAll('$S$2','weight').replaceAll('$W$2','pivot').replaceAll('$Y$2','domWeight').replaceAll(')=0',')===0');
+ const evaluate=(adp,rank,dom,weight=.2,domWeight=.4,multiplier=1,exponent=1)=>vm.runInNewContext(formula,{
+   F2:adp,Q2:rank,X2:dom,U2:multiplier,V2:exponent,weight,domWeight,pivot:50,
+   POWER:Math.pow,IF:(condition,a,b)=>condition?a:b,AND:(...args)=>args.every(Boolean),ISNUMBER:x=>typeof x==='number'&&Number.isFinite(x)
  });
- assert.ok(Math.abs(evaluate(80,40,.5)-Math.sqrt(80*40))<1e-10);
- assert.ok(Math.abs(evaluate(80,40,.25)-Math.pow(80,.75)*Math.pow(40,.25))<1e-10);
- assert.equal(evaluate(80,40,0),80);
- assert.equal(evaluate(80,40,1),40);
- assert.equal(evaluate(80,'',.5),80);
- assert.equal(evaluate('',40,.5),40);
- assert.equal(evaluate('','',.5),'');
- assert.equal(evaluate(80,40,.5,1,1,50,10,1),10);
- assert.ok(Math.abs(evaluate(80,40,.5,.86,1,50,10,.25)-Math.pow(Math.sqrt(80*40)*.86,.75)*Math.pow(10,.25))<1e-10);
- assert.equal(evaluate('','',.5,1,1,50,10,.25),10);
- assert.equal(evaluate('','',.5,1,1,50,10,0),'');
- assert.equal(evaluate(80,'',.5,1,1,50,'',.25),80);
- assert.ok(Math.abs(evaluate(80,40,.25,.86)-Math.pow(80,.75)*Math.pow(40,.25)*.86)<1e-10);
- assert.ok(Math.abs(evaluate(80,40,.25,.81)-Math.pow(80,.75)*Math.pow(40,.25)*.81)<1e-10);
- const goalieBase=Math.pow(25,.75)*Math.pow(25,.25);
- assert.ok(Math.abs(evaluate(25,25,.25,.65,1.235)-.65*goalieBase*Math.pow(goalieBase/50,.235))<1e-10);
+ const expected=80**.4*40**.2*10**.4;
+ assert.ok(Math.abs(evaluate(80,40,10)-expected)<1e-10);
+ assert.ok(Math.abs(evaluate(80,40,'')-80**(2/3)*40**(1/3))<1e-10);
+ assert.ok(Math.abs(evaluate('',40,10)-40**(1/3)*10**(2/3))<1e-10);
+ assert.ok(Math.abs(evaluate(80,'',10)-Math.sqrt(800))<1e-10);
+ assert.equal(evaluate('','',''),'');
+ assert.ok(Math.abs(evaluate('','',10)-10)<1e-10);
+ assert.equal(evaluate('','',10,.2,0),'');
+ assert.ok(Math.abs(evaluate(80,40,10,0,1)-10)<1e-10);
+ assert.ok(Math.abs(evaluate(80,40,10,.2,.4,.8)-expected*.8)<1e-10);
 });
 test('PAN subtracts shared expected best available and uses rank-scaled uncertainty',()=>{
  const cells={},modelFormulas=[];
