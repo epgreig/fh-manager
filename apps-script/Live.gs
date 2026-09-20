@@ -35,6 +35,11 @@ function renderBoard_({c,players,state}) {
   const kept='SUMPRODUCT(--((COUNTIF(Keepers!A$2:A1000,A2:A'+last+')+COUNTIF(Keepers!A$2:A1000,H2:H'+last+'))>0))';
   model.getRange('M2').setFormula('=IFERROR(LET(teams,XLOOKUP("teams",Settings!A2:A100,Settings!B2:B100),slot,XLOOKUP("draftSlot",Settings!A2:A100,Settings!B2:B100),lim,teams*XLOOKUP("rounds",Settings!A2:A100,Settings!B2:B100)-'+kept+',picks,SEQUENCE(MAX(1,lim-L2),1,L2+1),owners,IF(MOD(INT((picks-1)/teams),2)=0,MOD(picks-1,teams)+1,teams-MOD(picks-1,teams)),INDEX(FILTER(picks,(picks<=lim)*(owners=slot)),1)),"")');
   buildPanFormulas_(model,result.available,result.baselines,c);
+  if(model.getMaxColumns()<26)model.insertColumnsAfter(model.getMaxColumns(),26-model.getMaxColumns());
+  model.getRange('Z1').setValue('Relative SD');
+  model.getRange(2,26,n,1).setFormulas(result.available.map((p,i)=>[
+    '=IFNA(XLOOKUP(A'+(i+2)+',\'Projection Comparison\'!A$3:A$'+(n+2)+',\'Projection Comparison\'!F$3:F$'+(n+2)+'),"")'
+  ]));
   s.getRange(1,1,s.getMaxRows(),s.getMaxColumns()).breakApart();s.clear();s.showRows(1,s.getMaxRows());s.showColumns(1,s.getMaxColumns());
   if(s.getMaxColumns()<boardWidth)s.insertColumnsAfter(s.getMaxColumns(),boardWidth-s.getMaxColumns());
   if(s.getMaxRows()<n+3)s.insertRowsAfter(s.getMaxRows(),n+3-s.getMaxRows());
@@ -44,17 +49,18 @@ function renderBoard_({c,players,state}) {
     const col=1+i*stride,nameCol=panColumn_(col);
     s.getRange(2,col).setValue(['Forwards','Defensemen','Goalies'][i]);
     s.getRange(3,col,1,headers.length).setValues([headers]);
-    const modelColumns={Player:'A',POS:'B',Tm:'C',Age:'T',Rk:'Q',ADP:'F',DomRk:'X',sADP:'R',PAR:'E'};
+    const modelColumns={Player:'A',POS:'B',Tm:'C',Age:'T',Rk:'Q',ADP:'F',DomRk:'X',sADP:'R',coefV:'Z',PAR:'E'};
     const source='HSTACK('+headers.slice(0,index.PAR+1).map(h=>"'Board Data'!"+modelColumns[h]+'2:'+modelColumns[h]+last).join(',')+')';
     s.getRange(4,col).setFormula('=IFNA(SORT(FILTER('+source+',\'Board Data\'!I2:I'+last+'="'+g+'",\'Board Data\'!J2:J'+last+'=TRUE),'+(index.PAR+1)+',FALSE,'+(index.sADP+1)+',TRUE),"")');
     [['ID','H'],['PAN','G']].forEach(([header,modelCol])=>{
       s.getRange(4,col+index[header]).setFormula('=ARRAYFORMULA(IF('+nameCol+'4:'+nameCol+(n+3)+'="","",XLOOKUP('+nameCol+'4:'+nameCol+(n+3)+',\'Board Data\'!A2:A'+last+',\'Board Data\'!'+modelCol+'2:'+modelCol+last+',"")))');
     });
-    const widths={Player:145,POS:46,Tm:32,Age:28,Rk:38,ADP:38,DomRk:45,sADP:42,PAR:40,PAN:40};
+    const widths={Player:145,POS:46,Tm:32,Age:28,Rk:38,ADP:38,DomRk:45,sADP:42,coefV:45,PAR:40,PAN:40};
     headers.filter(h=>h!=='ID').forEach(h=>s.setColumnWidth(col+index[h],widths[h]));
     s.hideColumns(col+index.ID);s.hideColumns(col+index.Rk,3);
     if(g!=='F')s.hideColumns(col+index.POS);if(i<2)s.setColumnWidth(col+headers.length,10);
     s.getRange(2,col,2,headers.length-1).setFontWeight('bold');s.getRange(4,col+index.Age,n,headers.length-index.Age-1).setNumberFormat('0');
+    s.getRange(4,col+index.coefV,n,1).setNumberFormat('0%');
     const ageCol=panColumn_(col+index.Age);
     rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied('=AND(ISNUMBER('+ageCol+'4),'+ageCol+'4<=XLOOKUP("youngAgeMax",INDIRECT("Settings!A2:A100"),INDIRECT("Settings!B2:B100")))').setBackground('#fff2cc').setRanges([s.getRange(4,col+index.Age,n,1)]).build());
     parRanges.push(s.getRange(4,col+index.PAR,n,1));

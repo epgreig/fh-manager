@@ -1,4 +1,4 @@
-function boardHeaders_() {return ['Player','POS','Tm','Age','Rk','ADP','DomRk','sADP','PAR','PAN','ID'];}
+function boardHeaders_() {return ['Player','POS','Tm','Age','Rk','ADP','DomRk','sADP','coefV','PAR','PAN','ID'];}
 function onOpen() {
   SpreadsheetApp.getUi().createMenu('Draft').addItem('Set up sheet','setupDraftSheet')
     .addItem('Refresh board','refreshBoard').addItem('Draft selected player','draftSelectedPlayer')
@@ -182,7 +182,7 @@ function draftIdentities_() {
   const players=s.getRange(2,1,s.getLastRow()-1,2).getValues().filter(r=>r[0]).map(r=>({id:r[0],name:r[1]}));
   cache.put(key,JSON.stringify(players),21600);return players;
 }
-function refreshBoard() {withLock_(()=>{migrateReplacementSettings_();ensureEspnRanks_();ensureSecondaryProjections_();addProjectionNames_();ensureNameSheets_();checkNames_();const input=inputs_();renderBoard_(input);renderProjectionComparison_(input);});}
+function refreshBoard() {withLock_(()=>{migrateReplacementSettings_();ensureEspnRanks_();ensureSecondaryProjections_();addProjectionNames_();ensureNameSheets_();checkNames_();const input=inputs_();renderProjectionComparison_(input);renderBoard_(input);});}
 function draftSelectedPlayer() {
   const range=SpreadsheetApp.getActiveRange();
   if(!range||range.getSheet().getName()!=='Board'||range.getRow()<4||range.getNumRows()!==1||range.getNumColumns()!==1) throw Error('Select one player cell on Board');

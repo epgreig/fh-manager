@@ -23,14 +23,14 @@ test('live board filters log availability and separates PAN from player lists',(
  assert.ok(ruleCalls.some(r=>r[0]==='setGradientMaxpointWithValue'&&r[1]==='#ffffff'&&r[2]==='percentile'));
  assert.ok(ruleCalls.some(r=>r[0]==='setGradientMinpointWithValue'&&r[1]==='#ffffff'&&r[2]==='number'&&r[3]==='0'));
  assert.ok(ruleCalls.some(r=>r[0]==='whenNumberLessThanOrEqualTo'&&r[1]===0));
- assert.deepEqual([...hidden].sort((a,b)=>a-b),[5,6,7,11,14,17,18,19,23,26,29,30,31,35]);
- assert.equal(Object.entries(widths).reduce((sum,[col,w])=>sum+(hidden.has(Number(col))?0:w),0),1047);
+ assert.deepEqual([...hidden].sort((a,b)=>a-b),[5,6,7,12,15,18,19,20,25,28,31,32,33,38]);
+ assert.equal(Object.entries(widths).reduce((sum,[col,w])=>sum+(hidden.has(Number(col))?0:w),0),1182);
  assert.equal(formulas.filter(f=>f.startsWith('=IFNA(SORT(FILTER')).length,3);
  assert.ok(!formulas.some(f=>f.includes('FH_STATE')));
  assert.ok(formulas.some(f=>f.startsWith('=COUNTA(\'Draft Log\'!A2:A1000)+1')));
  assert.ok(formulas.some(f=>f.includes('XLOOKUP("panGap"')));
  assert.ok(calls.includes('buildPanFormulas'));
  assert.ok(!formulas.some(f=>f.includes('FH_PAN')));
- assert.ok(formulas.filter(f=>f.startsWith('=IFNA(SORT(FILTER')).every(f=>f.includes('HSTACK(')&&f.includes('!T2:T')&&f.includes('),9,FALSE,8,TRUE')));
- assert.ok(writes.filter(w=>w.args[0]===3).every(w=>w.values[0][3]==='Age'&&w.values[0][4]==='Rk'&&w.values[0][5]==='ADP'&&w.values[0][6]==='DomRk'&&w.values[0][7]==='sADP'&&w.values[0][9]==='PAN'));
+ assert.ok(formulas.filter(f=>f.startsWith('=IFNA(SORT(FILTER')).every(f=>f.includes('HSTACK(')&&f.includes('!T2:T')&&f.includes('),10,FALSE,8,TRUE')));
+ assert.ok(writes.filter(w=>w.args[0]===3).every(w=>w.values[0][3]==='Age'&&w.values[0][4]==='Rk'&&w.values[0][5]==='ADP'&&w.values[0][6]==='DomRk'&&w.values[0][7]==='sADP'&&w.values[0][8]==='coefV'&&w.values[0][10]==='PAN'));
 });
