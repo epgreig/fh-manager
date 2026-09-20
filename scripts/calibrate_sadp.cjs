@@ -6,7 +6,7 @@ for(const file of ['Engine','Espn'])vm.runInContext(fs.readFileSync(path.join(ro
 vm.runInContext('this.defaults=DEFAULTS;',ctx);
 const history=JSON.parse(fs.readFileSync(process.argv[2]));
 const snapshot=JSON.parse(fs.readFileSync(process.argv[3]||path.join(root,'data/processed/espn.json')));
-const c={...ctx.defaults,replacementD:Number(process.argv[4]||40),replacementG:Number(process.argv[5]||20),replacementFPoints:Number(process.argv[6]||161),espnRankWeight:1/3,domRankWeight:1/3};
+const c={...ctx.defaults,replacementD:Number(process.argv[4]||40),replacementG:Number(process.argv[5]||20),replacementFPoints:Number(process.argv[6]||161),espnRankWeight:.2,domRankWeight:.4};
 const athletic=JSON.parse(fs.readFileSync(path.join(root,'data/processed/athletic.json'))).players;
 const stats=['GP','G','A','BLK','PIM','SHP','W','SO','GA','SV'];
 const ranks=ctx.domProjectionRanks_(athletic,athletic.map(p=>[p.id,'The Athletic',1,...stats.map(k=>p.stats[k]??'')]),c);
@@ -24,4 +24,4 @@ for(let di=40;di<=160;di+=2)for(let gi=40;gi<=160;gi+=2){
  const trial=evaluate(di/100,gi/100),distance=Math.log(di/100)**2+Math.log(gi/100)**2;
  if(!best||trial.error<best.error||(trial.error===best.error&&distance<best.distance))best={...trial,distance};
 }
-console.log(JSON.stringify({snapshot:snapshot.retrievedAt,assumptions:{replacementFPoints:c.replacementFPoints,replacementD:c.replacementD,replacementG:c.replacementG,power:-2,weights:{espnRank:1/3,adp:1/3,dom:1/3},poolSize:pool.length,domRanksMatched:domByEspn.size},targetCounts:targets,neutral:evaluate(1,1),oldCorrections:evaluate(.86,.65,1.235),fittedLinear:best},null,2));
+console.log(JSON.stringify({snapshot:snapshot.retrievedAt,assumptions:{replacementFPoints:c.replacementFPoints,replacementD:c.replacementD,replacementG:c.replacementG,power:-2,weights:{espnRank:.2,adp:.4,dom:.4},poolSize:pool.length,domRanksMatched:domByEspn.size},targetCounts:targets,neutral:evaluate(1,1),oldCorrections:evaluate(.86,.65,1.235),fittedLinear:best},null,2));

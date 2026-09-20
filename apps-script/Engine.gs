@@ -2,9 +2,9 @@ const DEFAULTS = {
   teams:12, draftSlot:1, rounds:16, G:3, A:1.5, BLK:0.3, PIM:0.5, SHP:1.5,
   defenseBonus:0.3, W:1.5, SO:2, GA:-1, SV:0.2,
   replacementFPoints:161, replacementD:32, replacementG:20,
-  parTop:0.02, panTop:0.02, adpBottom:0.10, adpSigmaFloor:4, adpSigmaRate:0.18, espnRankWeight:1/3,
+  parTop:0.02, panTop:0.02, adpBottom:0.10, adpSigmaFloor:4, adpSigmaRate:0.18, espnRankWeight:0.2,
   multiplierF:1, multiplierD:1, multiplierG:1, exponentF:1, exponentD:1, exponentG:1, curvePivot:50,
-  panGap:22, highlightCount:12, youngAgeMax:23, domRankWeight:1/3
+  panGap:22, highlightCount:12, youngAgeMax:23, domRankWeight:0.4
 };
 function domProjectionRanks_(players, rows, c) {
   const columns=['GP','G','A','BLK','PIM','SHP','W','SO','GA','SV'];
