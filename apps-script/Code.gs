@@ -1,3 +1,4 @@
+function boardHeaders_() {return ['Player','POS','Tm','Age','Rk','ADP','DomRk','sADP','PAR','PAN','ID'];}
 function onOpen() {
   SpreadsheetApp.getUi().createMenu('Draft').addItem('Set up sheet','setupDraftSheet')
     .addItem('Refresh board','refreshBoard').addItem('Draft selected player','draftSelectedPlayer')
@@ -185,10 +186,18 @@ function refreshBoard() {withLock_(()=>{migrateReplacementSettings_();ensureEspn
 function draftSelectedPlayer() {
   const range=SpreadsheetApp.getActiveRange();
   if(!range||range.getSheet().getName()!=='Board'||range.getRow()<4||range.getNumRows()!==1||range.getNumColumns()!==1) throw Error('Select one player cell on Board');
-  const block=Math.floor((range.getColumn()-1)/10), offset=(range.getColumn()-1)%10;
-  if(block>2||offset>7) throw Error('Select a player cell');
-  const row=range.getSheet().getRange(range.getRow(),block*10+1,1,9).getValues()[0];
-  const id=row[8], name=row[0];
+  // Cache the rendered layout, so adding hidden columns does not slow each pick.
+  const cache=CacheService.getDocumentCache(),key='draftBoardHeadersV1';
+  let headers=JSON.parse(cache.get(key)||'null');
+  if(!headers) {
+    const row=range.getSheet().getRange(3,1,1,range.getSheet().getLastColumn()).getValues()[0];
+    const end=row.indexOf('ID');if(end<0)throw Error('Refresh board before drafting');
+    headers=row.slice(0,end+1);cache.put(key,JSON.stringify(headers),21600);
+  }
+  const stride=headers.length+1,block=Math.floor((range.getColumn()-1)/stride),offset=(range.getColumn()-1)%stride;
+  if(block>2||offset>=headers.indexOf('ID')) throw Error('Select a player cell');
+  const row=range.getSheet().getRange(range.getRow(),block*stride+1,1,headers.length).getValues()[0];
+  const id=row[headers.indexOf('ID')], name=row[0];
   if(!id) throw Error('Select a player');
   withLock_(()=>{
     const c=Object.fromEntries(rows_('Settings').map(r=>[r[0],Number(r[1])]));
