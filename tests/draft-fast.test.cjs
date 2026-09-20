@@ -1,7 +1,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 test('repeated draft calls reuse identities but always reread log and keepers',()=>{
- const cache=new Map([['draftBoardHeadersV1',JSON.stringify(['Player','POS','Tm','Age','Rk','ADP','DomRk','sADP','coefV','PAR','PAN','ID'])]]),log=[],keepers=[];let playerReads=0;
- const selected=['Player A','','','','','','','','','','','a'];
+ const cache=new Map([['draftBoardHeadersV1',JSON.stringify(['Player','POS','Tm','Age','espn','ADP','Dom','sADP','sRk','coefV','PAR','PAN','ID'])]]),log=[],keepers=[];let playerReads=0;
+ const selected=['Player A','','','','','','','','','','','','a'];
  const board={getName:()=> 'Board',getRange:()=>({getValues:()=>[selected]})};
  const playerSheet={getLastRow:()=>3,getRange:()=>({getValues:()=>{playerReads++;return [['a','Player A'],['b','Player B']];}})};
  const ctx={CacheService:{getDocumentCache:()=>({get:k=>cache.get(k),put:(k,v)=>cache.set(k,v)})},
@@ -18,7 +18,7 @@ test('repeated draft calls reuse identities but always reread log and keepers',(
  assert.throws(()=>ctx.draftSelectedPlayer(),/already drafted/);
  log.length=0;ctx.draftSelectedPlayer();assert.equal(log[0][0],1);
  assert.equal(playerReads,1);
- selected[0]='Player B';selected[11]='b';keepers.push(['Player B']);
+ selected[0]='Player B';selected[12]='b';keepers.push(['Player B']);
  assert.throws(()=>ctx.draftSelectedPlayer(),/already drafted or kept/);
  assert.equal(log.length,1);
 });
@@ -26,7 +26,7 @@ test('repeated draft calls reuse identities but always reread log and keepers',(
 test('draft macro resolves each group after cache expiry with old and expanded layouts',()=>{
  for(const headers of [
   ['Player','POS','Tm','Age','Rk','sADP','PAR','PAN','ID'],
-  ['Player','POS','Tm','Age','Rk','ADP','DomRk','sADP','coefV','PAR','PAN','ID']
+  ['Player','POS','Tm','Age','espn','ADP','Dom','sADP','sRk','coefV','PAR','PAN','ID']
  ])for(let group=0;group<3;group++) {
   const cache=new Map(),log=[],start=1+group*(headers.length+1),selected=Array(headers.length).fill('');
   selected[0]='Player A';selected[headers.indexOf('ID')]='a';

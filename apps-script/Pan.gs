@@ -2,7 +2,7 @@ function panColumn_(col) {
   let s='';while(col){col--;s=String.fromCharCode(65+col%26)+s;col=Math.floor(col/26);}return s;
 }
 function buildPanFormulas_(model,players,baselines,c) {
-  if(model.getMaxColumns()<25)model.insertColumnsAfter(model.getMaxColumns(),25-model.getMaxColumns());
+  if(model.getMaxColumns()<29)model.insertColumnsAfter(model.getMaxColumns(),29-model.getMaxColumns());
   const ss=SpreadsheetApp.getActive();
   const pools=table_('PAN Pools',['PAN calculation'],[]);pools.clearContents();
   if(pools.getMaxColumns()<40)pools.insertColumnsAfter(pools.getMaxColumns(),40-pools.getMaxColumns());
@@ -21,15 +21,13 @@ function buildPanFormulas_(model,players,baselines,c) {
   model.getRange(2,21,players.length,1).setFormulas(players.map((p,i)=>['=XLOOKUP("multiplier"&I'+(i+2)+',Settings!A2:A100,Settings!B2:B100)']));
   model.getRange(2,22,players.length,1).setFormulas(players.map((p,i)=>['=XLOOKUP("exponent"&I'+(i+2)+',Settings!A2:A100,Settings!B2:B100)']));
   model.getRange(2,18,players.length,1).setFormulas(players.map((p,i)=>[draftOrderFormula_(i+2)]));
-  model.getRange(2,16,players.length,1).setFormulas(players.map((p,i)=>{
-    const r=i+2;
-    return ['=IF(R'+r+'="","",MAX(XLOOKUP("adpSigmaFloor",Settings!A2:A100,Settings!B2:B100),XLOOKUP("adpSigmaRate",Settings!A2:A100,Settings!B2:B100)*R'+r+'))'];
-  }));
-  model.getRange(2,15,players.length,1).setFormulas(players.map((p,i)=>{
-    const r=i+2;
-    // Use the negative normal tail to avoid cancellation from 1-CDF.
-    return ['=IF(NOT(J'+r+'),0,IF(R'+r+'="","",LET(base,NORMDIST((R'+r+'-($L$2-1))/P'+r+',0,1,TRUE),tail,NORMDIST((R'+r+'-($L$2-1+$N$2))/P'+r+',0,1,TRUE),IF(base=0,"",MIN(1,MAX(0,tail/base))))))'];
-  }));
+  // Sort the available pool once, using full precision and stable ID tie-breaking.
+  const last=players.length+1;
+  model.getRange('AA1:AC1').setValues([['Smart rank (remaining picks)','Available IDs by sADP','Ordered sADP']]);
+  model.getRange('AB2').setFormula(smartRankTableFormula_(last));
+  model.getRange(2,27,players.length,1).setFormulas(players.map((p,i)=>[smartRankFormula_(i+2,last)]));
+  model.getRange(2,16,players.length,1).setFormulas(players.map((p,i)=>[rankUncertaintyFormula_(i+2)]));
+  model.getRange(2,15,players.length,1).setFormulas(players.map((p,i)=>[rankSurvivalFormula_(i+2)]));
   const options=new Map(players.map(p=>[p.id,[]]));
   ['F','D','G'].forEach((pos,index)=>{
     const base=baselines[pos],start=1+8*index;
@@ -71,4 +69,20 @@ function draftOrderFormula_(r) {
   const product=refs.map((ref,i)=>'POWER(IF('+valid[i]+','+ref+',1),'+weights[i]+')').join('*');
   const base='POWER('+product+',1/('+sum+'))';
   return '=IF(('+sum+')=0,"",'+base+'*U'+r+'*POWER('+base+'/$W$2,V'+r+'-1))';
+}
+
+function smartRankTableFormula_(last) {
+  return '=IFNA(SORT(FILTER(HSTACK(H2:H'+last+',R2:R'+last+'),J2:J'+last+'=TRUE,ISNUMBER(R2:R'+last+')),2,TRUE,1,TRUE),"")';
+}
+function smartRankFormula_(r,last) {
+  return '=IF(AND(J'+r+',ISNUMBER(R'+r+')),IFNA(MATCH(H'+r+',AB$2:AB$'+last+',0),""),"")';
+}
+function rankUncertaintyFormula_(r) {
+  // sRk is relative to now; sigma still grows with the absolute draft depth.
+  return '=IF(AA'+r+'="","",MAX(XLOOKUP("adpSigmaFloor",Settings!A2:A100,Settings!B2:B100),XLOOKUP("adpSigmaRate",Settings!A2:A100,Settings!B2:B100)*($L$2-1+AA'+r+')))';
+}
+function rankSurvivalFormula_(r) {
+  // Condition on a future selection (>0), using negative tails for stability.
+  // AA is already relative to now: do not subtract current pick again.
+  return '=IF(NOT(J'+r+'),0,IF(NOT(ISNUMBER(AA'+r+')),"",MIN(1,MAX(0,NORMDIST((AA'+r+'-$N$2)/P'+r+',0,1,TRUE)/NORMDIST(AA'+r+'/P'+r+',0,1,TRUE)))))';
 }

@@ -1,4 +1,4 @@
-function boardHeaders_() {return ['Player','POS','Tm','Age','Rk','ADP','DomRk','sADP','coefV','PAR','PAN','ID'];}
+function boardHeaders_() {return ['Player','POS','Tm','Age','espn','ADP','Dom','sADP','sRk','coefV','PAR','PAN','ID'];}
 function onOpen() {
   SpreadsheetApp.getUi().createMenu('Draft').addItem('Set up sheet','setupDraftSheet')
     .addItem('Refresh board','refreshBoard').addItem('Draft selected player','draftSelectedPlayer')
@@ -41,7 +41,7 @@ function migrateReplacementSettings_() {
       if(r[0]==='Replacement assumptions')r[1]='Replacement ranks calibrated by comparing last year’s draft with contemporaneous rankings. Adjust ranks in Settings.';
       if(r[0]==='PAR')r[1]='Forward PAR is season points minus replacementFPoints (initially 161). D/G still use replacement ranks. PAN uses one shared forward pool.';
       if(r[0]==='PAN')r[1]='Group PAR minus the expected best available PAR after a fixed 22-selection wait; one shared F pool, separate D and G pools. Expected best includes every player’s chance of surviving, including the candidate. PAN stays fixed-gap even at consecutive own picks.';
-      if(r[0]==='Uncertainty')r[1]='sADP = ESPN rank^0.2 × ESPN ADP^0.4 × Dom PAR rank^0.4, before optional position adjustments. Dom uses his own stats and D/G replacement points with the shared forward baseline.';
+      if(r[0]==='Uncertainty')r[1]='sADP = ESPN rank^0.2 × ESPN ADP^0.4 × Dom PAR rank^0.4, before optional position adjustments. Dom uses his own stats and D/G replacement points with the shared forward baseline. PAN uses sRk among available players, with uncertainty growing with current pick − 1 + sRk.';
       if(r[0]==='Keepers')r[1]='Type names only. Keepers are removed from availability; no team, round cost, or reserved draft pick is needed.';
       if(r[0]==='Projections')r[1]='Weight parts: Athletic 12; DtZ and LineupExperts 6 each; Blake and Nate 4 each; Laidlaw 3; Cullen 2. Each stat renormalizes over sources that supply it; blank is not zero.';
       if(r[0]==='Provenance')r[1]='Athletic, DtZ, LineupExperts, Scott Cullen, Steve Laidlaw, and both Apples & Ginos season projections are blended. ESPN rank and ADP remain draft-timing inputs.';
@@ -135,7 +135,7 @@ function setupDraftSheet() {
     ['PAR','Forward PAR is season points minus replacementFPoints (initially 161). D/G still use replacement ranks. PAN uses one shared forward pool.'],
     ['Replacement assumptions','Replacement ranks calibrated from last year’s draft and rankings. Adjust ranks in Settings.'],
     ['PAN','Group PAR minus expected best available PAR after 22 selections. All forwards share one pool; D and G have separate pools. Expected best includes the candidate’s survival chance.'],
-    ['Uncertainty','sADP geometrically blends ESPN rank (20%), ESPN ADP (40%), and Dom-only PAR rank (40%), before optional positional adjustments. Conditional-normal uncertainty is max(4 picks, 18% of sADP).'],
+    ['Uncertainty','sADP geometrically blends ESPN rank (20%), ESPN ADP (40%), and Dom-only PAR rank (40%), before optional positional adjustments. PAN uses sRk among available players; uncertainty is max(adpSigmaFloor, adpSigmaRate × (current pick − 1 + sRk)).'],
     ['Keepers','Up to 2 per team; use draft slot 1–12 and cost round 1–16. Add all keepers before drafting.'],
     ['Shortcuts','Extensions > Macros > Manage macros. Draft = 1; Undo = 2. Check the shortcut displayed on your Mac.'],
     ['Provenance','Athletic, DtZ, LineupExperts, Scott Cullen, Steve Laidlaw, and both Apples & Ginos season projections are blended. ESPN rank and ADP remain draft-timing inputs.'],
