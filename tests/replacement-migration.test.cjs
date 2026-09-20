@@ -28,3 +28,12 @@ test('PAR highlight migration applies 98th percentile once and preserves later e
   rows[1][1]=0.05;ctx.migrateParHighlight_(sheet,props);
   assert.equal(rows[1][1],0.05);
 });
+
+test('power-mean migration sets equal weights once without changing positional adjustments',()=>{
+ const rows=[['espnRankWeight',.2],['domRankWeight',.4],['multiplierG',.8]],saved=new Map();
+ const sheet={getDataRange:()=>({getValues:()=>rows}),getRange:r=>({setValue:v=>rows[r-1][1]=v})};
+ const props={getProperty:k=>saved.get(k),setProperty:(k,v)=>saved.set(k,v)};
+ ctx.migratePowerBlend_(sheet,props);
+ assert.deepEqual(rows.map(r=>r[1]),[1/3,1/3,.8]);
+ rows[0][1]=.25;ctx.migratePowerBlend_(sheet,props);assert.equal(rows[0][1],.25);
+});

@@ -1,21 +1,26 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
-test('sADP directly blends ADP 40%, ESPN rank 20%, and Dom PAR rank 40%',()=>{
+test('sADP uses a p=-2 power mean with equal input weights',()=>{
  const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Pan.gs','utf8'),ctx);
  const formula=ctx.draftOrderFormula_(2).slice(1).replaceAll('$S$2','weight').replaceAll('$W$2','pivot').replaceAll('$Y$2','domWeight').replaceAll(')=0',')===0');
- const evaluate=(adp,rank,dom,weight=.2,domWeight=.4,multiplier=1,exponent=1)=>vm.runInNewContext(formula,{
+ const evaluate=(adp,rank,dom,weight=1/3,domWeight=1/3,multiplier=1,exponent=1)=>vm.runInNewContext(formula,{
    F2:adp,Q2:rank,X2:dom,U2:multiplier,V2:exponent,weight,domWeight,pivot:50,
    POWER:Math.pow,IF:(condition,a,b)=>condition?a:b,AND:(...args)=>args.every(Boolean),ISNUMBER:x=>typeof x==='number'&&Number.isFinite(x)
  });
- const expected=80**.4*40**.2*10**.4;
+ const mean=(...values)=>Math.sqrt(values.length/values.reduce((sum,x)=>sum+1/(x*x),0));
+ const expected=mean(80,40,10);
+ vm.runInContext(fs.readFileSync('apps-script/Engine.gs','utf8'),ctx);
+ assert.ok(Math.abs(ctx.smartAdpBase_(80,40,10,{espnRankWeight:1/3,domRankWeight:1/3})-expected)<1e-10);
  assert.ok(Math.abs(evaluate(80,40,10)-expected)<1e-10);
- assert.ok(Math.abs(evaluate(80,40,'')-80**(2/3)*40**(1/3))<1e-10);
- assert.ok(Math.abs(evaluate('',40,10)-40**(1/3)*10**(2/3))<1e-10);
- assert.ok(Math.abs(evaluate(80,'',10)-Math.sqrt(800))<1e-10);
+ assert.ok(Math.abs(evaluate(80,40,'')-mean(80,40))<1e-10);
+ assert.ok(Math.abs(evaluate('',40,10)-mean(40,10))<1e-10);
+ assert.ok(Math.abs(evaluate(80,'',10)-mean(80,10))<1e-10);
  assert.equal(evaluate('','',''),'');
+ assert.ok(Math.abs(evaluate(126,132,31)-mean(126,132,31))<0.001);
+ assert.ok(Math.abs(evaluate(0,40,-1)-40)<1e-10);
  assert.ok(Math.abs(evaluate('','',10)-10)<1e-10);
  assert.equal(evaluate('','',10,.2,0),'');
  assert.ok(Math.abs(evaluate(80,40,10,0,1)-10)<1e-10);
- assert.ok(Math.abs(evaluate(80,40,10,.2,.4,.8)-expected*.8)<1e-10);
+ assert.ok(Math.abs(evaluate(80,40,10,1/3,1/3,.8)-expected*.8)<1e-10);
 });
 test('PAN subtracts shared expected best available and uses rank-scaled uncertainty',()=>{
  const cells={},modelFormulas=[];

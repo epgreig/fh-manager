@@ -2,9 +2,9 @@ const DEFAULTS = {
   teams:12, draftSlot:1, rounds:16, G:3, A:1.5, BLK:0.3, PIM:0.5, SHP:1.5,
   defenseBonus:0.3, W:1.5, SO:2, GA:-1, SV:0.2,
   replacementFPoints:161, replacementD:32, replacementG:20,
-  parTop:0.02, panTop:0.02, adpBottom:0.10, adpSigmaFloor:4, adpSigmaRate:0.18, espnRankWeight:0.20,
+  parTop:0.02, panTop:0.02, adpBottom:0.10, adpSigmaFloor:4, adpSigmaRate:0.18, espnRankWeight:1/3,
   multiplierF:1, multiplierD:1, multiplierG:1, exponentF:1, exponentD:1, exponentG:1, curvePivot:50,
-  panGap:22, highlightCount:12, youngAgeMax:23, domRankWeight:0.40
+  panGap:22, highlightCount:12, youngAgeMax:23, domRankWeight:1/3
 };
 function domProjectionRanks_(players, rows, c) {
   const columns=['GP','G','A','BLK','PIM','SHP','W','SO','GA','SV'];
@@ -32,7 +32,7 @@ function smartAdpBase_(adp,espnRank,domRank,c) {
   const inputs=[[adp,1-c.espnRankWeight-c.domRankWeight],[espnRank,c.espnRankWeight],[domRank,c.domRankWeight]];
   const valid=inputs.filter(([v,w])=>Number.isFinite(v)&&v>0&&w>0);
   const weight=valid.reduce((s,x)=>s+x[1],0);
-  return weight?Math.exp(valid.reduce((s,[v,w])=>s+w*Math.log(v),0)/weight):null;
+  return weight?Math.pow(valid.reduce((s,[v,w])=>s+w*Math.pow(v,-2),0)/weight,-0.5):null;
 }
 function scorePlayer(p, c) {
   const keys = p.group === 'G' ? ['W','SO','GA','SV'] : ['G','A','BLK','PIM','SHP'];

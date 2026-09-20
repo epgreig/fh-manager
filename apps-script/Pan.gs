@@ -66,8 +66,8 @@ function draftOrderFormula_(r) {
   const refs=['F'+r,'Q'+r,'X'+r],weights=['(1-$S$2-$Y$2)','$S$2','$Y$2'];
   const valid=refs.map(ref=>'AND(ISNUMBER('+ref+'),'+ref+'>0)');
   const sum=valid.map((ok,i)=>'IF('+ok+','+weights[i]+',0)').join('+');
-  const product=refs.map((ref,i)=>'POWER(IF('+valid[i]+','+ref+',1),'+weights[i]+')').join('*');
-  const base='POWER('+product+',1/('+sum+'))';
+  const powers=refs.map((ref,i)=>'IF('+valid[i]+','+weights[i]+'*POWER(IF('+valid[i]+','+ref+',1),-2),0)').join('+');
+  const base='POWER(('+powers+')/('+sum+'),-0.5)';
   return '=IF(('+sum+')=0,"",'+base+'*U'+r+'*POWER('+base+'/$W$2,V'+r+'-1))';
 }
 
