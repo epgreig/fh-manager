@@ -73,8 +73,7 @@ function renderBoard_({c,players,state}) {
   const percent=count=>String(Math.min(100,100*c.highlightCount/Math.max(1,count-1)));
   rules.unshift(SpreadsheetApp.newConditionalFormatRule().setGradientMinpoint('#f4cccc').setGradientMaxpointWithValue('#ffffff',SpreadsheetApp.InterpolationType.PERCENTILE,percent(remaining.reduce((count,p)=>count+[p.espnRank,p.adp,p.domRank].filter(v=>Number.isFinite(v)&&v>0).length,0)/3)).setRanges(rankRanges).build());
   rules.unshift(SpreadsheetApp.newConditionalFormatRule().setGradientMinpoint('#6fa8dc').setGradientMaxpointWithValue('#ffffff',SpreadsheetApp.InterpolationType.PERCENTILE,percent(remaining.filter(p=>p.adp!=null||p.espnRank!=null).length)).setRanges(smartRanges).build());
-  rules.unshift(SpreadsheetApp.newConditionalFormatRule().setGradientMinpointWithValue('#ffffff',SpreadsheetApp.InterpolationType.NUMBER,'0').setGradientMaxpoint('#6aa84f').setRanges(panRanges).build());
-  rules.unshift(SpreadsheetApp.newConditionalFormatRule().whenNumberLessThanOrEqualTo(0).setBackground('#ffffff').setRanges(panRanges).build());
+  rules.unshift(SpreadsheetApp.newConditionalFormatRule().setGradientMinpointWithValue('#ffffff',SpreadsheetApp.InterpolationType.PERCENTILE,String(100*(1-c.panTop))).setGradientMaxpoint('#6aa84f').setRanges(panRanges).build());
   s.setConditionalFormatRules(rules);s.setFrozenRows(3);s.setHiddenGridlines(true);
   s.getRange(1,1,n+3,boardWidth).setFontFamily('Arial').setFontSize(10).setWrapStrategy(SpreadsheetApp.WrapStrategy.CLIP);s.setRowHeights(4,n,21);
   CacheService.getDocumentCache().put('draftBoardHeadersV1',JSON.stringify(headers),21600);

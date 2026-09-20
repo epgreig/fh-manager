@@ -2,12 +2,12 @@ const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs'),vm=require('node:vm');
 test('live board filters log availability and separates PAN from player lists',()=>{
- const hidden=new Set([8,17,26]), widths={},writes=[],calls=[],formulas=[],ruleCalls=[];
+ const hidden=new Set([8,17,26]), widths={},writes=[],calls=[],formulas=[],ruleCalls=[],formats=[];
  const range=new Proxy({}, {get:(_,name)=>(...args)=>{calls.push(name);return range;}});
  const sheet=new Proxy({}, {get:(_,name)=>{
    if(name==='getMaxRows')return ()=>1000;
    if(name==='getMaxColumns')return ()=>26;
-   if(name==='getRange')return (...args)=>new Proxy({}, {get:(_,method)=>(...values)=>{if(method==='setValues')writes.push({args,values:values[0]});if(method==='setFormula')formulas.push(values[0]);return range;}});
+   if(name==='getRange')return (...args)=>new Proxy({}, {get:(_,method)=>method==='_range'?args:(...values)=>{if(method==='setValues')writes.push({args,values:values[0]});if(method==='setFormula')formulas.push(values[0]);if(method==='setFormulas')formulas.push(...values[0].flat());if(method==='setNumberFormat')formats.push({args,format:values[0]});return range;}});
    if(name==='showColumns')return ()=>hidden.clear();
    if(name==='hideColumns')return (col,n=1)=>{for(let i=0;i<n;i++)hidden.add(col+i);};
    if(name==='setColumnWidth')return (col,w)=>{calls.push('setColumnWidth');widths[col]=w;};
@@ -19,12 +19,16 @@ test('live board filters log availability and separates PAN from player lists',(
  vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Engine.gs','utf8')+'\n'+fs.readFileSync('apps-script/Code.gs','utf8')+'\n'+fs.readFileSync('apps-script/Live.gs','utf8')+'\n'+fs.readFileSync('apps-script/Pan.gs','utf8'),ctx);
  ctx.showReplacementLevels_=()=>{};ctx.table_=()=>sheet;ctx.buildPanFormulas_=()=>calls.push("buildPanFormulas");
  ctx.evaluate=()=>({available:['F','D','G'].map(g=>({group:g,id:g,name:g,points:100,par:20,adp:5,pan:null,pos:g,team:'TOR'})),panReady:false});
- ctx.renderBoard_({c:{teams:12,rounds:16,parTop:.15,adpBottom:.1,highlightCount:12},players:[{},{},{}],state:{current:1,next:24,removed:new Set()}});
+ ctx.renderBoard_({c:{teams:12,rounds:16,parTop:.02,panTop:.02,adpBottom:.1,highlightCount:12},players:[{},{},{}],state:{current:1,next:24,removed:new Set()}});
  assert.ok(ruleCalls.some(r=>r[0]==='setGradientMaxpointWithValue'&&r[1]==='#ffffff'&&r[2]==='percentile'));
- assert.ok(ruleCalls.some(r=>r[0]==='setGradientMinpointWithValue'&&r[1]==='#ffffff'&&r[2]==='number'&&r[3]==='0'));
- assert.ok(ruleCalls.some(r=>r[0]==='whenNumberLessThanOrEqualTo'&&r[1]===0));
+ assert.equal(ruleCalls.filter(r=>r[0]==='setGradientMinpointWithValue'&&r[1]==='#ffffff'&&r[2]==='percentile'&&r[3]==='98').length,2);
+ assert.ok(!ruleCalls.some(r=>r[0]==='whenNumberLessThanOrEqualTo'));
+ assert.ok(ruleCalls.some(r=>r[0]==='setGradientMinpoint'&&r[1]==='#f4cccc'));
  assert.deepEqual([...hidden].sort((a,b)=>a-b),[5,6,7,12,15,18,19,20,25,28,31,32,33,38]);
  assert.equal(Object.entries(widths).reduce((sum,[col,w])=>sum+(hidden.has(Number(col))?0:w),0),1182);
+ assert.ok(formulas.some(f=>f.includes("'Projection Comparison'!F$3:F$")));
+ assert.deepEqual(formats.filter(x=>x.format==='0%').map(x=>x.args[1]),[9,22,35]);
+ assert.ok(ruleCalls.filter(r=>r[0]==='setRanges').flatMap(r=>r[1]).every(r=>![9,22,35].includes(r._range[1])));
  assert.equal(formulas.filter(f=>f.startsWith('=IFNA(SORT(FILTER')).length,3);
  assert.ok(!formulas.some(f=>f.includes('FH_STATE')));
  assert.ok(formulas.some(f=>f.startsWith('=COUNTA(\'Draft Log\'!A2:A1000)+1')));
