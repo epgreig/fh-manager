@@ -65,7 +65,7 @@ function renderBoard_({c,players,state}) {
   rules.unshift(SpreadsheetApp.newConditionalFormatRule().setGradientMinpointWithValue('#ffffff',SpreadsheetApp.InterpolationType.PERCENTILE,String(100*(1-c.parTop))).setGradientMaxpoint('#8e7cc3').setRanges(parRanges).build());
   const remaining=result.available.filter(p=>!state.removed.has(p.id));
   const percent=count=>String(Math.min(100,100*c.highlightCount/Math.max(1,count-1)));
-  rules.unshift(SpreadsheetApp.newConditionalFormatRule().setGradientMinpoint('#e06666').setGradientMaxpointWithValue('#ffffff',SpreadsheetApp.InterpolationType.PERCENTILE,percent(remaining.reduce((count,p)=>count+[p.espnRank,p.adp,p.domRank].filter(v=>Number.isFinite(v)&&v>0).length,0)/3)).setRanges(rankRanges).build());
+  rules.unshift(SpreadsheetApp.newConditionalFormatRule().setGradientMinpoint('#f4cccc').setGradientMaxpointWithValue('#ffffff',SpreadsheetApp.InterpolationType.PERCENTILE,percent(remaining.reduce((count,p)=>count+[p.espnRank,p.adp,p.domRank].filter(v=>Number.isFinite(v)&&v>0).length,0)/3)).setRanges(rankRanges).build());
   rules.unshift(SpreadsheetApp.newConditionalFormatRule().setGradientMinpoint('#6fa8dc').setGradientMaxpointWithValue('#ffffff',SpreadsheetApp.InterpolationType.PERCENTILE,percent(remaining.filter(p=>p.adp!=null||p.espnRank!=null).length)).setRanges(smartRanges).build());
   rules.unshift(SpreadsheetApp.newConditionalFormatRule().setGradientMinpointWithValue('#ffffff',SpreadsheetApp.InterpolationType.NUMBER,'0').setGradientMaxpoint('#6aa84f').setRanges(panRanges).build());
   rules.unshift(SpreadsheetApp.newConditionalFormatRule().whenNumberLessThanOrEqualTo(0).setBackground('#ffffff').setRanges(panRanges).build());
