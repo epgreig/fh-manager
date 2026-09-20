@@ -27,6 +27,10 @@ test('live board filters log availability and separates PAN from player lists',(
  assert.deepEqual([...hidden].sort((a,b)=>a-b),[5,6,7,12,15,18,19,20,25,28,31,32,33,38]);
  assert.equal(Object.entries(widths).reduce((sum,[col,w])=>sum+(hidden.has(Number(col))?0:w),0),1182);
  assert.ok(formulas.some(f=>f.includes("'Projection Comparison'!F$3:F$")));
+ const coefFormulas=formulas.filter(f=>f.includes("'Projection Comparison'!F$3:F$"));
+ assert.equal(coefFormulas.length,3);
+ assert.deepEqual(coefFormulas.map(f=>Number(f.match(/<=([25])/)[1])),[5,5,2]);
+ assert.ok(coefFormulas.every(f=>f.includes("'Projection Comparison'!H$3:H$")));
  assert.deepEqual(formats.filter(x=>x.format==='0%').map(x=>x.args[1]),[9,22,35]);
  assert.ok(ruleCalls.filter(r=>r[0]==='setRanges').flatMap(r=>r[1]).every(r=>![9,22,35].includes(r._range[1])));
  assert.equal(formulas.filter(f=>f.startsWith('=IFNA(SORT(FILTER')).length,3);

@@ -37,9 +37,12 @@ function renderBoard_({c,players,state}) {
   buildPanFormulas_(model,result.available,result.baselines,c);
   if(model.getMaxColumns()<26)model.insertColumnsAfter(model.getMaxColumns(),26-model.getMaxColumns());
   model.getRange('Z1').setValue('Relative SD');
-  model.getRange(2,26,n,1).setFormulas(result.available.map((p,i)=>[
-    '=IFNA(XLOOKUP(A'+(i+2)+',\'Projection Comparison\'!A$3:A$'+(n+2)+',\'Projection Comparison\'!F$3:F$'+(n+2)+'),"")'
-  ]));
+  model.getRange(2,26,n,1).setFormulas(result.available.map((p,i)=>{
+    const name='A'+(i+2),names="'Projection Comparison'!A$3:A$"+(n+2);
+    const count="XLOOKUP("+name+','+names+",'Projection Comparison'!H$3:H$"+(n+2)+')';
+    const relative="XLOOKUP("+name+','+names+",'Projection Comparison'!F$3:F$"+(n+2)+')';
+    return ['=IFNA(IF('+count+'<='+(p.group==='G'?2:5)+',"",'+relative+'),"")'];
+  }));
   s.getRange(1,1,s.getMaxRows(),s.getMaxColumns()).breakApart();s.clear();s.showRows(1,s.getMaxRows());s.showColumns(1,s.getMaxColumns());
   if(s.getMaxColumns()<boardWidth)s.insertColumnsAfter(s.getMaxColumns(),boardWidth-s.getMaxColumns());
   if(s.getMaxRows()<n+3)s.insertRowsAfter(s.getMaxRows(),n+3-s.getMaxRows());
