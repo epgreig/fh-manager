@@ -18,3 +18,13 @@ test('shared forward migration preserves current PAN ranks and subsequent baseli
   assert.equal(rows.find(r=>r[0]==='replacementFPoints')[1],165);
   assert.deepEqual(JSON.parse(saved.get('panForwardReplacementRanks')),{C:40,LW:36,RW:36});
 });
+
+test('PAR highlight migration applies 98th percentile once and preserves later edits',()=>{
+  const rows=[['Setting','Value'],['parTop',0.01]],saved=new Map();
+  const sheet={getDataRange:()=>({getValues:()=>rows}),getRange:r=>({setValue:v=>rows[r-1][1]=v})};
+  const props={getProperty:k=>saved.get(k),setProperty:(k,v)=>saved.set(k,v)};
+  ctx.migrateParHighlight_(sheet,props);
+  assert.equal(rows[1][1],0.02);
+  rows[1][1]=0.05;ctx.migrateParHighlight_(sheet,props);
+  assert.equal(rows[1][1],0.05);
+});

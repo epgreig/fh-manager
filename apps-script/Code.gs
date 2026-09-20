@@ -21,6 +21,14 @@ function migrateForwardReplacement_(sheet, properties) {
   for(let r=rows.length-1;r>=1;r--)if(/^replacement(C|LW|RW|F)$/.test(String(rows[r][0])))sheet.deleteRow(r+1);
   if(!Object.prototype.hasOwnProperty.call(values,'replacementFPoints'))sheet.appendRow(['replacementFPoints',DEFAULTS.replacementFPoints]);
 }
+function migrateParHighlight_(sheet,properties) {
+  const marker='parHighlightTopTwoPercent20260919';
+  if(properties.getProperty(marker)==='applied')return;
+  const row=sheet.getDataRange().getValues().findIndex(r=>r[0]==='parTop');
+  if(row<0)sheet.appendRow(['parTop',DEFAULTS.parTop]);
+  else sheet.getRange(row+1,2).setValue(DEFAULTS.parTop);
+  properties.setProperty(marker,'applied');
+}
 function migrateReplacementSettings_() {
   const s=SpreadsheetApp.getActive().getSheetByName('Settings');
   const old=s.getDataRange().getValues();
@@ -43,6 +51,7 @@ function migrateReplacementSettings_() {
   const keys=new Set(rows_('Settings').map(r=>r[0]));
   for(const key of ['domRankWeight','espnRankWeight','multiplierF','multiplierD','multiplierG','exponentF','exponentD','exponentG','curvePivot','panGap','highlightCount','youngAgeMax','adpSigmaFloor','adpSigmaRate'])if(!keys.has(key))s.appendRow([key,DEFAULTS[key]]);
   const properties=PropertiesService.getDocumentProperties();
+  migrateParHighlight_(s,properties);
   const sadpMigration='weightedGeometricSadp20260908';
   if(properties.getProperty(sadpMigration)!=='applied') {
     const values={espnRankWeight:0.25,multiplierF:1,multiplierD:0.85,multiplierG:0.81};
