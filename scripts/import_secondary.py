@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / 'data/raw'
 ATHLETIC = ROOT / 'data/processed/athletic.json'
 WEIGHTS = {'The Athletic':12, 'DtZ':6, 'LineupExperts':6, 'Apples & Ginos Blake':4,
-           'Apples & Ginos Nate':4, 'Steve Laidlaw':3, 'Hashtag Hockey':2, 'Scott Cullen':2}
+           'Apples & Ginos Nate':4, 'Steve Laidlaw':3, 'Scott Cullen':2}
 
 # Reviewed spelling variants only; never match on surname alone.
 ALIASES = {
@@ -108,10 +108,6 @@ def extract():
         'NHL Player Projections 2026-2027 - Position-By-Position Fantasy Rankings.csv','PLAYER')
     add('Scott Cullen', {'GP':'GP','W':'W','SO':'SO'},
         'NHL Player Projections 2026-2027 - Goalies.csv','PLAYER',True)
-    add('Hashtag Hockey', {'GP':'GP','G':'GOA','A':'AST','BLK':'BLK','PIM':'PIM','SHP':'SHP'},
-        'HashtagHockeySkaters.csv','NAME')
-    add('Hashtag Hockey', {'GP':'GP','W':'WIN','SO':'SHU','GA':'GA','SV':'SAV'},
-        'HashtagHockeyGoalies.csv','NAME',True)
     for author in ('Blake', 'Nate'):
         add('Apples & Ginos '+author, {'GP':'GP','G':'G','A':'A','BLK':'BLK','PIM':'PIM'},
             f"Apples & Ginos 2026-27 NHL Skater Projections - {author}'s Projections.csv",
