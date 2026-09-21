@@ -4,7 +4,7 @@ const DEFAULTS = {
   replacementFPoints:161, replacementD:32, replacementG:20,
   parTop:0.02, panTop:0.02, adpBottom:0.10, adpSigmaFloor:4, adpSigmaRate:0.18, espnRankWeight:0.2,
   multiplierF:1, multiplierD:1, multiplierG:1, exponentF:1, exponentD:1, exponentG:1, curvePivot:50,
-  panGap:22, highlightCount:12, youngAgeMax:23, domRankWeight:0.4
+  panGap:22, highlightCount:12, youngAgeMax:23, domRankWeight:0.3
 };
 function domProjectionRanks_(players, rows, c) {
   const columns=['GP','G','A','BLK','PIM','SHP','W','SO','GA','SV'];
