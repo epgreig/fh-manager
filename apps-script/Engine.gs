@@ -40,6 +40,9 @@ function scorePlayer(p, c) {
   return keys.reduce((s,k) => s+p.stats[k]*c[k],0) +
     (p.group === 'D' ? c.defenseBonus*(p.stats.G+p.stats.A) : 0);
 }
+function projectedPoints_(p,c) {
+  return scorePlayer(p,c)*(1-(p.projectionCut||0));
+}
 function ownerAt(pick, teams) {
   const round = Math.floor((pick-1)/teams)+1, slot=(pick-1)%teams+1;
   return round%2 ? slot : teams+1-slot;
@@ -63,7 +66,7 @@ function draftState(c, keepers, log, ids) {
 }
 
 function evaluate(players,c,state) {
-  const all=players.map(p=>({...p,points:scorePlayer(p,c)}));
+  const all=players.map(p=>({...p,points:projectedPoints_(p,c)}));
   const baselines={};
   ['D','G'].forEach(g=>{
     const ranked=all.filter(p=>p.group===g).sort((a,b)=>b.points-a.points);

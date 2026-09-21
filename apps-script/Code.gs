@@ -184,6 +184,7 @@ function inputs_() {
   });
   const domRanks=domProjectionRanks_(players,projectionRows,c);
   players.forEach(p=>{p.domRank=domRanks.get(p.id)||null;});
+  applyProjectionCuts_(players);
   const ids=new Set(players.map(p=>p.id)); if(ids.size!==players.length) throw Error('Duplicate player ID');
   const keepers=rows_('Keepers').map(r=>{
     const match=resolvePlayerName_(r[0],players);
@@ -201,7 +202,7 @@ function draftIdentities_() {
   const players=s.getRange(2,1,s.getLastRow()-1,2).getValues().filter(r=>r[0]).map(r=>({id:r[0],name:r[1]}));
   cache.put(key,JSON.stringify(players),21600);return players;
 }
-function refreshBoard() {withLock_(()=>{migrateReplacementSettings_();ensureEspnRanks_();ensureSecondaryProjections_();addProjectionNames_();ensureNameSheets_();checkNames_();const input=inputs_();renderProjectionComparison_(input);renderBoard_(input);});}
+function refreshBoard() {withLock_(()=>{migrateReplacementSettings_();ensureEspnRanks_();ensureSecondaryProjections_();addProjectionNames_();ensureNameSheets_();ensureAdjustments_();checkNames_();checkAdjustments_();const input=inputs_();showAdjustmentPoints_(input.players,input.c);renderProjectionComparison_(input);renderBoard_(input);});}
 function draftSelectedPlayer() {
   const range=SpreadsheetApp.getActiveRange();
   if(!range||range.getSheet().getName()!=='Board'||range.getRow()<4||range.getNumRows()!==1||range.getNumColumns()!==1) throw Error('Select one player cell on Board');

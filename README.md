@@ -29,6 +29,12 @@ Forward PAR uses one shared baseline: **season fantasy points minus `replacement
 
 On the first refresh, the former C/LW/RW ranks are saved in document properties (`panForwardReplacementRanks`) and removed from Settings. Those archived ranks are no longer used. PAN now uses the shared forward baseline and one combined forward pool. ESPN eligibility remains preferred, with workbook positions as the provisional fallback.
 
+## Personal projection cuts
+
+In **Adjustments**, enter a player's name and a **Cut** such as `25%`, plus an optional note. Choose **Draft > Refresh board** to apply it. The tab shows Base FP and Adjusted FP at the last refresh; a 25% cut retains 75% of the original blended fantasy points. Clear the cut or enter 0% and refresh to restore it. Names are checked as you edit; duplicate players and cuts outside 0–100% are flagged and must be corrected before refreshing. Enter `25%`, not `25`.
+
+Cuts affect Board points, PAR, PAN, ordering, and the D/G replacement baselines. They do not change raw category projections, source-comparison totals/Relative SD, Dom's own rank, or market timing inputs. This separates your personal valuation from the rankings opponents may follow. The tab starts empty; no player receives an automatic cut.
+
 ## Smart ADP and PAN
 
 The default is the weighted power mean with p = −2: `sADP = (0.2 × ESPN rank^-2 + 0.4 × ESPN ADP^-2 + 0.4 × Dom rank^-2)^(-1/2)`. ESPN rank gets 20%, ADP 40%, and Dom 40%; lower values carry more influence than with a geometric mean. Settings `espnRankWeight` and `domRankWeight` are direct shares; ADP gets the remainder. The two settings must sum to at most 1. Missing inputs have their weights redistributed proportionally among available inputs; no available weighted inputs leaves sADP blank. Original ADP remains in Players and Board Data. ESPN rank comes from `draftRanksByRankType.STANDARD.rank`.
