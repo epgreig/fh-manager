@@ -17,7 +17,7 @@ function ensureDraftRanks_(input,rebuild=false) {
     if(s.getMaxRows()<rows.length+1)s.insertRowsAfter(s.getMaxRows(),rows.length+1-s.getMaxRows());
     if(rows.length)s.getRange(2,1,rows.length,6).setValues(rows.map(p=>[p.id,p.name,p.group,p.blend??'',p.rank??'',p.kept]));
     s.getRange('H1').setValue('Frozen at');s.getRange('H2').setValue(new Date());
-    s.getRange('H3').setValue('Draft > Rebuild pre-draft ranks explicitly replaces this snapshot. Draft Log is ignored; keepers are excluded.');
+    s.getRange('H3').setValue('Draft > Refresh board replaces this snapshot. Draft Log is ignored; keepers are excluded.');
     s.setColumnWidth(2,190);s.setColumnWidths(4,3,120);s.setColumnWidth(8,220);
     if(rows.length)s.getRange(2,4,rows.length,1).setNumberFormat('0.00');
   }
