@@ -54,9 +54,9 @@ test('PAN subtracts shared expected best available and uses rank-scaled uncertai
  assert.ok(!modelFormulas.some(f=>f.includes('$M$2')));
  assert.ok(modelFormulas.some(f=>f.includes('ISNUMBER(O2)')));
   assert.ok(modelFormulas.some(f=>f.includes("COUNT('PAN Pools'!C2:C4)=3")));
-  assert.ok(modelFormulas.some(f=>f.includes('(AA2-$N$2)/P2')));
+  assert.ok(modelFormulas.some(f=>f.includes('($L$2-1+$N$2-AA2)/P2')));
   assert.ok(!modelFormulas.some(f=>f.includes('($L$2-1+$N$2)')));
-  assert.ok(modelFormulas.some(f=>f.includes('MAX(XLOOKUP("adpSigmaFloor"')&&f.includes('XLOOKUP("adpSigmaRate"')&&f.includes('*($L$2-1+AA2)')));
+  assert.ok(modelFormulas.some(f=>f.includes('MAX(XLOOKUP("adpSigmaFloor"')&&f.includes('XLOOKUP("adpSigmaRate"')&&f.includes('*AA2')));
   assert.ok(modelFormulas.some(f=>f.includes("SUM('PAN Pools'!E2:E4)")));
   assert.ok(modelFormulas.some(f=>f.includes("D2-20-SUM('PAN Pools'!E2:E4)")));
   assert.ok(!modelFormulas.some(f=>f.includes('(1-O2)*')));
@@ -64,43 +64,27 @@ test('PAN subtracts shared expected best available and uses rank-scaled uncertai
   assert.equal((100-20-shared)-(80-20-shared),20);
 });
 
-test('sRk uses consecutive global available ranks, breaking exact ties by ID',()=>{
+test('frozen rank survival conditions on elapsed picks and remains stable for overdue players',()=>{
  const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Pan.gs','utf8'),ctx);
- const ids=['z','a','b','c','unknown'],raw=[10,10,15,2,''];
- const tableFormula=ctx.smartRankTableFormula_(6).slice(1)
-  .replaceAll('H2:H6','ids').replaceAll('R2:R6','raw').replaceAll('J2:J6=TRUE','available');
- const functions={TRUE:true,IFNA:(x,f)=>x==null?f:x,IF:(ok,a,b)=>ok?a:b,AND:(...x)=>x.every(Boolean),
-  ISNUMBER:x=>Array.isArray(x)?x.map(v=>typeof v==='number'):typeof x==='number',
-  HSTACK:(a,b)=>a.map((x,i)=>[x,b[i]]),FILTER:(rows,a,b)=>rows.filter((_,i)=>a[i]&&b[i]),
-  SORT:(rows,col,asc,tie)=>rows.slice().sort((a,b)=>a[col-1]-b[col-1]||a[tie-1].localeCompare(b[tie-1])),
-  MATCH:(id,ordered)=>{const i=ordered.indexOf(id);return i<0?null:i+1;}};
- function ranks(available){
-  const ordered=vm.runInNewContext(tableFormula,{...functions,ids,raw,available}).map(row=>row[0]);
-  return ids.map((id,i)=>vm.runInNewContext(ctx.smartRankFormula_(i+2,6).slice(1)
-    .replaceAll('AB$2:AB$6','ordered'),{...functions,ordered,['H'+(i+2)]:id,['R'+(i+2)]:raw[i],['J'+(i+2)]:available[i]}));
- }
- assert.deepEqual(ranks([true,true,true,true,true]),[3,2,4,1,'']);
- assert.deepEqual(ranks([true,true,true,false,true]),[2,1,3,'','']); // keeper or logged pick
- assert.deepEqual(ranks([true,false,true,false,true]),[1,'',2,'','']);
- assert.deepEqual(ranks([true,true,true,true,true]),[3,2,4,1,'']); // undo / clear log
-});
-test('PAN uses remaining-pick centres and uncertainty grows with absolute draft depth',()=>{
- const ctx={};vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Pan.gs','utf8'),ctx);
- const funcs={TRUE:true,IF:(ok,a,b)=>ok?a:b,NOT:x=>!x,ISNUMBER:x=>typeof x==='number',MIN:Math.min,MAX:Math.max};
- const sigmaFormula=ctx.rankUncertaintyFormula_(2).slice(1).replaceAll('$L$2','current').replace('AA2=""','AA2===""');
- // Replace spreadsheet ranges with inert arguments for the lookup stub.
- const sigmaExpr=sigmaFormula.replaceAll('Settings!A2:A100','0').replaceAll('Settings!B2:B100','0');
- const uncertainty=(rank,current)=>vm.runInNewContext(sigmaExpr,{...funcs,AA2:rank,current,XLOOKUP:key=>key==='adpSigmaFloor'?4:.18});
- assert.equal(uncertainty(1,1),4);assert.equal(uncertainty(1,101),18.18);
- assert.equal(uncertainty('',101),'');
+ const funcs={TRUE:true,IF:(ok,a,b)=>ok?a:b,NOT:x=>!x,ISNUMBER:x=>typeof x==='number',MIN:Math.min,MAX:Math.max,LN:Math.log,EXP:Math.exp,PI:()=>Math.PI};
+ const sigmaExpr=ctx.rankUncertaintyFormula_(2).slice(1).replace('AA2=""','AA2===""').replaceAll('Settings!A2:A100','0').replaceAll('Settings!B2:B100','0');
+ const uncertainty=rank=>vm.runInNewContext(sigmaExpr,{...funcs,AA2:rank,XLOOKUP:key=>key==='adpSigmaFloor'?4:.18});
+ assert.equal(uncertainty(1),4);assert.equal(uncertainty(100),18);
+ assert.equal(uncertainty(''),'');assert.ok(!sigmaExpr.includes('$L$2'));
  function normal(x){const a=Math.abs(x)/Math.sqrt(2),t=1/(1+.3275911*a);
   const erf=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-.284496736)*t+.254829592)*t*Math.exp(-a*a);
   return (1+Math.sign(x)*erf)/2;
  }
- const survivalExpr=ctx.rankSurvivalFormula_(2).slice(1).replaceAll('$N$2','gap');
- const survival=(rank,sigma,gap,available=true)=>vm.runInNewContext(survivalExpr,{...funcs,AA2:rank,P2:sigma,gap,J2:available,NORMDIST:normal});
- assert.equal(survival(1,4,0),1);assert.equal(survival('',4,22),'');assert.equal(survival(1,4,22,false),0);
- assert.ok(survival(1,4,22)<.001);assert.ok(survival(45,8.1,22)>.99);
- assert.ok(survival(1,uncertainty(1,101),22)>survival(1,uncertainty(1,1),22));
- assert.ok(!ctx.rankSurvivalFormula_(2).includes('$L$2'));
+ const expr=ctx.rankSurvivalFormula_(2).slice(1).replaceAll('$N$2','gap').replaceAll('$L$2','current').replaceAll('^','**').replace('LET(zNow,','LET("zNow",').replace(',zNext,',',"zNext",');
+ const survival=(rank,current,gap,available=true)=>{
+  const sigma=uncertainty(rank),zNow=(current-1-rank)/sigma,zNext=(current-1+gap-rank)/sigma;
+  return vm.runInNewContext(expr,{...funcs,AA2:rank,P2:sigma,gap,current,J2:available,zNow,zNext,NORMDIST:normal,
+    LET:(a,x,b,y,result)=>{if(typeof rank==='number'){assert.equal(x,zNow);assert.equal(y,zNext);}return result;}});
+ };
+ assert.equal(survival(31,26,0),1);assert.equal(survival('',26,22),'');assert.equal(survival(31,26,24,false),0);
+ const expected=normal((31-49)/uncertainty(31))/normal((31-25)/uncertainty(31));
+ assert.ok(Math.abs(survival(31,26,24)-expected)<1e-8);
+ assert.ok(survival(31,26,24)<survival(31,1,24));
+ assert.ok(Number.isFinite(survival(1,100,22)));assert.ok(survival(1,100,22)<1e-20);
+ assert.equal(survival(1,100,0),1);
 });

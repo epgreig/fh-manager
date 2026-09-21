@@ -21,5 +21,5 @@ test('refresh backfills missing ranks in legacy Players sheets without replacing
  ctx.ensureEspnRanks_();
  assert.deepEqual(JSON.parse(JSON.stringify(writes[1])),{range:[2,9,3,1],values:[[1],[99],['']]});
  assert.equal(rows[0][6],2);
- assert.match(fs.readFileSync('apps-script/Code.gs','utf8'),/function refreshBoard\(\).*ensureEspnRanks_\(\)/);
+ assert.match(fs.readFileSync('apps-script/Code.gs','utf8'),/function refreshBoardWithRanks_\(rebuild\).*ensureEspnRanks_\(\)/);
 });

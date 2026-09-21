@@ -21,11 +21,9 @@ function buildPanFormulas_(model,players,baselines,c) {
   model.getRange(2,21,players.length,1).setFormulas(players.map((p,i)=>['=XLOOKUP("multiplier"&I'+(i+2)+',Settings!A2:A100,Settings!B2:B100)']));
   model.getRange(2,22,players.length,1).setFormulas(players.map((p,i)=>['=XLOOKUP("exponent"&I'+(i+2)+',Settings!A2:A100,Settings!B2:B100)']));
   model.getRange(2,18,players.length,1).setFormulas(players.map((p,i)=>[draftOrderFormula_(i+2)]));
-  // Sort the available pool once, using full precision and stable ID tie-breaking.
-  const last=players.length+1;
-  model.getRange('AA1:AC1').setValues([['Smart rank (remaining picks)','Available IDs by sADP','Ordered sADP']]);
-  model.getRange('AB2').setFormula(smartRankTableFormula_(last));
-  model.getRange(2,27,players.length,1).setFormulas(players.map((p,i)=>[smartRankFormula_(i+2,last)]));
+  // Load persisted overall estimates; Draft Log never changes the rank snapshot.
+  model.getRange('AA1').setValue('Frozen pre-draft sRk');
+  model.getRange(2,27,players.length,1).setValues(players.map(p=>[p.smartRank??'']));
   model.getRange(2,16,players.length,1).setFormulas(players.map((p,i)=>[rankUncertaintyFormula_(i+2)]));
   model.getRange(2,15,players.length,1).setFormulas(players.map((p,i)=>[rankSurvivalFormula_(i+2)]));
   const options=new Map(players.map(p=>[p.id,[]]));
@@ -71,18 +69,14 @@ function draftOrderFormula_(r) {
   return '=IF(('+sum+')=0,"",'+base+'*U'+r+'*POWER('+base+'/$W$2,V'+r+'-1))';
 }
 
-function smartRankTableFormula_(last) {
-  return '=IFNA(SORT(FILTER(HSTACK(H2:H'+last+',R2:R'+last+'),J2:J'+last+'=TRUE,ISNUMBER(R2:R'+last+')),2,TRUE,1,TRUE),"")';
-}
-function smartRankFormula_(r,last) {
-  return '=IF(AND(J'+r+',ISNUMBER(R'+r+')),IFNA(MATCH(H'+r+',AB$2:AB$'+last+',0),""),"")';
-}
 function rankUncertaintyFormula_(r) {
-  // sRk is relative to now; sigma still grows with the absolute draft depth.
-  return '=IF(AA'+r+'="","",MAX(XLOOKUP("adpSigmaFloor",Settings!A2:A100,Settings!B2:B100),XLOOKUP("adpSigmaRate",Settings!A2:A100,Settings!B2:B100)*($L$2-1+AA'+r+')))';
+  return '=IF(AA'+r+'="","",MAX(XLOOKUP("adpSigmaFloor",Settings!A2:A100,Settings!B2:B100),XLOOKUP("adpSigmaRate",Settings!A2:A100,Settings!B2:B100)*AA'+r+'))';
+}
+function logNormalTailFormula_(z) {
+  // Mills expansion avoids 0/0 when an undrafted player is far past their estimate.
+  return 'IF('+z+'>8,-0.5*'+z+'^2-LN('+z+')-0.5*LN(2*PI())+LN(1-1/'+z+'^2+3/'+z+'^4-15/'+z+'^6+105/'+z+'^8),LN(NORMDIST(-'+z+',0,1,TRUE)))';
 }
 function rankSurvivalFormula_(r) {
-  // Condition on a future selection (>0), using negative tails for stability.
-  // AA is already relative to now: do not subtract current pick again.
-  return '=IF(NOT(J'+r+'),0,IF(NOT(ISNUMBER(AA'+r+')),"",MIN(1,MAX(0,NORMDIST((AA'+r+'-$N$2)/P'+r+',0,1,TRUE)/NORMDIST(AA'+r+'/P'+r+',0,1,TRUE)))))';
+  const now='($L$2-1-AA'+r+')/P'+r,next='($L$2-1+$N$2-AA'+r+')/P'+r;
+  return '=IF(NOT(J'+r+'),0,IF(NOT(ISNUMBER(AA'+r+')),"",LET(zNow,'+now+',zNext,'+next+',MAX(0,MIN(1,EXP('+logNormalTailFormula_('zNext')+'-'+logNormalTailFormula_('zNow')+'))))))';
 }
