@@ -11,7 +11,7 @@ For a new sheet, create a blank Google Sheet, open Extensions > Apps Script, add
 ## Draft-night use
 
 - **Keepers:** type player names only. They are unavailable immediately, with no required team, round, or reserved pick. Old team/round information is archived in a hidden tab during migration. Name checks flag unknown players. Keeper exclusions do not advance the selection counter.
-- **Targets:** names in Targets turn orange; names in Fades turn grey. Fade takes precedence if both apply. Names are checked against Players and normalized for case/outer spaces.
+- **Targets:** player names in Targets turn orange; names in Fades turn grey. Team abbreviations in Target teams highlight the Board's Tm cell pale yellow; Fade teams use pale red. Fades take precedence when the same player or team appears in both lists. Player names and teams are checked against Players and normalized for case/outer spaces.
 - **Draft:** select one player cell on Board and use Draft selected player, or macro shortcut 1. Undo is shortcut 2. Check the Mac key combination under Extensions > Macros > Manage macros.
 - Draft and undo only change Draft Log. Player identities are cached (and invalidated by Players edits); keeper and duplicate checks still read current inputs. The pick counter, next-pick calculation, and PAN gap use native Sheets formulas, avoiding a second Apps Script invocation after each pick. Board formulas recalculate. Clearing logged data rows restores players except keepers; preserve the header row. The selection counter counts logged entries, accommodating older logs with gaps from the former keeper-cost model.
 

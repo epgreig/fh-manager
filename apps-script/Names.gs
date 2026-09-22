@@ -5,8 +5,15 @@ function resolvePlayerName_(value,players) {
   return matches.length===1?{player:matches[0],message:'Matched'}:
     {player:null,message:matches.length?'Ambiguous name':'Name not found'};
 }
+function resolveTeam_(value,teams) {
+  const key=String(value).trim().toLocaleUpperCase();
+  if(!key)return {team:null,message:''};
+  const matches=teams.filter(team=>String(team).trim().toLocaleUpperCase()===key);
+  return matches.length===1?{team:matches[0],message:'Matched'}:
+    {team:null,message:matches.length?'Ambiguous team':'Team not found'};
+}
 function ensureNameSheets_() {
-  table_('Targets',['Targets','Fades','Target name check','Fade name check'],[]);
+  table_('Targets',['Targets','Fades','Target name check','Fade name check','Target teams','Fade teams','Target team check','Fade team check'],[]);
   const ss=SpreadsheetApp.getActive(), keepers=ss.getSheetByName('Keepers');
   if(keepers) {
     // Preserve old optional keeper costs in a hidden archive before simplifying the input.
@@ -19,8 +26,13 @@ function ensureNameSheets_() {
   const source=ss.getSheetByName('Players');
   const validation=SpreadsheetApp.newDataValidation().requireValueInRange(source.getRange(2,2,Math.max(1,source.getLastRow()-1),1),true).setAllowInvalid(true).build();
   const targets=ss.getSheetByName('Targets');
+  targets.getRange(1,1,1,8).setValues([['Targets','Fades','Target name check','Fade name check','Target teams','Fade teams','Target team check','Fade team check']]);
   targets.getRange(2,1,targets.getMaxRows()-1,2).setDataValidation(validation);
+  const teams=[...new Set(source.getRange(2,3,Math.max(1,source.getLastRow()-1),1).getValues().flat().filter(Boolean))].sort();
+  const teamValidation=SpreadsheetApp.newDataValidation().requireValueInList(teams,true).setAllowInvalid(true).build();
+  targets.getRange(2,5,targets.getMaxRows()-1,2).setDataValidation(teamValidation);
   targets.setColumnWidths(1,2,190);targets.setColumnWidths(3,2,180);
+  targets.setColumnWidths(5,2,110);targets.setColumnWidths(7,2,150);
   if(keepers) {keepers.getRange(2,1,keepers.getMaxRows()-1,1).setDataValidation(validation);keepers.setColumnWidth(1,190);keepers.setColumnWidth(2,180);}
 }
 function checkNames_() {
@@ -41,6 +53,22 @@ function checkNames_() {
     s.getRange(2,1,n,count).setValues(values).setBackgrounds(backgrounds);
     s.getRange(2,name==='Targets'?3:2,n,count).setValues(checks);
   });
+  const targets=ss.getSheetByName('Targets');
+  if(targets&&targets.getLastRow()>=2) {
+    const teams=[...new Set(rows_('Players').map(r=>r[2]).filter(Boolean))];
+    const n=targets.getLastRow()-1,values=targets.getRange(2,5,n,2).getValues();
+    const checks=[],backgrounds=[];
+    values.forEach(row=>{
+      const messages=[],colors=[];
+      row.forEach((value,i)=>{
+        const match=resolveTeam_(value,teams);
+        if(match.team)row[i]=match.team;
+        messages.push(match.message);colors.push(match.message&&!match.team?'#f4cccc':'#ffffff');
+      });checks.push(messages);backgrounds.push(colors);
+    });
+    targets.getRange(2,5,n,2).setValues(values).setBackgrounds(backgrounds);
+    targets.getRange(2,7,n,2).setValues(checks);
+  }
 }
 function onEdit(e) {
   if(!e||!e.range) return;

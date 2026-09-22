@@ -24,6 +24,9 @@ test('live board filters log availability and separates PAN from player lists',(
  assert.equal(ruleCalls.filter(r=>r[0]==='setGradientMinpointWithValue'&&r[1]==='#ffffff'&&r[2]==='percentile'&&r[3]==='98').length,2);
  assert.ok(!ruleCalls.some(r=>r[0]==='whenNumberLessThanOrEqualTo'));
  assert.ok(ruleCalls.some(r=>r[0]==='setGradientMinpoint'&&r[1]==='#f4cccc'));
+ const teamRules=ruleCalls.filter(r=>r[0]==='whenFormulaSatisfied'&&r[1].includes('Targets!')&&(r[1].includes('Targets!E2:E')||r[1].includes('Targets!F2:F')));
+ assert.equal(teamRules.length,6);
+ assert.deepEqual(teamRules.map(r=>r[1].match(/Targets!([EF])2/)[1]),['F','E','F','E','F','E']);
  assert.deepEqual([...hidden].sort((a,b)=>a-b),[5,6,7,8,13,16,19,20,21,22,27,30,33,34,35,36,41]);
  assert.equal(Object.entries(widths).reduce((sum,[col,w])=>sum+(hidden.has(Number(col))?0:w),0),1182);
  assert.ok(formulas.some(f=>f.includes("'Projection Comparison'!F$3:F$")));

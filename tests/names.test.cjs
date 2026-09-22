@@ -10,3 +10,10 @@ test('name entry tolerates case and surrounding spaces and migrates old IDs',()=
  assert.equal(ctx.resolvePlayerName_('',players).message,'');
  assert.equal(ctx.resolvePlayerName_('Cale Makar',[...players,{id:'3',name:'Cale Makar'}]).message,'Ambiguous name');
 });
+test('team entry tolerates case and surrounding spaces but flags unknown teams',()=>{
+ const teams=['TOR','T.B','N.J'];
+ assert.equal(ctx.resolveTeam_(' tor ',teams).team,'TOR');
+ assert.equal(ctx.resolveTeam_('t.b',teams).team,'T.B');
+ assert.equal(ctx.resolveTeam_('BOS',teams).message,'Team not found');
+ assert.equal(ctx.resolveTeam_('',teams).message,'');
+});
