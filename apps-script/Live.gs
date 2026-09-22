@@ -66,12 +66,12 @@ function renderBoard_({c,players,state}) {
     s.getRange(4,col+index.coefV,n,1).setNumberFormat('0%');
     const ageCol=panColumn_(col+index.Age);
     const teamCol=panColumn_(col+index.Tm);
-    rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied('=AND(ISNUMBER('+ageCol+'4),'+ageCol+'4<=XLOOKUP("youngAgeMax",INDIRECT("Settings!A2:A100"),INDIRECT("Settings!B2:B100")))').setBackground('#fff2cc').setRanges([s.getRange(4,col+index.Age,n,1)]).build());
+    rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied('=AND(ISNUMBER('+ageCol+'4),'+ageCol+'4<=XLOOKUP("youngAgeMax",INDIRECT("Settings!A2:A100"),INDIRECT("Settings!B2:B100")))').setBackground('#fce5cd').setRanges([s.getRange(4,col+index.Age,n,1)]).build());
     parRanges.push(s.getRange(4,col+index.PAR,n,1));
     ['espn','ADP','Dom'].forEach(h=>rankRanges.push(s.getRange(4,col+index[h],n,1)));
     smartRanges.push(s.getRange(4,col+index.sRk,n,1));panRanges.push(s.getRange(4,col+index.PAN,n,1));
     [['B','#eeeeee'],['A','#fce5cd']].forEach(([letter,color])=>rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied('=AND('+nameCol+'4<>"",COUNTIF(INDIRECT("Targets!'+letter+'2:'+letter+'"),'+nameCol+'4)>0)').setBackground(color).setRanges([s.getRange(4,col,n,1)]).build()));
-    [['F','#f4cccc'],['E','#fff2cc']].forEach(([letter,color])=>rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied('=AND('+teamCol+'4<>"",COUNTIF(INDIRECT("Targets!'+letter+'2:'+letter+'"),'+teamCol+'4)>0)').setBackground(color).setRanges([s.getRange(4,col+index.Tm,n,1)]).build()));
+    [['F','#eeeeee'],['E','#fff2cc']].forEach(([letter,color])=>rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied('=AND('+teamCol+'4<>"",COUNTIF(INDIRECT("Targets!'+letter+'2:'+letter+'"),'+teamCol+'4)>0)').setBackground(color).setRanges([s.getRange(4,col+index.Tm,n,1)]).build()));
   });
   rules.unshift(SpreadsheetApp.newConditionalFormatRule().setGradientMinpointWithValue('#ffffff',SpreadsheetApp.InterpolationType.PERCENTILE,String(100*(1-c.parTop))).setGradientMaxpoint('#8e7cc3').setRanges(parRanges).build());
   const remaining=result.available.filter(p=>!state.removed.has(p.id));
