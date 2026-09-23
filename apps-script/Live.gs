@@ -15,7 +15,7 @@ function renderBoard_({c,players,state}) {
   const headers=boardHeaders_(),stride=headers.length+1,boardWidth=3*stride-1;
   const index=Object.fromEntries(headers.map((h,i)=>[h,i]));
   const identities=ss.getSheetByName('Players');
-  identities.getRange(1,10).setValue('Dom rank (league PAR)').setNote('Rank by The Athletic projections alone under current Settings scoring minus replacement points. F uses replacementFPoints; D/G use Dom-only points at their configured ranks. Includes kept/drafted players.');
+  identities.getRange(1,10).setValue('Dom rank (league PAR)').setNote('Rank by The Athletic projections alone under current Settings scoring minus Dom-only points at the configured F/D/G replacement ranks. Includes kept/drafted players.');
   identities.getRange(2,10,players.length,1).setValues(players.map(p=>[p.domRank==null?'':p.domRank]));
   // Score and rank once per explicit refresh; draft availability stays formula-driven.
   const result=evaluate(players,c,{...state,removed:new Set(),next:null});
@@ -88,11 +88,11 @@ function renderBoard_({c,players,state}) {
 function showReplacementLevels_(baselines) {
   const s=SpreadsheetApp.getActive().getSheetByName('Settings');
   s.getRange(1,3).setValue('Replacement points').setBackground('#17364d').setFontColor('#ffffff').setFontWeight('bold');
-  s.getRange(1,3).setNote('Forward PAR uses replacementFPoints directly. D/G points are calculated from their ranks on Refresh board, including drafted players and keepers.');
+  s.getRange(1,3).setNote('F/D/G replacement points are calculated from their ranks on Refresh board, including drafted players and keepers. Each forward counts once regardless of eligibility.');
   s.getDataRange().getValues().forEach((row,i)=>{
-    const match=/^replacement(FPoints|D|G)$/.exec(String(row[0]));
+    const match=/^replacement(F|D|G)$/.exec(String(row[0]));
     if(!match)return;
-    const value=baselines[match[1]==='FPoints'?'F':match[1]];
+    const value=baselines[match[1]];
     s.getRange(i+1,3).setValue(value==null?'Unavailable':value).setNumberFormat('0.0');
   });
   s.setColumnWidth(3,155);

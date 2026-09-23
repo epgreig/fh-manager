@@ -2,21 +2,22 @@ const {test}=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs'),vm=require('node:vm');
 const ctx={};vm.createContext(ctx);
 vm.runInContext(fs.readFileSync('apps-script/Engine.gs','utf8')+'\n'+fs.readFileSync('apps-script/Code.gs','utf8'),ctx);
-test('shared forward migration preserves current PAN ranks and subsequent baseline edits',()=>{
-  const rows=[['Setting','Value'],['replacementC',40],['replacementLW',36],['replacementRW',36],['replacementD',40],['replacementG',20]];
+test('replacement migration sets F80/D35 once and preserves later edits',()=>{
+  const rows=[['Setting','Value'],['replacementC',40],['replacementLW',36],['replacementRW',36],['replacementFPoints',161],['replacementD',40],['replacementG',20]];
   const saved=new Map();
-  const sheet={getDataRange:()=>({getValues:()=>rows.map(r=>r.slice())}),deleteRow:n=>rows.splice(n-1,1),appendRow:r=>rows.push(r)};
+  const sheet={getDataRange:()=>({getValues:()=>rows.map(r=>r.slice())}),deleteRow:n=>rows.splice(n-1,1),appendRow:r=>rows.push(r),getRange:r=>({setValue:v=>rows[r-1][1]=v})};
   const props={getProperty:k=>saved.get(k),setProperty:(k,v)=>saved.set(k,v)};
   ctx.migrateForwardReplacement_(sheet,props);
-  assert.deepEqual(JSON.parse(saved.get('panForwardReplacementRanks')),{C:40,LW:36,RW:36});
-  assert.ok(!rows.some(r=>/^replacement(C|LW|RW)$/.test(r[0])));
-  assert.equal(rows.find(r=>r[0]==='replacementFPoints')[1],161);
-  assert.equal(rows.find(r=>r[0]==='replacementD')[1],40);
-  rows.find(r=>r[0]==='replacementFPoints')[1]=165;
+  assert.ok(!rows.some(r=>/^replacement(C|LW|RW|FPoints)$/.test(r[0])));
+  assert.equal(rows.find(r=>r[0]==='replacementF')[1],80);
+  assert.equal(rows.find(r=>r[0]==='replacementD')[1],35);
+  assert.equal(rows.find(r=>r[0]==='replacementG')[1],20);
+  rows.find(r=>r[0]==='replacementF')[1]=85;
+  rows.find(r=>r[0]==='replacementD')[1]=37;
   ctx.migrateForwardReplacement_(sheet,props);
-  assert.equal(rows.filter(r=>r[0]==='replacementFPoints').length,1);
-  assert.equal(rows.find(r=>r[0]==='replacementFPoints')[1],165);
-  assert.deepEqual(JSON.parse(saved.get('panForwardReplacementRanks')),{C:40,LW:36,RW:36});
+  assert.equal(rows.filter(r=>r[0]==='replacementF').length,1);
+  assert.equal(rows.find(r=>r[0]==='replacementF')[1],85);
+  assert.equal(rows.find(r=>r[0]==='replacementD')[1],37);
 });
 
 test('PAR highlight migration applies 98th percentile once and preserves later edits',()=>{

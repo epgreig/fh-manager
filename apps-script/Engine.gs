@@ -1,7 +1,7 @@
 const DEFAULTS = {
   teams:12, draftSlot:1, rounds:16, G:3, A:1.5, BLK:0.3, PIM:0.5, SHP:1.5,
   defenseBonus:0.3, W:1.5, SO:2, GA:-1, SV:0.2,
-  replacementFPoints:161, replacementD:32, replacementG:20,
+  replacementF:80, replacementD:35, replacementG:20,
   parTop:0.02, panTop:0.02, adpBottom:0.10, adpSigmaFloor:4, adpSigmaRate:0.18, espnRankWeight:0.2,
   multiplierF:1, multiplierD:1, multiplierG:1, exponentF:1, exponentD:1, exponentG:1, curvePivot:50,
   panGap:22, highlightCount:12, youngAgeMax:23, domRankWeight:0.3
@@ -16,8 +16,8 @@ function domProjectionRanks_(players, rows, c) {
     if(!required.every(k=>typeof stats[k]==='number'&&Number.isFinite(stats[k])))return [];
     return [{id:p.id,group:p.group,points:scorePlayer({...p,stats},c)}];
   });
-  const baselines={F:c.replacementFPoints};
-  for(const group of ['D','G']) {
+  const baselines={};
+  for(const group of ['F','D','G']) {
     const pool=ranked.filter(p=>p.group===group).sort((a,b)=>b.points-a.points);
     const rank=c['replacement'+group];
     baselines[group]=Number.isInteger(rank)&&rank>0&&pool.length>=rank?pool[rank-1].points:null;
@@ -68,15 +68,13 @@ function draftState(c, keepers, log, ids) {
 function evaluate(players,c,state) {
   const all=players.map(p=>({...p,points:projectedPoints_(p,c)}));
   const baselines={};
-  ['D','G'].forEach(g=>{
+  ['F','D','G'].forEach(g=>{
     const ranked=all.filter(p=>p.group===g).sort((a,b)=>b.points-a.points);
     const rank=c['replacement'+g];
     if(!Number.isInteger(rank)||rank<1) throw Error('Replacement rank must be a positive integer: '+g);
     // An undersized positional pool leaves its replacement baseline unknown.
     baselines[g]=ranked.length>=rank?ranked[rank-1].points:null;
   });
-  if(!Number.isFinite(c.replacementFPoints)||c.replacementFPoints<0)throw Error('Invalid forward replacement points');
-  baselines.F=c.replacementFPoints;
   const available=all.filter(p=>!state.removed.has(p.id)).map(p=>{
     const baseline=baselines[p.group];
     return {...p,par:baseline===null?null:p.points-baseline,pan:null};

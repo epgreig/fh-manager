@@ -5,21 +5,17 @@ function onOpen() {
     .addItem('Undo last pick','undoLastPick').addItem('Import ESPN snapshot','importEspnSnapshot').addToUi();
 }
 function migrateForwardReplacement_(sheet, properties) {
+  const marker='pooledForwardRank80Defense35_20260922';
+  if(properties.getProperty(marker)==='applied')return;
   const rows=sheet.getDataRange().getValues();
-  const values=Object.fromEntries(rows.slice(1).map(r=>[r[0],r[1]]));
-  if(!properties.getProperty('panForwardReplacementRanks')) {
-    const ranks={C:40,LW:36,RW:36};
-    for(const pos of Object.keys(ranks)) {
-      const value=values['replacement'+pos];
-      if(value!==undefined) {
-        if(!Number.isInteger(value)||value<1)throw Error('Invalid PAN replacement rank for '+pos);
-        ranks[pos]=value;
-      }
-    }
-    properties.setProperty('panForwardReplacementRanks',JSON.stringify(ranks));
+  for(let r=rows.length-1;r>=1;r--)if(/^replacement(C|LW|RW|FPoints)$/.test(String(rows[r][0])))sheet.deleteRow(r+1);
+  const current=sheet.getDataRange().getValues();
+  for(const [key,value] of [['replacementF',80],['replacementD',35]]) {
+    const row=current.findIndex(r=>r[0]===key);
+    if(row<0)sheet.appendRow([key,value]);
+    else sheet.getRange(row+1,2).setValue(value);
   }
-  for(let r=rows.length-1;r>=1;r--)if(/^replacement(C|LW|RW|F)$/.test(String(rows[r][0])))sheet.deleteRow(r+1);
-  if(!Object.prototype.hasOwnProperty.call(values,'replacementFPoints'))sheet.appendRow(['replacementFPoints',DEFAULTS.replacementFPoints]);
+  properties.setProperty(marker,'applied');
 }
 function migrateParHighlight_(sheet,properties) {
   const marker='parHighlightTopTwoPercent20260919';
@@ -39,9 +35,9 @@ function migrateReplacementSettings_() {
     const rows=guide.getDataRange().getValues();
     rows.forEach(r=>{
       if(r[0]==='Replacement assumptions')r[1]='Replacement ranks calibrated by comparing last year’s draft with contemporaneous rankings. Adjust ranks in Settings.';
-      if(r[0]==='PAR')r[1]='Forward PAR is season points minus replacementFPoints (initially 161). D/G still use replacement ranks. PAN uses one shared forward pool.';
+      if(r[0]==='PAR')r[1]='PAR subtracts points at the configured replacement rank in the full F/D/G pool, including keepers and drafted players. Initial ranks: F80, D35, G20. All forwards share one baseline and PAN pool.';
       if(r[0]==='PAN')r[1]='Group PAR minus the expected best available PAR after a fixed 22-selection wait; one shared F pool, separate D and G pools. Expected best includes every player’s chance of surviving, including the candidate. PAN stays fixed-gap even at consecutive own picks.';
-      if(r[0]==='Uncertainty')r[1]='sADP = (0.2 × ESPN rank^-2 + 0.5 × ESPN ADP^-2 + 0.3 × Dom PAR rank^-2)^(-1/2), before optional position adjustments. Dom uses his own stats and D/G replacement points with the shared forward baseline. PAN uses frozen pre-draft sRk excluding keepers, conditional on still being available. Refresh board rebuilds the pre-draft snapshot.';
+      if(r[0]==='Uncertainty')r[1]='sADP = (0.2 × ESPN rank^-2 + 0.5 × ESPN ADP^-2 + 0.3 × Dom PAR rank^-2)^(-1/2), before optional position adjustments. Dom uses his own stats and replacement points at the configured F/D/G ranks. PAN uses frozen pre-draft sRk excluding keepers, conditional on still being available. Refresh board rebuilds the pre-draft snapshot.';
       if(r[0]==='Keepers')r[1]='Type names only. Keepers are removed from availability; no team, round cost, or reserved draft pick is needed.';
       if(r[0]==='Projections')r[1]='Weight parts: Athletic 12; DtZ and LineupExperts 6 each; Blake and Nate 4 each; Laidlaw 3; Cullen 2. Each stat renormalizes over sources that supply it; blank is not zero.';
       if(r[0]==='Provenance')r[1]='Athletic, DtZ, LineupExperts, Scott Cullen, Steve Laidlaw, and both Apples & Ginos season projections are blended. ESPN rank and ADP remain draft-timing inputs.';
@@ -142,7 +138,7 @@ function setupDraftSheet() {
     ['Scoring','D bonus applies per G+A; SHP bonus is additional to regular G/A points.'],
     ['Use','Edit inputs, then Draft > Refresh board. Select one board player cell and run draft macro.'],
     ['ESPN','Paste ESPN eligibility and ADP in Players, with source/date. Yahoo POS stays separate.'],
-    ['PAR','Forward PAR is season points minus replacementFPoints (initially 161). D/G still use replacement ranks. PAN uses one shared forward pool.'],
+    ['PAR','PAR subtracts points at the configured replacement rank in the full F/D/G pool, including keepers and drafted players. Initial ranks: F80, D35, G20. All forwards share one baseline and PAN pool.'],
     ['Replacement assumptions','Replacement ranks calibrated from last year’s draft and rankings. Adjust ranks in Settings.'],
     ['PAN','Group PAR minus expected best available PAR after 22 selections. All forwards share one pool; D and G have separate pools. Expected best includes the candidate’s survival chance.'],
     ['Uncertainty','sADP uses a power mean (p = -2) with 20% ESPN rank, 50% ESPN ADP, and 30% Dom-only PAR rank, before optional positional adjustments. PAN uses frozen pre-draft sRk; uncertainty is max(adpSigmaFloor, adpSigmaRate × sRk).'],
