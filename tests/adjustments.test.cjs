@@ -14,6 +14,10 @@ test('projection cuts reduce blended valuation once and preserve source projecti
  assert.equal(ctx.projectedPoints_(cut,ctx.config),154.5); // no compounding
  assert.equal(ctx.projectedPoints_({...cut,projectionCut:0},ctx.config),206);
  assert.equal(ctx.projectedPoints_({...cut,projectionCut:1},ctx.config),0);
+ const boost={...goalie,projectionCut:-.25};
+ assert.equal(ctx.projectedPoints_(boost,ctx.config),257.5);
+ assert.equal(ctx.projectedPoints_(boost,ctx.config),257.5); // boosts do not compound either
+ assert.equal(ctx.scorePlayer(boost,ctx.config),206);
  const rows=[['g','The Athletic',12,60,'','','','','',32,4,150,1500]];
  const comparison=ctx.projectionComparison_([cut],ctx.config,rows).rows[0];
  assert.equal(comparison.points,206);assert.equal(comparison.totals[0],206);
@@ -24,7 +28,11 @@ test('adjustment inputs match names, reject invalid or duplicate entries, and al
  const rows=[[' connor hellebuyck ',.25]],players=[goalie];
  const entry=ctx.adjustmentEntries_(rows,players)[0];
  assert.equal(entry.player.id,'g');assert.equal(entry.cut,.25);assert.equal(entry.message,'Matched');
- for(const cut of [-.1,25,'25%',NaN])assert.match(ctx.adjustmentEntries_([['Connor Hellebuyck',cut]],players)[0].message,/0% to 100%/);
+ for(const cut of [-.25,-1,-2,0,1]){
+   const entry=ctx.adjustmentEntries_([['Connor Hellebuyck',cut]],players)[0];
+   assert.equal(entry.message,'Matched');assert.equal(entry.cut,cut);
+ }
+ for(const cut of [1.01,25,'25%',NaN,Infinity,-Infinity])assert.match(ctx.adjustmentEntries_([['Connor Hellebuyck',cut]],players)[0].message,/negative boosts/);
  assert.equal(ctx.adjustmentEntries_([['Connor Hellebuyck','']],players)[0].cut,0);
  assert.equal(ctx.adjustmentEntries_([['','']],players)[0].message,'');
  assert.equal(ctx.adjustmentEntries_([['',.25]],players)[0].message,'Enter a player name');

@@ -31,7 +31,7 @@ The first refresh after this update replaces `replacementFPoints` and any former
 
 ## Personal projection cuts
 
-In **Adjustments**, enter a player's name and a **Cut** such as `25%`, plus an optional note. Choose **Draft > Refresh board** to apply it. The tab shows Base FP and Adjusted FP at the last refresh; a 25% cut retains 75% of the original blended fantasy points. Clear the cut or enter 0% and refresh to restore it. Names are checked as you edit; duplicate players and cuts outside 0–100% are flagged and must be corrected before refreshing. Enter `25%`, not `25`.
+In **Adjustments**, enter a player's name and a signed **Cut**, plus an optional note. Positive values reduce projections (`25%` retains 75%); negative values boost them (`-25%` gives 125%). Existing positive cuts keep their meaning. Choose **Draft > Refresh board** to apply it. The tab shows Base FP and Adjusted FP at the last refresh. Clear the cut or enter 0% and refresh to restore it. Names are checked as you edit; duplicate players, nonnumeric values, and cuts above 100% are flagged and must be corrected before refreshing. Enter `25%`, not `25`.
 
 Cuts affect Board points, PAR, PAN, ordering, and the F/D/G replacement baselines. They do not change raw category projections, source-comparison totals/Relative SD, Dom's own rank, or market timing inputs. This separates your personal valuation from the rankings opponents may follow. The tab starts empty; no player receives an automatic cut.
 
