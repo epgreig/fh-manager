@@ -1,5 +1,7 @@
 # fh-manager
 
+Two independent deployments share the projection pipeline and board code. See [Yahoo league setup and maintenance](docs/yahoo.md). The ESPN draft version is preserved at tag `espn-draft-2026-stable`; Yahoo deployment never updates the ESPN script. The instructions below describe the original ESPN league unless specified otherwise.
+
 Fantasy hockey projections and a Google Sheets draft board. Google Apps Script builds the sheet; formulas filter drafted players immediately. The local script is connected using clasp, so future code changes do not require copying files.
 
 ## Apply updates

@@ -1,0 +1,44 @@
+# Yahoo league
+
+The Yahoo sheet and bound script are independent of ESPN. Shared source code lives in `apps-script`; `leagues/yahoo.json` supplies Yahoo-only defaults. Build files are generated in `build/yahoo`, never deployed from the ESPN folder. The completed ESPN draft code is tagged `espn-draft-2026-stable`. Its deployed script has not been updated for this work.
+
+## League settings
+
+14 teams, snake pick 8, no keepers. Roster: 2 C, 2 LW, 2 RW, 4 D, 1 G, 5 bench, 1 IR, 1 IR+. Sixteen draft picks per team; IR is not an additional draft slot. PAN uses a configurable 13-selection wait (actual snake waits alternate between 12 and 14 opponents).
+
+Skaters: G 15, A 10, plus/minus 1, PIM 1, SOG 1, HIT 1, BLK 1, extra SHG 15 and SHA 10. No defense bonus. Goalies: W 10, SO 10, GA -5, SV 1.
+
+Replacement ranks start at **C42/LW42/RW42/D70/G28**, as provisional assumptions. Edit them in Settings; Refresh board displays calculated replacement points in column C. Baselines use the full player pool, including drafted players. Positional eligibility pools overlap; their ranks are not additive roster counts. A C/LW player participates once in each of those pools but has one Board entry, using the better eligible PAR. Dom-only PAR uses the same configured ranks within Dom's own projections. PAN compares against each eligible position's expected best surviving PAR and uses the best of those positional values. It does not optimize a completed roster or model opponent positional needs.
+
+## Data
+
+`python3 scripts/fetch_yahoo.py --season 2026` retrieves public Yahoo data into `data/processed/yahoo.json`. The year is the season's **start** year. It discovers the current game key, validates the season, paginates in batches of 25, rejects duplicates/incomplete pools, and records retrieval time. It requires no login. Yahoo's public endpoint is undocumented; preserve the last good snapshot if it changes. Eligibility is from `eligible_positions`, never `eligible_positions_to_add`. League-specific commissioner overrides would need manual edits in Players.
+
+No verified Yahoo default rank is currently supplied. The hidden `yahoo` rank column stays blank. Default sADP uses p=-2 with **62.5% Yahoo ADP and 37.5% Dom rank**, preserving the prior 50:30 ADP:Dom ratio after removing the unverified platform rank. `platformRankWeight` starts at zero. This is adjustable and intentionally does not import ESPN ranks. Missing ADP falls back to Dom rank; the dated snapshot has 263 ADPs across 1,588 Yahoo players. All 670 projected players match Yahoo by normalized name plus compatible position group and reviewed aliases.
+
+Extended categories are read from the existing raw files into the Yahoo build only. ESPN processed projections are preserved. Athletic SHA is SHP minus SHG; DtZ supplies SHG/SHA separately. Hits and SOG are provided by all seven sources; plus/minus by Athletic, DtZ and Cullen. Their existing weights renormalize by category. Missing projections are not zero. The source comparison imputes missing categories from the blend and labels these cells with notes.
+
+## Build and test
+
+Install Python requirements (`python3 -m pip install -r requirements.txt`) and have Node available. `FH_PYTHON` can specify a Python executable; the build also recognizes the bundled desktop runtime.
+
+```sh
+npm run build:yahoo
+npm test
+```
+
+Tests build the Yahoo files and check scoring, dual eligibility, replacement and PAN pools, complete Yahoo matching, draft-rank coverage, and unchanged ESPN calculations against the stable tag. `data/processed/yahoo-build-report.json` records source coverage and unmatched source names. Generated build files are ignored by Git. Scripts and source data are shared; each spreadsheet's targets, adjustments, settings and draft log are independent.
+
+## Deployment
+
+Local `leagues/yahoo-deployment.local.json` records the Yahoo `scriptId` and `spreadsheetId`. `build/yahoo/.clasp.json` must point to that script. Neither local file is committed. The deployment command checks this target against the ESPN `.clasp.json` and refuses to push to the ESPN project.
+
+```sh
+npm run deploy:yahoo
+```
+
+For a new sheet, run `setupDraftSheet` in its bound Apps Script editor once and authorize access to that spreadsheet. Reload the spreadsheet for the Draft menu. Existing Yahoo sheets need **Draft > Refresh board** after a code push. After updating the embedded Yahoo data, use **Draft > Import Yahoo snapshot** to replace eligibility/ADP and refresh.
+
+The first setup creates a hidden empty Keepers tab for shared draft formulas; this league rejects keeper entries. Refresh overwrites Board Snapshot with values and formatting. Draft/undo only updates Draft Log and native sheet formulas.
+
+Outstanding league information: minimum goalie appearances (and any goalie limits), preferred replacement ranks, and whether the commissioner has added custom position eligibility. These do not prevent setup; they may affect draft strategy and manually chosen baselines.

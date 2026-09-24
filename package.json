@@ -1,1 +1,1 @@
-{"name":"fh-manager","private":true,"version":"0.1.0","scripts":{"test":"node --test tests/*.test.cjs"}}
+{"name":"fh-manager","private":true,"version":"0.1.0","scripts":{"build:yahoo":"node scripts/build_yahoo.cjs","pretest":"npm run build:yahoo","test":"node --test tests/*.test.cjs","deploy:yahoo":"npm run build:yahoo && node scripts/deploy_yahoo.cjs"}}
