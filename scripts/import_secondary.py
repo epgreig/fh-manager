@@ -78,7 +78,7 @@ def laidlaw_rows(filename):
     finally:
         workbook.close()
 
-def extract():
+def extract(extended=False):
     athletic = json.loads(ATHLETIC.read_text())['players']
     names = {}
     for player in athletic:
@@ -89,6 +89,14 @@ def extract():
     output, unmatched = [], {}
 
     def add(source, data, filename, name_field, goalie=False, reader=rows):
+        if extended and not goalie:
+            extra = {
+                'Scott Cullen': {'HIT':'HITS','SOG':'SOG','PLUS_MINUS':'+/-'},
+                'Steve Laidlaw': {'HIT':'Hits','SOG':'SOG'},
+                'LineupExperts': {'HIT':'HIT','SOG':'SOG'},
+                'DtZ': {'HIT':'Hit','SOG':'SOG','PLUS_MINUS':'+/-','SHG':'SHG','SHA':'SHA'},
+            }.get(source, {'HIT':'HIT','SOG':'SOG'})
+            data = {**data, **extra}
         misses = []
         for row in reader(filename):
             name = (row.get(name_field) or '').strip()
