@@ -5,7 +5,7 @@
   "positionalForwards": true,
   "keepers": false,
   "roster": {"C": 2, "LW": 2, "RW": 2, "D": 4, "G": 1, "BN": 5, "IR": 1, "IR+": 1},
-  "replacementNote": "Provisional editable ranks: C/LW/RW42, D70, G28. Eligibility pools overlap; these are not additive roster counts.",
+  "replacementNote": "Provisional editable ranks: C/LW/RW42, D60, G20. Eligibility pools overlap; these are not additive roster counts.",
   "extraStats": ["SOG", "HIT", "PLUS_MINUS", "SHG", "SHA"],
   "defaults": {
     "teams": 14, "draftSlot": 8, "rounds": 16, "panGap": 13,
@@ -13,7 +13,7 @@
     "SOG": 1, "HIT": 1, "PLUS_MINUS": 1, "SHG": 15, "SHA": 10,
     "W": 10, "SO": 10, "GA": -5, "SV": 1,
     "replacementC": 42, "replacementLW": 42, "replacementRW": 42,
-    "replacementD": 70, "replacementG": 28,
+    "replacementD": 60, "replacementG": 20,
     "espnRankWeight": 0, "domRankWeight": 0.375
   }
 }

@@ -8,7 +8,7 @@ The Yahoo sheet and bound script are independent of ESPN. Shared source code liv
 
 Skaters: G 15, A 10, plus/minus 1, PIM 1, SOG 1, HIT 1, BLK 1, extra SHG 15 and SHA 10. No defense bonus. Goalies: W 10, SO 10, GA -5, SV 1.
 
-Replacement ranks start at **C42/LW42/RW42/D70/G28**, as provisional assumptions. Edit them in Settings; Refresh board displays calculated replacement points in column C. Baselines use the full player pool, including drafted players. Positional eligibility pools overlap; their ranks are not additive roster counts. A C/LW player participates once in each of those pools but has one Board entry, using the better eligible PAR. Dom-only PAR uses the same configured ranks within Dom's own projections. PAN compares against each eligible position's expected best surviving PAR and uses the best of those positional values. It does not optimize a completed roster or model opponent positional needs.
+Replacement ranks start at **C42/LW42/RW42/D60/G20**, as provisional assumptions. Edit them in Settings; Refresh board displays calculated replacement points in column C. Baselines use the full player pool, including drafted players. Positional eligibility pools overlap; their ranks are not additive roster counts. A C/LW player participates once in each of those pools but has one Board entry, using the better eligible PAR. Dom-only PAR uses the same configured ranks within Dom's own projections. PAN compares against each eligible position's expected best surviving PAR and uses the best of those positional values. It does not optimize a completed roster or model opponent positional needs.
 
 ## Data
 
@@ -41,4 +41,8 @@ For a new sheet, run `setupDraftSheet` in its bound Apps Script editor once and 
 
 The first setup creates a hidden empty Keepers tab for shared draft formulas; this league rejects keeper entries. Refresh overwrites Board Snapshot with values and formatting. Draft/undo only updates Draft Log and native sheet formulas.
 
-Outstanding league information: minimum goalie appearances (and any goalie limits), preferred replacement ranks, and whether the commissioner has added custom position eligibility. These do not prevent setup; they may affect draft strategy and manually chosen baselines.
+There are no minimum goalie appearances. Replacement defaults are the user-selected C42/LW42/RW42/D60/G20; they remain editable.
+
+## Recreate a sheet
+
+Choose **File > Make a copy** in the existing Yahoo spreadsheet. The copy includes its bound Apps Script. Open the copy, reload if needed, and choose **Draft > Refresh board**; authorize the script if Google asks. To start a fresh draft, clear the entries below the header in Draft Log and review Settings, Targets and Adjustments. A copy retains the source projections and Yahoo snapshot; it does not automatically fetch a new season. No script pasting is needed. Local CLI deployment still targets the original Yahoo script until its local deployment configuration is explicitly changed.
