@@ -5,11 +5,12 @@ function buildPanFormulas_(model,players,baselines,c) {
   if(model.getMaxColumns()<29)model.insertColumnsAfter(model.getMaxColumns(),29-model.getMaxColumns());
   const ss=SpreadsheetApp.getActive();
   const pools=table_('PAN Pools',['PAN calculation'],[]);pools.clearContents();
-  if(pools.getMaxColumns()<40)pools.insertColumnsAfter(pools.getMaxColumns(),40-pools.getMaxColumns());
+  const poolWidth=8*replacementPositions_().length;
+  if(pools.getMaxColumns()<poolWidth)pools.insertColumnsAfter(pools.getMaxColumns(),poolWidth-pools.getMaxColumns());
   if(pools.getMaxRows()<players.length+2)pools.insertRowsAfter(pools.getMaxRows(),players.length+2-pools.getMaxRows());
   model.getRange('O1:P1').setValues([['Probability available next','Draft-order uncertainty']]);
-  model.getRange('Q1:S1').setValues([['ESPN default rank','Smart ADP','ESPN rank weight']]);
-  model.getRange('S2').setFormula('=XLOOKUP("espnRankWeight",Settings!A2:A100,Settings!B2:B100)');
+  model.getRange('Q1:S1').setValues([[leagueConfig_().platform+' default rank','Smart ADP',leagueConfig_().platform+' rank weight']]);
+  model.getRange('S2').setFormula('=XLOOKUP("'+settingName_('espnRankWeight')+'",Settings!A2:A100,Settings!B2:B100)');
   model.getRange(2,17,players.length,1).setValues(players.map(p=>[p.espnRank==null?'':p.espnRank]));
   model.getRange('T1:V1').setValues([['Age','Position multiplier','Position exponent']]);
   model.getRange('W1').setValue('Curve pivot');
@@ -27,11 +28,11 @@ function buildPanFormulas_(model,players,baselines,c) {
   model.getRange(2,16,players.length,1).setFormulas(players.map((p,i)=>[rankUncertaintyFormula_(i+2)]));
   model.getRange(2,15,players.length,1).setFormulas(players.map((p,i)=>[rankSurvivalFormula_(i+2)]));
   const options=new Map(players.map(p=>[p.id,[]]));
-  ['F','D','G'].forEach((pos,index)=>{
+  replacementPositions_().forEach((pos,index)=>{
     const base=baselines[pos],start=1+8*index;
     const cols=Array.from({length:5},(_,i)=>panColumn_(start+i));
     const [idCol,valueCol,surviveCol,priorGoneCol,contributionCol]=cols;
-    const pool=players.map((p,i)=>({...p,modelRow:i+2})).filter(p=>p.group===pos).sort((a,b)=>b.points-a.points||a.id.localeCompare(b.id));
+    const pool=players.map((p,i)=>({...p,modelRow:i+2})).filter(p=>playerPositions_(p).includes(pos)).sort((a,b)=>b.points-a.points||a.id.localeCompare(b.id));
     pools.getRange(1,start,1,5).setValues([[pos+' ID','PAR above zero','P available','P better gone','Expected-best contribution']]);
     if(!pool.length||base===null)return;
     const end=pool.length+1;

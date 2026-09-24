@@ -28,7 +28,7 @@ test('PAN subtracts shared expected best available and uses rank-scaled uncertai
    setValue(v){cells[key(row,col)]=v;},setFormulas(values){values.forEach((r,i)=>r.forEach((v,j)=>cells[key(row+i,col+j)]=v));}};
  }};
  const model={getMaxColumns:()=>29,getRange(){return {setValue(){},setValues(){},setFormula(f){modelFormulas.push(f);},setFormulas(rows){modelFormulas.push(...rows.flat());}};}};
- const ctx={SpreadsheetApp:{getActive:()=>({})},table_:()=>sheet};vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Pan.gs','utf8'),ctx);
+ const ctx={SpreadsheetApp:{getActive:()=>({})},table_:()=>sheet};vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Engine.gs','utf8')+'\n'+fs.readFileSync('apps-script/Pan.gs','utf8'),ctx);
  function key(r,c){return ctx.panColumn_(c)+r;}
  const players=[{id:'a',points:100,group:'F',pos:'C'},{id:'b',points:80,group:'F',pos:'LW'},{id:'c',points:60,group:'F',pos:'C,RW'}];
  ctx.buildPanFormulas_(model,players,{F:20,D:null,G:null},{});

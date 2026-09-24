@@ -53,7 +53,7 @@ test('secondary source import is idempotent and preserves later weight edits',()
   const ctx={SECONDARY_PROJECTION_DATA:secondary,
     SpreadsheetApp:{getActive:()=>({getSheetByName:()=>cells})},
     PropertiesService:{getDocumentProperties:()=>({getProperty:k=>properties.get(k),setProperty:(k,v)=>properties.set(k,v)})}};
-  vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Code.gs','utf8'),ctx);
+  vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Engine.gs','utf8')+'\n'+fs.readFileSync('apps-script/Code.gs','utf8'),ctx);
   ctx.ensureSecondaryProjections_();
   assert.equal(rows.length,2401);
   assert.equal(rows[1][2],12);
@@ -83,7 +83,7 @@ test('retired Hashtag rows disappear while other source weights remain editable'
     const ctx={SECONDARY_PROJECTION_DATA:secondary,
       SpreadsheetApp:{getActive:()=>({getSheetByName:()=>cells})},
       PropertiesService:{getDocumentProperties:()=>({getProperty:k=>props.get(k),setProperty:(k,v)=>props.set(k,v)})}};
-    vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Code.gs','utf8'),ctx);
+    vm.createContext(ctx);vm.runInContext(fs.readFileSync('apps-script/Engine.gs','utf8')+'\n'+fs.readFileSync('apps-script/Code.gs','utf8'),ctx);
     ctx.ensureSecondaryProjections_();
     assert.ok(!rows.some(r=>r[1]==='Hashtag Hockey'));
     const migrated=rows.slice(1,3).map(r=>r[2]);

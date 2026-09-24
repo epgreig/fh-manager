@@ -1,5 +1,5 @@
 function projectionComparison_(players, config, projections) {
-  const stats=['GP','G','A','BLK','PIM','SHP','W','SO','GA','SV'];
+  const stats=projectionStats_();
   const sources=[...new Set(projections.filter(r=>r[2]>0).map(r=>r[1]))];
   const byPlayer=new Map();
   projections.filter(r=>r[2]>0).forEach(r=>{
@@ -9,7 +9,7 @@ function projectionComparison_(players, config, projections) {
     map.set(r[1],r);
   });
   const rows=players.map(p=>{
-    const required=p.group==='G'?['W','SO','GA','SV']:['G','A','BLK','PIM','SHP'];
+    const required=scoredStats_(p,config);
     const notes=[];
     const totals=sources.map(source=>{
       const row=(byPlayer.get(p.id)||new Map()).get(source);

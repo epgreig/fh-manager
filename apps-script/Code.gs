@@ -1,8 +1,8 @@
-function boardHeaders_() {return ['Player','POS','Tm','Age','espn','ADP','Dom','sADP','sRk','coefV','PAR','PAN','ID'];}
+function boardHeaders_() {return ['Player','POS','Tm','Age',leagueConfig_().platform==='Yahoo'?'yahoo':'espn','ADP','Dom','sADP','sRk','coefV','PAR','PAN','ID'];}
 function onOpen() {
   SpreadsheetApp.getUi().createMenu('Draft').addItem('Set up sheet','setupDraftSheet')
     .addItem('Refresh board','refreshBoard').addItem('Draft selected player','draftSelectedPlayer')
-    .addItem('Undo last pick','undoLastPick').addItem('Import ESPN snapshot','importEspnSnapshot').addToUi();
+    .addItem('Undo last pick','undoLastPick').addItem('Import '+leagueConfig_().platform+' snapshot',leagueConfig_().platform==='Yahoo'?'importYahooSnapshot':'importEspnSnapshot').addToUi();
 }
 function migrateForwardReplacement_(sheet, properties) {
   const marker='pooledForwardRank80Defense35_20260922';
@@ -26,6 +26,7 @@ function migrateParHighlight_(sheet,properties) {
   properties.setProperty(marker,'applied');
 }
 function migrateReplacementSettings_() {
+  if(leagueConfig_().platform==='Yahoo') {ensureYahooSettings_();return;}
   const s=SpreadsheetApp.getActive().getSheetByName('Settings');
   const old=s.getDataRange().getValues();
   for(let r=old.length-1;r>=1;r--)if(['simulations','nextAlternatives','adpSigma'].includes(old[r][0]))s.deleteRow(r+1);
@@ -94,7 +95,7 @@ function table_(name, headers, rows) {
   s.setFrozenRows(1); s.autoResizeColumns(1,headers.length); return s;
 }
 function projectionRow_(p) {
-  const stats=['GP','G','A','BLK','PIM','SHP','W','SO','GA','SV'];
+  const stats=projectionStats_();
   return [p.id,p.source,p.weight,...stats.map(k=>p.stats[k]===undefined?'':p.stats[k])];
 }
 function ensureSecondaryProjections_() {
@@ -112,7 +113,7 @@ function ensureSecondaryProjections_() {
   if(additional.length) {
     const last=s.getLastRow(), needed=last+additional.length;
     if(s.getMaxRows()<needed)s.insertRowsAfter(s.getMaxRows(),needed-s.getMaxRows());
-    s.getRange(last+1,1,additional.length,13).setValues(additional);
+    s.getRange(last+1,1,additional.length,3+projectionStats_().length).setValues(additional);
   }
   const properties=PropertiesService.getDocumentProperties(), marker='projectionBlendEightSourcesV2_20260917';
   if(properties.getProperty(marker)!=='applied') {
@@ -126,9 +127,10 @@ function ensureSecondaryProjections_() {
   }
 }
 function setupDraftSheet() {
-  table_('Settings',['Setting','Value'],Object.entries(DEFAULTS));
-  table_('Players',['ID','Player','Team','Group','Source POS','ESPN POS','ESPN ADP','ESPN source / date'],PROJECTION_DATA.map(p=>[p.id,p.name,p.team,p.group,p.sourcePos,'','','']));
-  const stats=['GP','G','A','BLK','PIM','SHP','W','SO','GA','SV'];
+  table_('Settings',['Setting','Value'],Object.entries(DEFAULTS).map(([key,value])=>[settingName_(key),value]));
+  const platform=leagueConfig_().platform;
+  table_('Players',['ID','Player','Team','Group','Source POS',platform+' POS',platform+' ADP',platform+' source / date'],PROJECTION_DATA.map(p=>[p.id,p.name,p.team,p.group,p.sourcePos,'','','']));
+  const stats=projectionStats_();
   table_('Projections',['ID','Source','Weight',...stats],PROJECTION_DATA.map(projectionRow_));
   table_('Keepers',['Player','Name check'],[]);
   ensureNameSheets_();
@@ -149,16 +151,17 @@ function setupDraftSheet() {
     ['Eligibility reference','https://support.espn.com/hc/en-us/articles/360054126392-Position-Eligibility'],
     ['Macros reference','https://developers.google.com/apps-script/guides/sheets/macros']
   ]).setColumnWidth(2,760);
+  if(platform==='Yahoo')initializeYahoo_();
   refreshBoard();
 }
 function rows_(name) {return SpreadsheetApp.getActive().getSheetByName(name).getDataRange().getValues().slice(1).filter(r=>r[0]!=='');}
 function inputs_() {
-  const c=Object.fromEntries(rows_('Settings').map(r=>[r[0],Number(r[1])]));
+  const c=configFromSettings_(rows_('Settings'));
   for(const k of Object.keys(DEFAULTS)) if(!Number.isFinite(c[k])) throw Error('Invalid setting '+k);
   for(const k of ['teams','draftSlot','rounds','panGap','highlightCount','youngAgeMax']) if(!Number.isInteger(c[k])||c[k]<1) throw Error('Invalid setting '+k);
   if(c.multiplierF<=0||c.multiplierD<=0||c.multiplierG<=0||c.exponentF<=0||c.exponentD<=0||c.exponentG<=0||c.curvePivot<=0||c.espnRankWeight<0||c.espnRankWeight>1||c.draftSlot>c.teams||c.adpSigmaFloor<=0||c.adpSigmaRate<=0||c.parTop<=0||c.parTop>1||c.panTop<=0||c.panTop>1||c.adpBottom<=0||c.adpBottom>1) throw Error('Settings out of range');
-  if(c.domRankWeight<0||c.domRankWeight>1||c.domRankWeight+c.espnRankWeight>1)throw Error('Dom and ESPN rank weights must be nonnegative and sum to at most 1; ADP gets the remainder');
-  const stats=['GP','G','A','BLK','PIM','SHP','W','SO','GA','SV'], grouped=new Map();
+  if(c.domRankWeight<0||c.domRankWeight>1||c.domRankWeight+c.espnRankWeight>1)throw Error('Dom and platform rank weights must be nonnegative and sum to at most 1; ADP gets the remainder');
+  const stats=projectionStats_(), grouped=new Map();
   const projectionRows=rows_('Projections');
   projectionRows.forEach(r=>{
     if(typeof r[2]!=='number'||r[2]<0) throw Error('Invalid projection weight');
@@ -175,14 +178,16 @@ function inputs_() {
       const valid=sources.filter(s=>typeof s[i+3]==='number'&&Number.isFinite(s[i+3]));
       if(valid.length) blended[k]=valid.reduce((a,s)=>a+s[i+3]*s[2],0)/valid.reduce((a,s)=>a+s[2],0);
     });
-    if(r[6]!==''&&(typeof r[6]!=='number'||r[6]<=0)) throw Error('Invalid ESPN ADP for '+r[1]);
+    if(r[6]!==''&&(typeof r[6]!=='number'||r[6]<=0)) throw Error('Invalid '+leagueConfig_().platform+' ADP for '+r[1]);
     return {id:r[0],name:r[1],team:r[2],age:ages.get(r[0])==null?'':ages.get(r[0]),group:r[3],pos:r[5]||r[4]||'—',provisional:!r[5],adp:r[6]===''?null:r[6],espnRank:typeof r[8]==='number'&&r[8]>0?r[8]:null,stats:blended};
   });
   const domRanks=domProjectionRanks_(players,projectionRows,c);
   players.forEach(p=>{p.domRank=domRanks.get(p.id)||null;});
   applyProjectionCuts_(players);
   const ids=new Set(players.map(p=>p.id)); if(ids.size!==players.length) throw Error('Duplicate player ID');
-  const keepers=rows_('Keepers').map(r=>{
+  const keeperRows=rows_('Keepers');
+  if(!leagueConfig_().keepers&&keeperRows.length)throw Error('This league has no keepers; clear the Keepers tab');
+  const keepers=keeperRows.map(r=>{
     const match=resolvePlayerName_(r[0],players);
     if(!match.player) throw Error('Keeper '+r[0]+': '+match.message);
     return {id:match.player.id};
@@ -199,7 +204,7 @@ function draftIdentities_() {
   cache.put(key,JSON.stringify(players),21600);return players;
 }
 function refreshBoard() {refreshBoardWithRanks_(true);}
-function refreshBoardWithRanks_(rebuild) {withLock_(()=>{migrateReplacementSettings_();ensureEspnRanks_();ensureSecondaryProjections_();addProjectionNames_();ensureNameSheets_();ensureAdjustments_();checkNames_();checkAdjustments_();const input=inputs_();ensureDraftRanks_(input,rebuild);showAdjustmentPoints_(input.players,input.c);renderProjectionComparison_(input);renderBoard_(input);snapshotBoard_();});}
+function refreshBoardWithRanks_(rebuild) {withLock_(()=>{migrateReplacementSettings_();if(leagueConfig_().platform==='Yahoo')ensureYahooRanks_();else ensureEspnRanks_();ensureSecondaryProjections_();addProjectionNames_();ensureNameSheets_();ensureAdjustments_();checkNames_();checkAdjustments_();const input=inputs_();ensureDraftRanks_(input,rebuild);showAdjustmentPoints_(input.players,input.c);renderProjectionComparison_(input);renderBoard_(input);snapshotBoard_();});}
 function draftSelectedPlayer() {
   const range=SpreadsheetApp.getActiveRange();
   if(!range||range.getSheet().getName()!=='Board'||range.getRow()<4||range.getNumRows()!==1||range.getNumColumns()!==1) throw Error('Select one player cell on Board');
@@ -217,7 +222,7 @@ function draftSelectedPlayer() {
   const id=row[headers.indexOf('ID')], name=row[0];
   if(!id) throw Error('Select a player');
   withLock_(()=>{
-    const c=Object.fromEntries(rows_('Settings').map(r=>[r[0],Number(r[1])]));
+    const c=configFromSettings_(rows_('Settings'));
     const players=draftIdentities_();
     const keepers=rows_('Keepers').map(r=>{const m=resolvePlayerName_(r[0],players);if(!m.player)throw Error('Unknown keeper: '+r[0]);return {id:m.player.id};});
     const log=rows_('Draft Log').map(r=>({pick:r[0],id:r[2]}));
