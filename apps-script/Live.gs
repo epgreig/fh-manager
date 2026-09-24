@@ -85,6 +85,37 @@ function renderBoard_({c,players,state}) {
   model.hideSheet();
 }
 
+/** Freeze the refreshed Board without leaving live formulas or colour rules. */
+function snapshotBoard_() {
+  SpreadsheetApp.flush();
+  const ss=SpreadsheetApp.getActive(),board=ss.getSheetByName('Board');
+  const source=board.getDataRange(),rows=source.getNumRows(),cols=source.getNumColumns();
+  const backgrounds=source.getBackgrounds(),fontColors=source.getFontColors();
+  const snapshot=ss.getSheetByName('Board Snapshot')||ss.insertSheet('Board Snapshot');
+  snapshot.setFrozenColumns(0);snapshot.setFrozenRows(0);
+  snapshot.getRange(1,1,snapshot.getMaxRows(),snapshot.getMaxColumns()).breakApart();
+  snapshot.clear();snapshot.setConditionalFormatRules([]);
+  if(snapshot.getMaxRows()<rows)snapshot.insertRowsAfter(snapshot.getMaxRows(),rows-snapshot.getMaxRows());
+  if(snapshot.getMaxColumns()<cols)snapshot.insertColumnsAfter(snapshot.getMaxColumns(),cols-snapshot.getMaxColumns());
+  snapshot.showRows(1,snapshot.getMaxRows());snapshot.showColumns(1,snapshot.getMaxColumns());
+  const target=snapshot.getRange(1,1,rows,cols);
+  source.copyTo(target);
+  // Paste values so literal strings starting with '=' stay literal.
+  source.copyTo(target,SpreadsheetApp.CopyPasteType.PASTE_VALUES,false);
+  snapshot.setConditionalFormatRules([]);
+  target.setBackgrounds(backgrounds).setFontColors(fontColors).clearDataValidations();
+  for(let col=1;col<=cols;col++) {
+    snapshot.setColumnWidth(col,board.getColumnWidth(col));
+    if(board.isColumnHiddenByUser(col))snapshot.hideColumns(col);
+  }
+  for(let row=1;row<=Math.min(3,rows);row++)snapshot.setRowHeight(row,board.getRowHeight(row));
+  // renderBoard_ gives every player row the same height.
+  if(rows>3)snapshot.setRowHeights(4,rows-3,board.getRowHeight(4));
+  snapshot.setFrozenRows(board.getFrozenRows());snapshot.setFrozenColumns(board.getFrozenColumns());
+  snapshot.setHiddenGridlines(board.hasHiddenGridlines());
+  snapshot.getRange('A1').setNote('Board captured after Refresh board at '+new Date().toISOString()+'. Values and colours are frozen until the next refresh.');
+}
+
 function showReplacementLevels_(baselines) {
   const s=SpreadsheetApp.getActive().getSheetByName('Settings');
   s.getRange(1,3).setValue('Replacement points').setBackground('#17364d').setFontColor('#ffffff').setFontWeight('bold');

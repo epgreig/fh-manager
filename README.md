@@ -4,7 +4,7 @@ Fantasy hockey projections and a Google Sheets draft board. Google Apps Script b
 
 ## Apply updates
 
-After a script push, reload the spreadsheet and choose **Draft > Refresh board**. This migrates input layouts and rebuilds calculations while preserving player data, settings, targets, and Draft Log. To load the dated ESPN snapshot, choose **Draft > Import ESPN snapshot**; this replaces matched ESPN POS/ADP/rank fields and refreshes Board.
+After a script push, reload the spreadsheet and choose **Draft > Refresh board**. This migrates input layouts and rebuilds calculations while preserving player data, settings, targets, and Draft Log. Each refresh also replaces **Board Snapshot** with the refreshed Board's values, layout, and frozen colours. It contains no formulas or conditional-format rules, so drafting and input edits do not change it until the next refresh. The capture time is noted in A1. To load the dated ESPN snapshot, choose **Draft > Import ESPN snapshot**; this replaces matched ESPN POS/ADP/rank fields and refreshes Board.
 
 For a new sheet, create a blank Google Sheet, open Extensions > Apps Script, add the `.gs` files in apps-script and the supplied manifest, and run `setupDraftSheet`. For local deployment, install clasp, run `clasp login`, enable the Apps Script API in https://script.google.com/home/usersettings, and create an ignored `apps-script/.clasp.json` with `{"scriptId":"YOUR_SCRIPT_ID","rootDir":"."}`. Run `clasp push` from apps-script. Back up remote scripts before a first push. No separate Google Cloud project is required.
 
