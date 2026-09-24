@@ -1,4 +1,5 @@
 """Build an independent Yahoo deployment from shared code, never deploy ESPN."""
+import csv
 import json
 import shutil
 from pathlib import Path
@@ -17,6 +18,25 @@ def build():
     for p in athletic:
         p['weight'] = WEIGHTS['The Athletic']
     snapshot = json.loads((ROOT/'data/processed/yahoo.json').read_text())
+    rank_rows = list(csv.reader((ROOT/'data/raw/Yahoo Ranks.csv').open(newline='', encoding='utf-8-sig')))
+    if rank_rows[1][:2] != ['Player', 'Rank']:
+        raise ValueError('Unexpected Yahoo ranks CSV headers')
+    ranks = {}
+    for row in rank_rows[2:]:
+        if not row or not row[0].strip(): continue
+        name = row[0].splitlines()[0].strip()
+        normalized = key(YAHOO_ALIASES.get(name, name))
+        rank = int(row[1])
+        if rank <= 0 or normalized in ranks: raise ValueError('Invalid or duplicate Yahoo rank: '+name)
+        ranks[normalized] = rank
+    rank_unmatched = set(ranks)
+    for player in snapshot['players']:
+        normalized = key(YAHOO_ALIASES.get(player['name'], player['name']))
+        player['rank'] = ranks.get(normalized)
+        rank_unmatched.discard(normalized)
+    if rank_unmatched: raise ValueError('Unmatched Yahoo rank names: '+str(sorted(rank_unmatched)))
+    snapshot['rankNote'] = 'User-provided Yahoo XRank from data/raw/Yahoo Ranks.csv; missing ranks remain blank.'
+    snapshot['rankCount'] = len(ranks)
     index = {}
     for p in snapshot['players']:
         index.setdefault(key(YAHOO_ALIASES.get(p['name'], p['name'])), []).append(p)
@@ -48,7 +68,7 @@ def build():
                                 ('SecondaryProjectionData','SECONDARY_PROJECTION_DATA',secondary),('YahooData','YAHOO_DATA',data)]:
         (OUTPUT/f'{name}.gs').write_text(f'const {variable} = '+json.dumps(value,separators=(',',':'))+';\n')
     report={'athletic':len(athletic),'secondary':len(secondary),'yahooMatched':len(matches),'yahooUnmatched':missing,
-            'sourceUnmatched':unmatched,'yahooRetrievedAt':snapshot['retrievedAt'],
+            'yahooRankCount':len(ranks),'projectedPlayersWithRank':sum(p['rank'] is not None for p in matches),'sourceUnmatched':unmatched,'yahooRetrievedAt':snapshot['retrievedAt'],
             'coverage':{source:{stat:sum(stat in p['stats'] for p in athletic+secondary if p['source']==source)
                         for stat in config['extraStats']} for source in WEIGHTS}}
     (ROOT/'data/processed/yahoo-build-report.json').write_text(json.dumps(report,indent=2)+'\n')

@@ -14,6 +14,6 @@
     "W": 10, "SO": 10, "GA": -5, "SV": 1,
     "replacementC": 42, "replacementLW": 42, "replacementRW": 42,
     "replacementD": 60, "replacementG": 20,
-    "espnRankWeight": 0, "domRankWeight": 0.375
+    "espnRankWeight": 0.15, "domRankWeight": 0.15
   }
 }

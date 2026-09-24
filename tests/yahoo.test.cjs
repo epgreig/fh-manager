@@ -49,7 +49,9 @@ test('Yahoo build has complete matching and independent league settings',()=>{
  vm.runInContext('this.data=PROJECTION_DATA;this.secondary=SECONDARY_PROJECTION_DATA;this.yahoo=YAHOO_DATA',ctx);
  assert.equal(ctx.yahoo.matches.length,ctx.data.length);
  assert.equal(ctx.yahoo.season,2026);assert.ok(ctx.yahoo.matches.every(p=>p.pos));
- assert.ok(ctx.yahoo.matches.every(p=>p.rank===null));
+ assert.equal(ctx.c.espnRankWeight,0.15);assert.equal(ctx.c.domRankWeight,0.15);
+ assert.ok(ctx.yahoo.matches.filter(p=>p.rank>0).length>=200);
+ assert.equal(ctx.yahoo.matches.find(p=>p.name==='Connor McDavid').rank,1);
  assert.ok(!fs.existsSync('build/yahoo/EspnData.gs'));
  const stats=ctx.projectionStats_(),weights=new Map([...ctx.data,...ctx.secondary].map(p=>[p.id+'|'+p.source,p]));
  const rows=[...weights.values()].map(p=>[p.id,p.source,p.weight,...stats.map(k=>p.stats[k]??'')]);
@@ -57,7 +59,7 @@ test('Yahoo build has complete matching and independent league settings',()=>{
  const players=ctx.data.map(p=>{
    const sources=[...weights.values()].filter(s=>s.id===p.id),blend={};
    for(const stat of stats){const present=sources.filter(s=>Number.isFinite(s.stats[stat]));if(present.length)blend[stat]=present.reduce((sum,s)=>sum+s.stats[stat]*s.weight,0)/present.reduce((sum,s)=>sum+s.weight,0);}
-   return {...p,pos:market.get(p.id).pos,adp:market.get(p.id).adp,espnRank:null,stats:blend};
+   return {...p,pos:market.get(p.id).pos,adp:market.get(p.id).adp,espnRank:market.get(p.id).rank,stats:blend};
  });
  const dom=ctx.domProjectionRanks_(players,rows,ctx.c);assert.equal(dom.size,players.length);
  players.forEach(p=>p.domRank=dom.get(p.id));
@@ -66,4 +68,16 @@ test('Yahoo build has complete matching and independent league settings',()=>{
  const draft=ctx.draftRankSnapshot_(players,ctx.c,[]);assert.equal(new Set(draft.map(p=>p.rank)).size,players.length);
  assert.ok(draft.every(p=>Number.isFinite(p.blend)));
  const totals=ctx.projectionComparison_(players,ctx.c,rows);assert.equal(totals.sources.length,7);
+});
+test('Yahoo rank migration applies once without resetting later weights or ADP',()=>{
+ const ctx=context(),settings=[['Setting','Value'],...Object.entries(ctx.c).map(([k,v])=>[ctx.settingName_(k),v])];
+ settings.find(r=>r[0]==='platformRankWeight')[1]=0;settings.find(r=>r[0]==='domRankWeight')[1]=.375;
+ let written,marker;const settingsSheet={getDataRange:()=>({getValues:()=>settings}),appendRow:r=>settings.push(r),getRange:(r,c)=>({setValue:v=>settings[r-1][c-1]=v,setNote(){}})};
+ const players={getLastRow:()=>3,getRange:(r,c)=>{assert.ok(c===1||c===9);return {getValues:()=>[['a'],['b']],setValues:v=>written=v,setValue(){return this;},setNote(){}};}};
+ ctx.PropertiesService={getDocumentProperties:()=>({getProperty:()=>marker,setProperty:(k,v)=>marker=v})};
+ ctx.SpreadsheetApp={getActive:()=>({getSheetByName:n=>n==='Settings'?settingsSheet:players})};ctx.rows_=()=>settings.slice(1);ctx.YAHOO_DATA={matches:[{id:'a',rank:5}]};
+ vm.runInContext(fs.readFileSync('apps-script/Yahoo.gs','utf8'),ctx);
+ ctx.ensureYahooSettings_();assert.equal(JSON.stringify(written),'[[5],[""]]');
+ assert.equal(settings.find(r=>r[0]==='platformRankWeight')[1],.15);
+ settings.find(r=>r[0]==='domRankWeight')[1]=.25;written=null;ctx.ensureYahooSettings_();assert.equal(written,null);assert.equal(settings.find(r=>r[0]==='domRankWeight')[1],.25);
 });
