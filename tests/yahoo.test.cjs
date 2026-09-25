@@ -75,6 +75,6 @@ test('Yahoo shared-forward migration removes old settings and preserves later ed
  let marker;const props={getProperty:()=>marker,setProperty:(k,v)=>marker=v};
  const s={getDataRange:()=>({getValues:()=>rows.map(r=>[...r])}),deleteRow:r=>rows.splice(r-1,1),appendRow:r=>rows.push(r),getRange:(r,c)=>({setValue:v=>rows[r-1][c-1]=v})};
  ctx.migrateYahooForwardReplacement_(s,props);
- assert.deepEqual(rows.slice(1),[['replacementD',60],['replacementG',20],['replacementF',110]]);
+ assert.deepEqual(JSON.parse(JSON.stringify(rows.slice(1))),[['replacementD',60],['replacementG',20],['replacementF',110]]);
  rows[3][1]=120;ctx.migrateYahooForwardReplacement_(s,props);assert.equal(rows[3][1],120);
 });
