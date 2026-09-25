@@ -15,10 +15,11 @@ function ensureYahooSettings_() {
     ensureYahooRanks_();
     properties.setProperty(marker,'applied');
   }
+  migrateYahooForwardReplacement_(s,properties);
   const keys=new Set(rows_('Settings').map(r=>r[0]));
   for(const [key,value] of Object.entries(DEFAULTS))if(!keys.has(settingName_(key)))s.appendRow([settingName_(key),value]);
   s.getDataRange().getValues().forEach((r,i)=>{
-    if(/^replacement(C|LW|RW|D|G)$/.test(r[0]))s.getRange(i+1,1).setNote(leagueConfig_().replacementNote);
+    if(/^replacement(F|D|G)$/.test(r[0]))s.getRange(i+1,1).setNote(leagueConfig_().replacementNote);
     if(r[0]==='platformRankWeight')s.getRange(i+1,1).setNote('Yahoo XRank weight. Defaults: 70% ADP, 15% Yahoo XRank, 15% Dom; p=-2. Missing components renormalize over those available.');
     if(r[0]==='domRankWeight')s.getRange(i+1,1).setNote('Dom-only league PAR rank weight. Yahoo ADP receives the remaining weight (default 70%).');
   });
@@ -30,8 +31,8 @@ function initializeYahoo_() {
     ['Roster','2 C, 2 LW, 2 RW, 4 D, 1 G, 5 bench; 1 IR and 1 IR+. No FLEX. 16 draft selections per team.'],
     ['Scoring','G 15; A 10; +/- 1; PIM 1; SOG 1; HIT 1; BLK 1. Additional SHG 15 and SHA 10. No D bonus. Goalies: W 10, GA -5, SV 1, SO 10.'],
     ['Replacement',leagueConfig_().replacementNote+' Baselines include drafted players. Configure ranks in Settings; replacement points appear in column C.'],
-    ['PAR','Separate C/LW/RW/D/G replacement pools. Dual-eligible players use their best eligible PAR; one row per player on Board.'],
-    ['PAN','Expected best available PAR at each eligible position after panGap selections; dual eligibility uses the best of those positional PAN values. Same player may be an alternative in multiple pools, never counted twice within a pool.'],
+    ['PAR','Shared F replacement pool (rank 110), separate D and G. PAR and Dom-only PAR use this shared forward baseline. Board POS retains actual eligibility.'],
+    ['PAN','Expected best available PAR in the shared F pool after panGap selections. D and G use their own pools. Each player occurs once.'],
     ['Draft order','Power mean p=-2: 70% Yahoo ADP, 15% Yahoo XRank from the supplied CSV, 15% Dom-only league PAR rank. Missing components renormalize. Frozen sRk is rebuilt on Refresh board, then stays fixed while drafting.'],
     ['Projections','Athletic 12, DtZ 6, LineupExperts 6, Blake 4, Nate 4, Laidlaw 3, Cullen 2. Missing categories renormalize over sources that provide them; missing is not zero.'],
     ['Source comparison','Missing categories in individual source totals use the blended estimate, with cell notes. Relative SD measures disagreement, not outcome uncertainty.'],
@@ -69,3 +70,13 @@ function writeYahooSnapshot_() {
   ensureYahooRanks_();
 }
 function importYahooSnapshot() {withLock_(writeYahooSnapshot_);refreshBoard();}
+
+function migrateYahooForwardReplacement_(sheet,properties) {
+  const marker='yahooSharedF110_20260924';
+  if(properties.getProperty(marker)==='applied')return;
+  const rows=sheet.getDataRange().getValues();
+  for(let r=rows.length-1;r>=1;r--)if(/^replacement(C|LW|RW)$/.test(rows[r][0]))sheet.deleteRow(r+1);
+  const current=sheet.getDataRange().getValues(),row=current.findIndex(r=>r[0]==='replacementF');
+  if(row<0)sheet.appendRow(['replacementF',110]);else sheet.getRange(row+1,2).setValue(110);
+  properties.setProperty(marker,'applied');
+}

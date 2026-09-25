@@ -8,7 +8,7 @@ The Yahoo sheet and bound script are independent of ESPN. Shared source code liv
 
 Skaters: G 15, A 10, plus/minus 1, PIM 1, SOG 1, HIT 1, BLK 1, extra SHG 15 and SHA 10. No defense bonus. Goalies: W 10, SO 10, GA -5, SV 1.
 
-Replacement ranks start at **C42/LW42/RW42/D60/G20**, as provisional assumptions. Edit them in Settings; Refresh board displays calculated replacement points in column C. Baselines use the full player pool, including drafted players. Positional eligibility pools overlap; their ranks are not additive roster counts. A C/LW player participates once in each of those pools but has one Board entry, using the better eligible PAR. Dom-only PAR uses the same configured ranks within Dom's own projections. PAN compares against each eligible position's expected best surviving PAR and uses the best of those positional values. It does not optimize a completed roster or model opponent positional needs.
+Replacement defaults are **F110/D60/G20**. All forwards share a single pool, with each player counted once irrespective of C/LW/RW eligibility. The 110th-highest projected forward sets the forward replacement points, shown in Settings column C. PAR and Dom-only PAR use shared forward baselines; PAN uses a shared forward pool too. Full Yahoo eligibility stays visible. Baselines include drafted players. Refresh rebuilds Dom rank and sRk. The first refresh migrates the old C/LW/RW settings to replacementF=110; later edits are preserved.
 
 ## Data
 
@@ -43,7 +43,7 @@ For a new sheet, run `setupDraftSheet` in its bound Apps Script editor once and 
 
 The first setup creates a hidden empty Keepers tab for shared draft formulas; this league rejects keeper entries. Refresh overwrites Board Snapshot with values and formatting. Draft/undo only updates Draft Log and native sheet formulas.
 
-There are no minimum goalie appearances. Replacement defaults are the user-selected C42/LW42/RW42/D60/G20; they remain editable.
+There are no minimum goalie appearances. Replacement defaults are the user-selected F110/D60/G20; they remain editable.
 
 ## Recreate a sheet
 

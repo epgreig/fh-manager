@@ -4,7 +4,7 @@ function context(yahoo=true){const ctx=yahoo?{leagueProfile_:()=>profile}:{};vm.
 test('Yahoo league scores every category and stacks shorthanded bonuses',()=>{
  const ctx=context();
  assert.equal(ctx.c.teams,14);assert.equal(ctx.c.panGap,13);assert.equal(ctx.c.defenseBonus,0);
- assert.equal(ctx.c.replacementF,undefined);
+ assert.equal(ctx.c.replacementF,110);
  const stats={G:1,A:1,SOG:3,HIT:2,BLK:4,PIM:2,PLUS_MINUS:-1,SHG:1,SHA:1};
  assert.equal(ctx.scorePlayer({name:'F',group:'F',stats},ctx.c),60);
  assert.equal(ctx.scorePlayer({name:'D',group:'D',stats},ctx.c),60);
@@ -12,25 +12,13 @@ test('Yahoo league scores every category and stacks shorthanded bonuses',()=>{
  assert.throws(()=>ctx.scorePlayer({name:'F',group:'F',stats:{...stats,HIT:undefined}},ctx.c),/missing HIT/);
  assert.equal(ctx.ownerAt(8,14),8);assert.equal(ctx.ownerAt(21,14),8);assert.equal(ctx.ownerAt(36,14),8);
 });
-test('Yahoo replacement pools honor dual eligibility with one Board row per player',()=>{
- const ctx=context(),c={...ctx.c,replacementC:2,replacementLW:2,replacementRW:2,replacementD:1,replacementG:1};
- const stats={G:0,A:0,SOG:0,HIT:0,BLK:0,PIM:0,PLUS_MINUS:0,SHG:0,SHA:0};
- const p=[['a','C,LW',100],['b','C',80],['c','LW,RW',70],['d','RW',60]].map(([id,pos,points])=>({id,name:id,pos,group:'F',stats:{...stats,SOG:points}}));
- const result=ctx.evaluate(p,c,{removed:new Set(['a'])});
- assert.equal(result.baselines.C,80);assert.equal(result.baselines.LW,70);assert.equal(result.baselines.RW,60);
- assert.equal(result.available.length,3);assert.equal(result.available.find(p=>p.id==='c').par,10);
- assert.equal(ctx.evaluate(p,c,{removed:new Set()}).available.find(p=>p.id==='a').par,30);
-});
-test('Yahoo builds five PAN pools and a dual-eligible player uses both positional alternatives',()=>{
- const ctx=context(),cells={},formulas=[];
- const sheet={getMaxColumns:()=>40,getMaxRows:()=>100,clearContents(){},hideSheet(){},getRange(r,c){return {setValues(values){values.forEach((row,i)=>row.forEach((v,j)=>cells[ctx.panColumn_(c+j)+(r+i)]=v));},setFormulas(){}};}};
- const model={getMaxColumns:()=>29,getRange(){return {setValue(){},setValues(){},setFormula(){},setFormulas(rows){formulas.push(...rows.flat());}};}};
- ctx.SpreadsheetApp={getActive:()=>({})};ctx.table_=()=>sheet;
- const players=[{id:'a',group:'F',pos:'C,LW',points:100},{id:'b',group:'F',pos:'RW',points:90}];
- ctx.buildPanFormulas_(model,players,{C:30,LW:20,RW:10,D:null,G:null},ctx.c);
- assert.equal(cells.A1,'C ID');assert.equal(cells.I1,'LW ID');assert.equal(cells.Q1,'RW ID');assert.equal(cells.Y1,'D ID');assert.equal(cells.AG1,'G ID');
- assert.equal(cells.A2,'a');assert.equal(cells.I2,'a');assert.equal(cells.A3,undefined);
- assert.ok(formulas.some(f=>f.includes("D2-30-SUM('PAN Pools'!E2:E2)")&&f.includes("D2-20-SUM('PAN Pools'!M2:M2)")));
+test('Yahoo forwards share one replacement pool despite multiple eligibility',()=>{
+ const ctx=context(), c={...ctx.c,replacementF:2};
+ const players=[{id:'a',group:'F',pos:'C,LW',points:100},{id:'b',group:'F',pos:'RW',points:80},{id:'c',group:'F',pos:'C',points:70}];
+ const baselines=ctx.replacementBaselines_(players,c);
+ assert.equal(baselines.F,80);assert.equal(ctx.playerPar_(players[0],baselines),20);
+ assert.equal(JSON.stringify(ctx.playerPositions_(players[0])),'["F"]');
+ assert.equal(JSON.stringify(ctx.replacementPositions_()),'["F","D","G"]');
 });
 test('shared engine preserves ESPN scores, replacement points, Dom ranks and draft ranks',()=>{
  const old={};vm.createContext(old);
@@ -80,4 +68,13 @@ test('Yahoo rank migration applies once without resetting later weights or ADP',
  ctx.ensureYahooSettings_();assert.equal(JSON.stringify(written),'[[5],[""]]');
  assert.equal(settings.find(r=>r[0]==='platformRankWeight')[1],.15);
  settings.find(r=>r[0]==='domRankWeight')[1]=.25;written=null;ctx.ensureYahooSettings_();assert.equal(written,null);assert.equal(settings.find(r=>r[0]==='domRankWeight')[1],.25);
+});
+test('Yahoo shared-forward migration removes old settings and preserves later edits',()=>{
+ const ctx=context();vm.runInContext(fs.readFileSync('apps-script/Yahoo.gs','utf8'),ctx);
+ const rows=[['Setting','Value'],['replacementC',42],['replacementLW',42],['replacementRW',42],['replacementD',60],['replacementG',20]];
+ let marker;const props={getProperty:()=>marker,setProperty:(k,v)=>marker=v};
+ const s={getDataRange:()=>({getValues:()=>rows.map(r=>[...r])}),deleteRow:r=>rows.splice(r-1,1),appendRow:r=>rows.push(r),getRange:(r,c)=>({setValue:v=>rows[r-1][c-1]=v})};
+ ctx.migrateYahooForwardReplacement_(s,props);
+ assert.deepEqual(rows.slice(1),[['replacementD',60],['replacementG',20],['replacementF',110]]);
+ rows[3][1]=120;ctx.migrateYahooForwardReplacement_(s,props);assert.equal(rows[3][1],120);
 });
