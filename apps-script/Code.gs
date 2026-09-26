@@ -204,7 +204,7 @@ function draftIdentities_() {
   cache.put(key,JSON.stringify(players),21600);return players;
 }
 function refreshBoard() {refreshBoardWithRanks_(true);}
-function refreshBoardWithRanks_(rebuild) {withLock_(()=>{migrateReplacementSettings_();if(leagueConfig_().platform==='Yahoo')ensureYahooRanks_();else ensureEspnRanks_();ensureSecondaryProjections_();addProjectionNames_();ensureNameSheets_();ensureAdjustments_();checkNames_();checkAdjustments_();const input=inputs_();ensureDraftRanks_(input,rebuild);showAdjustmentPoints_(input.players,input.c);renderProjectionComparison_(input);renderBoard_(input);snapshotBoard_();});}
+function refreshBoardWithRanks_(rebuild) {withLock_(()=>{migrateReplacementSettings_();if(leagueConfig_().platform==='Yahoo')ensureYahooRanks_();else ensureEspnRanks_();ensureSecondaryProjections_();if(leagueConfig_().platform==='Yahoo')syncYahooProjectionWeights_();addProjectionNames_();ensureNameSheets_();ensureAdjustments_();checkNames_();checkAdjustments_();const input=inputs_();ensureDraftRanks_(input,rebuild);showAdjustmentPoints_(input.players,input.c);renderProjectionComparison_(input);renderBoard_(input);snapshotBoard_();});}
 function draftSelectedPlayer() {
   const range=SpreadsheetApp.getActiveRange();
   if(!range||range.getSheet().getName()!=='Board'||range.getRow()<4||range.getNumRows()!==1||range.getNumColumns()!==1) throw Error('Select one player cell on Board');

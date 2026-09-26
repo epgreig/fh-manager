@@ -15,8 +15,8 @@ def build():
     config = json.loads((ROOT/'leagues/yahoo.json').read_text())
     athletic = athletic_extract(ROOT/'data/raw/2026-27-Fantasy-Projections-Yahoo.xlsx', extended=True)
     secondary, unmatched = secondary_extract(extended=True)
-    for p in athletic:
-        p['weight'] = WEIGHTS['The Athletic']
+    for p in athletic+secondary:
+        p['weight'] = config['defaults'][config['projectionWeightSettings'][p['source']]]
     snapshot = json.loads((ROOT/'data/processed/yahoo.json').read_text())
     rank_rows = list(csv.reader((ROOT/'data/raw/Yahoo Ranks.csv').open(newline='', encoding='utf-8-sig')))
     if rank_rows[1][:2] != ['Player', 'Rank']:

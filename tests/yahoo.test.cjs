@@ -78,3 +78,12 @@ test('Yahoo shared-forward migration removes old settings and preserves later ed
  assert.deepEqual(JSON.parse(JSON.stringify(rows.slice(1))),[['replacementD',60],['replacementG',20],['replacementF',110]]);
  rows[3][1]=120;ctx.migrateYahooForwardReplacement_(s,props);assert.equal(rows[3][1],120);
 });
+test('Yahoo source settings override row weights without changing stats',()=>{
+ const ctx=context();vm.runInContext(fs.readFileSync('apps-script/Yahoo.gs','utf8'),ctx);
+ const rows=[['a','The Athletic',12,10],['a','Scott Cullen',2,20],['a','DtZ',6,30]];
+ assert.equal(JSON.stringify(ctx.yahooProjectionWeightRows_(rows,ctx.c)),'[[8],[3],[6]]');
+ assert.equal(rows[0][2],12);assert.equal(rows[0][3],10);
+ assert.equal(JSON.stringify(ctx.yahooProjectionWeightRows_(rows,{...ctx.c,projectionWeightDom:0})),'[[0],[3],[6]]');
+ assert.throws(()=>ctx.yahooProjectionWeightRows_(rows,{...ctx.c,projectionWeightDom:-1}),/Invalid/);
+ assert.equal(context(false).c.projectionWeightDom,undefined);
+});

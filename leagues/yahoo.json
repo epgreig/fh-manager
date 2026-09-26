@@ -46,6 +46,22 @@
     "replacementG": 20,
     "espnRankWeight": 0.15,
     "domRankWeight": 0.15,
-    "replacementF": 110
+    "replacementF": 110,
+    "projectionWeightDom": 8,
+    "projectionWeightDtZ": 6,
+    "projectionWeightLE": 6,
+    "projectionWeightBlake": 4,
+    "projectionWeightNate": 4,
+    "projectionWeightLaidlaw": 3,
+    "projectionWeightCullen": 3
+  },
+  "projectionWeightSettings": {
+    "The Athletic": "projectionWeightDom",
+    "DtZ": "projectionWeightDtZ",
+    "LineupExperts": "projectionWeightLE",
+    "Apples & Ginos Blake": "projectionWeightBlake",
+    "Apples & Ginos Nate": "projectionWeightNate",
+    "Steve Laidlaw": "projectionWeightLaidlaw",
+    "Scott Cullen": "projectionWeightCullen"
   }
 }
