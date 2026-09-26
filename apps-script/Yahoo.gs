@@ -90,10 +90,33 @@ function yahooProjectionWeightRows_(rows,c) {
 }
 function syncYahooProjectionWeights_() {
   const ss=SpreadsheetApp.getActive(),sheet=ss.getSheetByName('Projections');
+  importUpdatedYahooDom_(sheet);
   ss.getSheetByName('Settings').autoResizeColumn(1);
   const guide=ss.getSheetByName('Guide');
   if(guide){const row=guide.getDataRange().getValues().findIndex(r=>r[0]==='Projections');if(row>=0)guide.getRange(row+1,2).setValue('Projection weights are controlled by the projectionWeight settings. Edit parts in Settings, then Refresh board. Missing categories renormalize over sources that supply them.');}
   const rows=sheet.getRange(2,1,sheet.getLastRow()-1,3).getValues();
   const weights=yahooProjectionWeightRows_(rows,configFromSettings_(rows_('Settings')));
   if(rows.some((r,i)=>r[2]!==weights[i][0]))sheet.getRange(2,3,weights.length,1).setValues(weights);
+}
+
+// A deployed workbook revision is imported once. Refresh never reads local raw files.
+function updatedYahooDomRows_(rows,data) {
+  const map=new Map(data.map(p=>[p.id,p])),seen=new Set(),stats=projectionStats_();
+  const result=rows.map(row=>{
+    if(row[1]!=='The Athletic')return row.slice();
+    const p=map.get(row[0]);
+    if(!p||seen.has(row[0]))throw Error('Dom import identity mismatch: '+row[0]);
+    seen.add(row[0]);const next=row.slice();
+    stats.forEach((k,i)=>next[i+3]=p.stats[k]??'');return next;
+  });
+  if(seen.size!==map.size)throw Error('Dom import player count changed; review identities before import');
+  return result;
+}
+function importUpdatedYahooDom_(sheet) {
+  const properties=PropertiesService.getDocumentProperties();
+  if(!YAHOO_DATA.domRevision||properties.getProperty('yahooDomRevision')===YAHOO_DATA.domRevision)return;
+  const range=sheet.getRange(2,1,sheet.getLastRow()-1,sheet.getLastColumn());
+  const updated=updatedYahooDomRows_(range.getValues(),PROJECTION_DATA);
+  range.setValues(updated);
+  properties.setProperty('yahooDomRevision',YAHOO_DATA.domRevision);
 }

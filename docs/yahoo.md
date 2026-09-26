@@ -48,3 +48,7 @@ There are no minimum goalie appearances. Replacement defaults are the user-selec
 ## Recreate a sheet
 
 Choose **File > Make a copy** in the existing Yahoo spreadsheet. The copy includes its bound Apps Script. Open the copy, reload if needed, and choose **Draft > Refresh board**; authorize the script if Google asks. To start a fresh draft, clear the entries below the header in Draft Log and review Settings, Targets and Adjustments. A copy retains the source projections and Yahoo snapshot; it does not automatically fetch a new season. No script pasting is needed. Local CLI deployment still targets the original Yahoo script until its local deployment configuration is explicitly changed.
+
+## Updating Dom projections
+
+Replace the raw Athletic workbook, build and deploy Yahoo, then Refresh board. The build embeds a SHA-256 revision; the first refresh imports the revised Athletic stats once, matching existing rows by player ID. Other sources, settings, adjustments, and draft log are preserved. Repeated refreshes do not reimport the same revision. Changed player sets or duplicate identities stop the import for review. Refresh alone cannot read local raw files. The Yahoo build corrects the source typo that labels the forward Elias Pettersson as D, retaining the distinct Elias Pettersson (D) entry. ESPN data and deployment remain independent.

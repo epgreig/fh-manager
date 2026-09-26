@@ -1,4 +1,5 @@
 """Build an independent Yahoo deployment from shared code, never deploy ESPN."""
+import hashlib
 import csv
 import json
 import shutil
@@ -14,6 +15,10 @@ YAHOO_ALIASES = {**ALIASES, 'Will Borgen':'William Borgen', 'Freddy Gaudreau':'F
 def build():
     config = json.loads((ROOT/'leagues/yahoo.json').read_text())
     athletic = athletic_extract(ROOT/'data/raw/2026-27-Fantasy-Projections-Yahoo.xlsx', extended=True)
+    # Reviewed source typo: the unqualified name is the forward; (D) is distinct.
+    for p in athletic:
+        if p['name']=='Elias Pettersson':
+            p['group']='F';p['sourcePos']='C'
     secondary, unmatched = secondary_extract(extended=True)
     for p in athletic+secondary:
         p['weight'] = config['defaults'][config['projectionWeightSettings'][p['source']]]
@@ -55,6 +60,7 @@ def build():
         raise ValueError(f'Too many unmatched Yahoo players: {len(missing)}')
     data={k:v for k,v in snapshot.items() if k!='players'}
     data['matches']=matches
+    data['domRevision']=hashlib.sha256((ROOT/'data/raw/2026-27-Fantasy-Projections-Yahoo.xlsx').read_bytes()).hexdigest()
     OUTPUT.mkdir(parents=True,exist_ok=True)
     allowed={'Code','Engine','Live','Pan','Names','Compare','Adjustments','DraftRanks','Yahoo'}
     # Do not carry unexpected scripts from an earlier build into a deployable folder.

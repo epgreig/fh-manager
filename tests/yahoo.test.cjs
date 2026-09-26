@@ -87,3 +87,12 @@ test('Yahoo source settings override row weights without changing stats',()=>{
  assert.throws(()=>ctx.yahooProjectionWeightRows_(rows,{...ctx.c,projectionWeightDom:-1}),/Invalid/);
  assert.equal(context(false).c.projectionWeightDom,undefined);
 });
+test('Yahoo Dom update replaces only source stats and rejects identity drift',()=>{
+ const ctx=context();vm.runInContext(fs.readFileSync('apps-script/Yahoo.gs','utf8'),ctx);
+ const rows=[['a','The Athletic',8,80,20,'name'],['a','Scott Cullen',3,70,10,'other']];
+ const updated=ctx.updatedYahooDomRows_(rows,[{id:'a',stats:{GP:41,G:16}}]);
+ assert.equal(updated[0][2],8);assert.equal(updated[0][3],41);assert.equal(updated[0][4],16);
+ assert.equal(JSON.stringify(updated[1]),JSON.stringify(rows[1]));assert.equal(rows[0][3],80);
+ assert.throws(()=>ctx.updatedYahooDomRows_(rows,[{id:'b',stats:{GP:41}}]),/identity mismatch/);
+ assert.throws(()=>ctx.updatedYahooDomRows_(rows,[{id:'a',stats:{}},{id:'b',stats:{}}]),/count changed/);
+});
