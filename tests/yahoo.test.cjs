@@ -3,6 +3,8 @@ const profile=JSON.parse(fs.readFileSync('leagues/yahoo.json'));
 function context(yahoo=true){const ctx=yahoo?{leagueProfile_:()=>profile}:{};vm.createContext(ctx);for(const file of ['Engine','Code','Pan','Compare','DraftRanks'])vm.runInContext(fs.readFileSync('apps-script/'+file+'.gs','utf8'),ctx);vm.runInContext('this.c=DEFAULTS',ctx);return ctx;}
 test('Yahoo league scores every category and stacks shorthanded bonuses',()=>{
  const ctx=context();
+ assert.ok(ctx.boardHeaders_().includes('Surv'));
+ assert.ok(!context(false).boardHeaders_().includes('Surv'));
  assert.equal(ctx.c.teams,14);assert.equal(ctx.c.panGap,13);assert.equal(ctx.c.defenseBonus,0);
  assert.equal(ctx.c.replacementF,110);
  const stats={G:1,A:1,SOG:3,HIT:2,BLK:4,PIM:2,PLUS_MINUS:-1,SHG:1,SHA:1};

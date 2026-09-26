@@ -1,4 +1,8 @@
-function boardHeaders_() {return ['Player','POS','Tm','Age',leagueConfig_().platform==='Yahoo'?'yahoo':'espn','ADP','Dom','sADP','sRk','coefV','PAR','PAN','ID'];}
+function boardHeaders_() {
+  const headers=['Player','POS','Tm','Age',leagueConfig_().platform==='Yahoo'?'yahoo':'espn','ADP','Dom','sADP','sRk'];
+  if(leagueConfig_().platform==='Yahoo')headers.push('Surv');
+  return [...headers,'coefV','PAR','PAN','ID'];
+}
 function onOpen() {
   SpreadsheetApp.getUi().createMenu('Draft').addItem('Set up sheet','setupDraftSheet')
     .addItem('Refresh board','refreshBoard').addItem('Draft selected player','draftSelectedPlayer')
