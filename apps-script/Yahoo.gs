@@ -50,6 +50,15 @@ function initializeYahoo_() {
 }
 function ensureYahooRanks_() {
   const s=SpreadsheetApp.getActive().getSheetByName('Players');
+  // Repair the old name-only XRank match without overwriting other player edits.
+  const properties=PropertiesService.getDocumentProperties(),marker='yahooPetterssonIdentity_20260925';
+  if(properties.getProperty(marker)!=='applied') {
+    const ids=s.getRange(2,1,s.getLastRow()-1,1).getValues();
+    const row=ids.findIndex(r=>r[0]==='8ba1b0f57f5a5446');
+    if(row>=0)s.getRange(row+2,9).setValue('');
+    properties.setProperty(marker,'applied');
+  }
+
   s.getRange(1,9).setValue('Yahoo XRank').setNote('User-provided Yahoo Ranks.csv. Players outside the CSV remain blank; available components renormalize.');
 }
 function writeYahooSnapshot_() {

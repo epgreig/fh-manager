@@ -40,6 +40,14 @@ test('Yahoo build has complete matching and independent league settings',()=>{
  assert.equal(ctx.c.espnRankWeight,0.15);assert.equal(ctx.c.domRankWeight,0.15);
  assert.ok(ctx.yahoo.matches.filter(p=>p.rank>0).length>=200);
  assert.equal(ctx.yahoo.matches.find(p=>p.name==='Connor McDavid').rank,1);
+ const petterssonF=ctx.data.find(p=>p.name==='Elias Pettersson');
+ const petterssonD=ctx.data.find(p=>p.name==='Elias Pettersson (D)');
+ assert.equal(petterssonF.group,'F');assert.equal(petterssonD.group,'D');
+ assert.notEqual(petterssonF.id,petterssonD.id);
+ assert.equal(ctx.yahoo.matches.find(p=>p.id===petterssonF.id).rank,136);
+ assert.equal(ctx.yahoo.matches.find(p=>p.id===petterssonD.id).rank,null);
+ assert.ok(ctx.secondary.filter(p=>p.id===petterssonF.id).length>=6);
+ assert.equal(ctx.secondary.filter(p=>p.id===petterssonD.id).length,0);
  assert.ok(!fs.existsSync('build/yahoo/EspnData.gs'));
  const stats=ctx.projectionStats_(),weights=new Map([...ctx.data,...ctx.secondary].map(p=>[p.id+'|'+p.source,p]));
  const rows=[...weights.values()].map(p=>[p.id,p.source,p.weight,...stats.map(k=>p.stats[k]??'')]);

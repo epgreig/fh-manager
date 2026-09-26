@@ -51,6 +51,8 @@ def rows(filename):
 
 def lineup_rows(filename):
     for row in rows(filename):
+        position = re.search(r' - ([^()]+)\)$', row['Player'])
+        row['POS'] = position.group(1) if position else ''
         row['Player'] = re.sub(r'\s+\([^()]+ - [^()]+\)$', '', row['Player']).strip()
         yield row
 
@@ -102,6 +104,14 @@ def extract(extended=False):
             name = (row.get(name_field) or '').strip()
             if not name or name == name_field or number(row.get('GP')) is None:
                 continue
+            # Same name and team: use source eligibility, never the lower stat totals.
+            if key(name) == 'eliaspettersson':
+                position = row.get('POS') or row.get('Pos') or row.get('Y! Pos')
+                if position:
+                    name = 'Elias Pettersson (D)' if 'D' in re.split(r'[,/ ]+', position) else 'Elias Pettersson'
+                elif source != 'Steve Laidlaw':
+                    raise ValueError('Elias Pettersson needs source position: '+source)
+                # Laidlaw has no position column; its single row was reviewed as the forward.
             player = names.get(key(ALIASES.get(name, name)))
             if player is None or (player['group'] == 'G') != goalie:
                 misses.append(name)

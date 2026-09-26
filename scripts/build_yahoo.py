@@ -27,19 +27,29 @@ def build():
     if rank_rows[1][:2] != ['Player', 'Rank']:
         raise ValueError('Unexpected Yahoo ranks CSV headers')
     ranks = {}
+    for player in snapshot['players']:
+        player['rank'] = None
     for row in rank_rows[2:]:
         if not row or not row[0].strip(): continue
-        name = row[0].splitlines()[0].strip()
+        lines = [line.strip() for line in row[0].splitlines() if line.strip()]
+        name = lines[0].strip()
+        identity = next((line for line in lines[1:] if ' - ' in line), None)
+        if identity is None:
+            raise ValueError('Yahoo rank is missing team/position identity: '+row[0])
+        team, positions = identity.rsplit(' - ', 1)
         normalized = key(YAHOO_ALIASES.get(name, name))
+        candidates = [p for p in snapshot['players']
+                      if key(YAHOO_ALIASES.get(p['name'], p['name'])) == normalized
+                      and p['team'] == team.strip()
+                      and set(p['pos'].split(',')) & set(positions.split(','))]
+        if len(candidates) != 1:
+            raise ValueError('Ambiguous or unmatched Yahoo rank identity: '+row[0])
+        player = candidates[0]
         rank = int(row[1])
-        if rank <= 0 or normalized in ranks: raise ValueError('Invalid or duplicate Yahoo rank: '+name)
-        ranks[normalized] = rank
-    rank_unmatched = set(ranks)
-    for player in snapshot['players']:
-        normalized = key(YAHOO_ALIASES.get(player['name'], player['name']))
-        player['rank'] = ranks.get(normalized)
-        rank_unmatched.discard(normalized)
-    if rank_unmatched: raise ValueError('Unmatched Yahoo rank names: '+str(sorted(rank_unmatched)))
+        if rank <= 0 or player['id'] in ranks:
+            raise ValueError('Invalid or duplicate Yahoo rank: '+name)
+        ranks[player['id']] = rank
+        player['rank'] = rank
     snapshot['rankNote'] = 'User-provided Yahoo XRank from data/raw/Yahoo Ranks.csv; missing ranks remain blank.'
     snapshot['rankCount'] = len(ranks)
     index = {}
